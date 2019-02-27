@@ -1,4 +1,6 @@
-import java.io.{BufferedReader, BufferedWriter, FileReader, FileWriter}
+import java.io._
+
+import com.github.tototoshi.csv.{CSVReader, CSVWriter}
 
 import scala.collection.parallel.ParSeq
 import scala.io.BufferedSource
@@ -20,39 +22,27 @@ object Main{
 
 
     //IO Objects
-    val bufferedSource = io.Source.fromFile(filePath)
-    val outputFile = new BufferedWriter(new FileWriter(outputPath))
+    val reader = CSVReader.open(new File(filePath))
+    val writer = CSVWriter.open(new File(outputPath))
 
+  //Fetch Data
+    val dataset = reader.all()
 
-    //concatenate lines that were separated by a line separator inside the data
-    def collectList(s: Stream[String], acc: List[String], counter: Int): List[String] = s match{
+    val column = dataset.head   //column names
 
-      case Stream.Empty => acc
-
-      case h +: Stream.Empty => h :: acc
-
-      case h +: tail =>
-        if(h.split(",").size < 58) collectList((s.head + s.tail.head) +: s.tail.tail, acc, counter + 1)   //count the number of columns to know if the line is really finished
-        else collectList(s.tail, s.head :: acc, 0)
-
-    }
-
-    val stream = bufferedSource.getLines().toStream
-
-    val column = stream.head
-    val data = collectList(stream.tail, Nil,0).par
-
+    val data = dataset.tail.par
 
     //Perform checks
-    val checkedData = checkListing(data)
+    val checkedData = checkListing(data).toList
 
     //Write in file
-    outputFile.write(column + separator)
-    checkedData.foreach(s => outputFile.write(s))
+    writer.writeRow(column)
+    writer.writeAll( checkedData  )
 
 
-    bufferedSource.close
-    outputFile.close()
+   //Close to save ressources
+    reader.close
+    writer.close()
   }
 
 
@@ -61,19 +51,17 @@ object Main{
     * @param b the buffered source from the file
     * @return an iterator on a sequence of strings
     */
-  def checkListing(l : ParSeq[String]): ParSeq[String] = for(line <- l if(checkEmpty(line))) yield line + separator
+  def checkListing(l : ParSeq[List[String]]): ParSeq[List[String]] = for(list <- l if(check(list))) yield list
 
 
   /**
-    * Method for checking if an essential field is missing
-    * @param line csv line to ckeck
-    * @return true if the line is correct, false otherwise
+    *Mdethod for checking if an entry is valid
+    * @param l the list of all fields
+    * @return true if the data is correct false otherwise
     */
-  def checkEmpty(line: String):Boolean = {
+  def check(l: List[String]):Boolean = {
 
-    val cols = line.split(",").map(_.trim).toList
-
-    if(cols.contains("")) false else true
+    true
 
   }
 
