@@ -17,8 +17,8 @@ object Main{
     println("Main app for cleaning DB")
 
     //IO Paths
-    val filePath = "/home/hedi/Documents/EPFL/sem_6/intro_db/DB_project/dataset/barcelona_listings.csv"
-    val outputPath = "/home/hedi/Documents/EPFL/sem_6/intro_db/DB_project/cleanedData/barcelona_listings_cleaned.csv"
+    val filePath = "../dataset/barcelona_listings.csv"
+    val outputPath = "../cleanedData/barcelona_listings_cleaned.csv"
 
 
     //IO Objects
