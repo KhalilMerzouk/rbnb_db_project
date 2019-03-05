@@ -1,0 +1,82 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D23529B6-759C-A381-DFEF-83E80CB7CAC1" name="CALENDAR">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:25:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_11</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="1AB034AA-A017-7AFB-87C6-E2A75A0FCFEA">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:42 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FC0FD96A-761D-0D59-D559-FEF352561ED6" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</associations>
+</Column>
+<Column name="DATE" id="35E9766A-C29F-D975-6C83-E3A81B23B666">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:42 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="AVAILABLE" id="D8339B3E-CE7D-FFA5-5F8D-3015C93473E6">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:42 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PRICE" id="D93176D7-0E40-0EB9-56DB-8955B42242F5">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:42 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="DB2D2755-450F-AD89-F876-F2FE657EE2C2" name="CALENDAR_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:42 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1AB034AA-A017-7AFB-87C6-E2A75A0FCFEA"/>
+<colUsage columnID="35E9766A-C29F-D975-6C83-E3A81B23B666"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="44A04930-289A-16AF-EECF-2A19F4CE4485" name="CALENDAR_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:53 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1AB034AA-A017-7AFB-87C6-E2A75A0FCFEA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

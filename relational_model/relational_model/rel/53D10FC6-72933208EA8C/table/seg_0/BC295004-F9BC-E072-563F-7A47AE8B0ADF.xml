@@ -1,0 +1,196 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="BC295004-F9BC-E072-563F-7A47AE8B0ADF" name="LISTING_DETAILS">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:01:33 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_2</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="82279369-8AB5-F7FF-CDF5-7585759A9451">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:10:35 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<notNullConstraintName>NNC_LISTING_DETAILS_LISTING_ID</notNullConstraintName>
+<associations>
+<colAssociation fkAssociation="75150C51-AF28-CED1-94F8-890A4CB91B81" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</associations>
+</Column>
+<Column name="SPACE" id="4C3D4334-0917-9854-6E8F-CCBFDCB6A5D0">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:37:55 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DESCRIPTION" id="6423F11A-5163-1445-1E19-FB5385E6442D">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NEIGHBORHOOD_OVERVIEW" id="4C55C845-11E8-AFD0-8C07-06732A4FB98C">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NOTES" id="A08C5482-716C-4B73-FBAB-BDEA23FEAA71">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TRANSIT" id="5390E250-5C2F-B2A9-0C2C-14D7E0B97E9D">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ACCESS" id="D56B2AC3-5AF1-C612-11EC-94DF3199B96A">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="INTERACTION" id="494F92BE-2532-65D4-41CE-B09FDBD14197">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOUSE_RULES" id="B381CA4C-2ABD-C91B-59F1-ED477AD5BD88">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MINIMUM_NIGHTS" id="F71FD3D2-D6CA-D27A-6F54-580B866250C1">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MAXIMUM_NIGHTS" id="8D7C727D-0066-A456-D3E0-D8163E756E93">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="IS_BUSINESS_TRAVEL_READY" id="1FDB178B-8006-CDC4-3CC3-E6F01287E89F">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:20:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CANCELLATION_POLICY" id="3A2DCA8B-11B0-6F2F-0E16-3A81128EFE0C">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:20:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REQUIRE_GUEST_PROFILE_PICTURE" id="B84741A3-0787-EDAA-ECD6-9F2969CF24FD">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:20:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REQUIRE_GUEST_PHONE_VERIF" id="DE8BC1A6-ECFF-371A-56DD-CD715A8A0568">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:20:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C23213A7-557C-9B6C-EC02-3E4266C6B592" name="LISTING_DETAILS_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:07:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="82279369-8AB5-F7FF-CDF5-7585759A9451"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="787621F2-A674-E33C-5514-58C37E65572F" name="LISTING_DETAILS_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:10:35 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="82279369-8AB5-F7FF-CDF5-7585759A9451"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

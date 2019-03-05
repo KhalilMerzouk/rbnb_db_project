@@ -1,0 +1,88 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="DE3DF677-F07E-4347-2D07-FF85C8519C28" name="LISTING_LOCATION">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:30:52 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_6</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="CA307CB4-F95F-6269-88C9-027CE2012597">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:32:39 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B22803C6-1AB4-1129-094F-600850341905" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</associations>
+</Column>
+<Column name="NEIGHBORHOOD" id="92B6E3C0-457A-7427-0A62-FEA9A1274E23">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:32:39 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="COUNTRY_CODE" id="C6FA3B3B-1A9C-6D2A-CCB9-87883E50CA80">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:32:39 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="LATITUDE" id="727CB8BC-1DFB-D7D8-4A06-77C6837FFA6B">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:32:39 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="LONGITUDE" id="7742D6F2-424C-7176-CDD2-ACE3C5AAE537">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:32:39 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="A02C4ADC-5B32-53F3-2987-527665239343" name="LISTING_LOCATION_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:33:03 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CA307CB4-F95F-6269-88C9-027CE2012597"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="68895130-B7D1-1A9E-483B-17E9C929AD9D" name="LISTING_LOCATION_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:33:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CA307CB4-F95F-6269-88C9-027CE2012597"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

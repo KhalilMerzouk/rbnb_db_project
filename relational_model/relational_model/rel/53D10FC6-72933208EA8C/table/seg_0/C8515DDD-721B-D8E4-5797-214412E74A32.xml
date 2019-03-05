@@ -1,0 +1,137 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C8515DDD-721B-D8E4-5797-214412E74A32" name="MATERIAL_DESCRIPTION">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:34:08 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_7</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="68EB2132-DEA7-6037-E3F2-4EC57A0D2D8A">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="39663C73-B237-D4B5-C8CC-5141EF2E3230" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</associations>
+</Column>
+<Column name="PROPERTY_TYPE" id="0C65FE51-C2AF-94D9-22C1-80B6ABAA4B2E">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ROOM_TYPE" id="49462B4E-2E04-F219-2269-EEE1E1DBBC79">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ACCOMODATES" id="2CA6E6CA-34F9-E67C-7CB9-9BA9A08BEC93">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BATHROOMS" id="50B2EAF0-026C-813A-B07E-E726867E676F">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BEDROOMS" id="B3EBB1AE-51FC-B2DC-7C67-356D6BA4DEC7">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BEDS" id="B79F6ADC-EB41-F18E-E50D-90193B178416">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BED_TYPE" id="C5EE10FF-55D3-66D3-E5C4-4767A1BC0DF9">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="AMENITIES" id="87AB47D0-CE19-C7E4-2102-00EC8A2CC8E4">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SQAURE_FEET" id="5F7ECD3D-BE67-5E8F-A22D-A26898984EBE">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="616A7DA0-ADFC-63AD-57B9-78A826A05C64" name="MATERIAL_DESCRIPTION_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:46 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="68EB2132-DEA7-6037-E3F2-4EC57A0D2D8A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9B97D270-3555-C972-DBBB-548234B9BEDE" name="MATERIAL_DESCRIPTION_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:36:54 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="68EB2132-DEA7-6037-E3F2-4EC57A0D2D8A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

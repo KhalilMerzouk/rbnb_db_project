@@ -1,0 +1,118 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="552FADBD-CFE3-5E6C-479B-414E7AAFB7B9" name="LISTING">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:49:30 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="985E6F34-4F35-ABCB-5395-C27B7640F442">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="LISTING_URL" id="0DE00523-3524-5EA9-7D25-5E07F1EAFE5A">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NAME" id="D6868CA9-CB83-8F02-1AC8-8377F3C54161">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SUMMARY" id="B6CECECE-9348-7BDD-2236-6249C52B18B2">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PICTURE_URL" id="9831C3AF-2520-594A-D15B-F573AE056329">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="COUNTRY" id="DDBAADD9-300D-0037-6245-C61AC7540D4C">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CITY" id="053FDD85-EA50-E214-BBB7-A3FFD21C0194">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_ID" id="8DCC422B-4BD9-34BA-D00E-8CD34E8417EE">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:24:55 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C1F569F9-94A4-D050-8203-4AD2555BB858" referredColumn="EDCEA967-7E10-3F7C-234B-27447B52DCE5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EAABDC11-372B-4A01-2E83-207319DDC2A9" name="LISTING_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 17:57:09 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B65A7B4F-A35C-3C67-68BE-13C901F1E129" name="LISTING_HOST_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:24:55 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8DCC422B-4BD9-34BA-D00E-8CD34E8417EE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
