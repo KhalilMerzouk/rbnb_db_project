@@ -31,27 +31,18 @@
 <colAssociation fkAssociation="A388F667-3292-40F8-DDDB-9EEFCBCB8657" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
 </associations>
 </Column>
-<Column name="REVIEWER_NAME" id="96C6A989-3BCF-5235-BBF4-781D903B711B">
-<createdBy>simon</createdBy>
-<createdTime>2019-03-05 19:24:24 UTC</createdTime>
-<ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="REVIEWER_ID" id="D916A646-C991-1438-7362-3CB06F0F218A">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:24:24 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CAA79B46-F00F-5191-59D9-874D23026E43" referredColumn="CF3048CC-3BE3-1AC3-161F-339D1D8D3CD9"/>
+</associations>
 </Column>
 <Column name="COMMENTS" id="9721CF9E-1020-B964-8D4B-E51D4EC169F2">
 <createdBy>simon</createdBy>
@@ -96,6 +87,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="A3C5E8B7-A6D4-B087-D3BC-EC9EC74E1C8F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E28A2839-9B76-726B-8968-3674EDF9093D" name="REVIEWS_REVIEWER_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:10:47 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D916A646-C991-1438-7362-3CB06F0F218A"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
