@@ -112,7 +112,9 @@ object Main{
   def fieldsFormatOK(l: List[String]):Boolean = {
 
 
-    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (38, "PosInt"), (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"))
+    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (38, "PosInt"),
+      (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
+      (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
 
 
     for(column <- sensitiveColumns){
@@ -137,6 +139,10 @@ object Main{
 
         case "Price" =>
           if(!checkPrice(l(column._1))) false
+
+        case "Bool" =>
+          if(!checkBool(l(column._1))) false
+
       }
     }
 
@@ -248,5 +254,12 @@ object Main{
    ! Character.isDigit(s.head) && !s.tail.forall(Character.isDigit)
 
   }
+
+  /**
+    * Check that a string represents a boolean (either f or t)
+    * @param s the string to check
+    * @return true if it' a boolean false otherwise
+    */
+  def checkBool(s: String): Boolean = s == "f" || s == "t"
 
 }
