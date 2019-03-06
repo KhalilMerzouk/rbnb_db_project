@@ -112,13 +112,16 @@ object Main{
   def fieldsFormatOK(l: List[String]):Boolean = {
 
 
-    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PostInt"), (33, "PostInt"), (34, "PostInt"), (35, "PostInt"), (38, "PostInt"))
+    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (38, "PosInt"), (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"))
 
 
     for(column <- sensitiveColumns){
       column._2 match{
         case "PosInt" =>
           if(!checkPositiveInt(l(column._1))) false
+
+        case "PosDouble" =>
+          if(!checkPositiveDouble(l(column._1))) false
 
         case "dateFormat" =>
           if(!checkDateFormate(l(column._1))) false
@@ -131,6 +134,9 @@ object Main{
 
         case "longLat" =>
           if(!checkLongLat(l(column._1))) false
+
+        case "Price" =>
+          if(!checkPrice(l(column._1))) false
       }
     }
 
@@ -144,9 +150,25 @@ object Main{
     */
   def checkPositiveInt(s: String): Boolean = {
 
-    if(s == nullVal || s.endsWith(".0"))) true    //case 1.0 => interpreted as 1
+    if(s == nullVal) true
 
     s.forall(Character.isDigit)
+  }
+
+
+  /**
+    * Check that a string is a positive double
+    * @param s the string to check
+    * @return
+    */
+  def checkPositiveDouble(s: String): Boolean = {
+
+    if(s == nullVal) true
+
+    val split = s.split(".")
+
+    split.size == 2 && split(0).forall(Character.isDigit)
+
   }
 
 
@@ -211,6 +233,19 @@ object Main{
     if(deg != 2 || !checkPositiveInt(deg(0)) || !checkPositiveInt(deg(1)) || deg(0).toInt > 180 || deg(1).toInt > 180) false
 
     true
+
+  }
+
+  /**
+    * Check that a string represents a price (e.g : $120.00)
+    * @param s
+    * @return
+    */
+  def checkPrice(s: String): Boolean = {
+
+    if(s == nullVal) true
+
+   ! Character.isDigit(s.head) && !s.tail.forall(Character.isDigit)
 
   }
 
