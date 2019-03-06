@@ -67,4 +67,35 @@ class Test extends FunSuite {
     assert(!Main.checkPositiveInt("12.034"))
   }
 
+  test("testCheckArray"){
+
+    assert(Main.checkArray("{1,2}"))
+    assert(!Main.checkArray("1,2"))
+  }
+
+  test("testExtractArray"){
+
+    val line = List("1", "2","{TV,Internet,Wifi,Air conditioning,Wheelchair accessible,Kitchen,Elevator}")
+    val array = Array("TV","Internet","Wifi","Air conditioning","Wheelchair accessible","Kitchen","Elevator")
+    assert(Main.extractArray(line, 2) sameElements  array)
+  }
+
+  test("testComputeSet"){
+
+    val data = List(List("1","2", "{TV,Internet,Wifi,Air conditioning}"), List("1", "2", "{Wheelchair accessible,Kitchen,Elevator}")).par
+    val set = Set("TV","Internet","Wifi","Air conditioning","Wheelchair accessible","Kitchen","Elevator")
+
+    assert(Main.computeSet(data, 2) sameElements set)
+
+  }
+
+  test("testFormatData"){
+
+    val data = List(List("$1","\"\"  data  \"\"", "18%")).par
+    val array = List(List("1","  data  ", "18")).par
+
+    assert(Main.formatData(data) equals array)
+
+  }
+
 }

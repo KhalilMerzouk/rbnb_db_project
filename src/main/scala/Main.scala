@@ -33,14 +33,20 @@ object Main{
 
     val data = dataset.tail.par
 
-    val completedData = putNUll(data)
+    val completedData = putNUll(data)   //put NULL instead of empty strings
 
-    //Perform checks
-    val checkedData = checkListing(completedData).toList
+    //Perform integrity checks
+    val checkedData = checkListing(completedData)
+
+    //remove % $ and "" from data
+    val formattedData = formatData(checkedData).toList
+
+
+    //TODO insert data into DB
 
     //Write in file
     writer.writeRow(column)
-    writer.writeAll(checkedData)
+    writer.writeAll(formattedData)
 
 
    //Close to save ressources
@@ -50,20 +56,51 @@ object Main{
 
 
   /**
-    * Method to extract the list of amenities from a listing
-    * @param line a line from the listing dataset
-    * @return the list of amenities associated to this listing
+    * Delete "$", "%" and double quotes from the data
+    * @param data the data to check
+    * @return a cleaned version of the dataset
     */
-  def extractAmenities(line: List[String]): Array[String] = line(37).split(',')   //TODO check correctness !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  def formatData(data: ParSeq[List[String]]): ParSeq[List[String]] = {
+
+    def replaceInLine(line : List[String]): List[String] ={
+
+      for(column <- line) yield {
+
+        if(column.endsWith("%")) column.take(column.length - 1)
+
+        else if(column.contains("\"\"")) column.replaceAll("\"\"", "") //column.take(column.length -2).tail.tail   //TODO not working....
+
+        else if(column.startsWith("$")) column.tail
+
+        else column
+      }
+
+    }
+
+    for(line <- data) yield replaceInLine(line)
+  }
+
+
+  /**
+    * Method to extract the list of selections (e.g amenities) from a listing
+    * @param line a line from the listing dataset
+    * @return the list for the given selection
+    */
+  def extractArray(line: List[String], column: Int): Array[String] = {
+
+    val splitted = line(column).split(',')
+
+    Array(splitted.head.tail) ++ splitted.tail.reverse.tail.reverse ++ Array(splitted.reverse.head.takeWhile(_ != '}'))
+  }
 
 
 
   /**
-    * Compute the set of amenities for a given listing file
+    * Compute the set of a certain selection (e.g amenities)
     * @param data the listings
-    * @return the set of amenities of the listings
+    * @return the set for the given selection
     */
-  def computeAmenitiesSet(data : ParSeq[List[String]]): ParSet[String] = (for(line <- data) yield extractAmenities(line)).flatten.toSet    //TODO check correctness !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  def computeSet(data : ParSeq[List[String]], column: Int): ParSet[String] = (for(line <- data) yield extractArray(line, column)).flatten.toSet
 
 
 
@@ -102,8 +139,11 @@ object Main{
     */
   def check(l: List[String]):Boolean = {
 
-    primaryKeysOK(l) && fieldsFormatOK(l)   //add here all checks that necessitate to DROP the current line
+    if(primaryKeysOK(l) && fieldsFormatOK(l)) return true   //add here all checks that necessitate to DROP the current line
 
+    else
+      println(l.toString())
+      false
   }
 
   /**
@@ -113,7 +153,7 @@ object Main{
     */
   def primaryKeysOK(l: List[String]):Boolean = {
 
-    val primaryKeysIndex = List(0, 1, 14, 13)    //add indexes of mandatory columns here
+    val primaryKeysIndex = List(0, 1, 2, 14, 13)    //add indexes of mandatory columns here
 
     for(i <- primaryKeysIndex){
       if(l(i) == nullVal) false
@@ -131,7 +171,7 @@ object Main{
   def fieldsFormatOK(l: List[String]):Boolean = {
 
 
-    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (38, "PosInt"),
+    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
       (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
       (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
 
@@ -161,6 +201,9 @@ object Main{
 
         case "Bool" =>
           if(!checkBool(l(column._1))) false
+
+        case "Array" =>
+          if(!checkArray(l(column._1))) false
 
       }
     }
@@ -255,7 +298,7 @@ object Main{
 
     val deg = s.split('.')
 
-    if(deg.size != 2 || (!checkPositiveInt(deg(0)) && !(deg(0).startsWith("-") && checkPositiveInt(deg(0).tail))) || !checkPositiveInt(deg(1)) || abs(deg(0).toInt) > 90 || (deg(1).toInt != 0 && abs(deg(0).toInt) == 90)) return false
+    if(deg.size != 2 || (!checkPositiveInt(deg(0)) && !(deg(0).startsWith("-") && checkPositiveInt(deg(0).tail))) || !checkPositiveInt(deg(1)) || BigInt(deg(0)) > 90 || BigInt(deg(0)) < -90 || (BigInt(deg(1)) != 0 && abs(deg(0).toInt) == 90)) return false
 
     true
 
@@ -280,6 +323,14 @@ object Main{
     * @return true if it' a boolean false otherwise
     */
   def checkBool(s: String): Boolean = s == "f" || s == "t"
+
+
+  /**
+    * Check that the string represents an array
+    * @param s the string to check
+    * @return true if the string is an array false otherwise
+    */
+  def checkArray(s: String): Boolean = s.startsWith("{") && s.endsWith("}")
 
 
   /**
