@@ -17,6 +17,74 @@ object Main{
 
     println("Main app for cleaning DB")
 
+    cleanListings()
+    println("Listings cleaned")
+    cleanCalendar()
+    println("Calendars cleaned")
+    cleanReviews()
+    println("Reviews cleaned")
+
+  }
+
+  /**
+    * Method to call to clean the Reviews files
+    */
+  def cleanReviews():Unit = {
+
+    //IO Paths
+    val barcIn = "../dataset/barcelona_reviews.csv"
+    val barcOut = "../cleanedData/barcelona_reviews_cleaned.csv"
+    val berIn = "../dataset/berlin_reviews.csv"
+    val berOut = "../cleanedData/berlin_reviews_cleaned.csv"
+    val madIn = "../dataset/madrid_reviews.csv"
+    val madOut = "../cleanedData/madrid_reviews_cleaned.csv"
+
+    //things to check
+    val sensitiveColumnsListing = List((0, "PosInt"), (1, "PosInt"), (2, "dateFormat"), (3, "PosInt"))
+
+    val mandatoryColumnsListings = List(0, 1, 2, 3, 4)
+
+    //prepare tasks
+    val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
+
+
+    //launch computation
+    tasks.foreach[Unit](path => cleanData(path._1, path._2, sensitiveColumnsListing, mandatoryColumnsListings))
+
+  }
+
+  /**
+    * Method to call to clean the Calendar files
+    */
+  def cleanCalendar():Unit = {
+
+    //IO Paths
+    val barcIn = "../dataset/barcelona_calendar.csv"
+    val barcOut = "../cleanedData/barcelona_calendar_cleaned.csv"
+    val berIn = "../dataset/berlin_calendar.csv"
+    val berOut = "../cleanedData/berlin_calendar_cleaned.csv"
+    val madIn = "../dataset/madrid_calendar.csv"
+    val madOut = "../cleanedData/madrid_calendar_cleaned.csv"
+
+    //things to check
+    val sensitiveColumnsListing = List((0, "PosInt"), (1, "dateFormat"), (2, "Bool"), (3, "Price"))
+
+    val mandatoryColumnsListings = List(0, 1, 2, 3)
+
+    //prepare tasks
+    val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
+
+
+    //launch computation
+    tasks.foreach[Unit](path => cleanData(path._1, path._2, sensitiveColumnsListing, mandatoryColumnsListings))
+
+  }
+
+  /**
+    * Method to call to clean the Listings files
+    */
+  def cleanListings():Unit = {
+
     //IO Paths
     val barcIn = "../dataset/barcelona_listings.csv"
     val barcOut = "../cleanedData/barcelona_listings_cleaned.csv"
@@ -25,23 +93,29 @@ object Main{
     val madIn = "../dataset/madrid_listings_filtered.csv"
     val madOut = "../cleanedData/madrid_listings_cleaned.csv"
 
+    //things to check
+    val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
+      (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
+      (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
+
+    val mandatoryColumnsListings = List(0, 1, 2, 14, 13)
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
 
 
     //launch computation
-    tasks.foreach[Unit](path => cleanListings(path._1, path._2))
+    tasks.foreach[Unit](path => cleanData(path._1, path._2, sensitiveColumnsListing, mandatoryColumnsListings))
 
   }
 
+
   /**
     * Method that will read, clean and write the cleaned data to files (or DB)
-    * This method will only works for the "Listings" type
     * @param pathIn  path to the input file
     * @param pathOut path to the output file
     */
-  def cleanListings(pathIn: String, pathOut: String): Unit = {
+  def cleanData(pathIn: String, pathOut: String, sensitiveColumns: List[(Int, String)], mandatory: List[Int]): Unit = {
 
     //IO Objects
     val reader = CSVReader.open(new File(pathIn))
@@ -50,18 +124,28 @@ object Main{
     //Fetch Data
     val dataset = reader.all()
 
+    println("Data loaded")
+
     val column = dataset.head   //column names
 
     val data = dataset.tail.par
 
-    val completedData = putNUll(data)   //put NULL instead of empty strings
+    println("split done")
+
+    //put NULL instead of empty strings
+    val completedData = putNUll(data)
+
+    println("putNUll done")
 
     //Perform integrity checks
-    val checkedData = checkListing(completedData)
+    val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
+
+    println("data check done")
 
     //remove % $ and "" from data
     val formattedData = formatData(checkedData).toList
 
+    println("Data checked and formatted")
 
     //TODO insert data into DB
 
@@ -69,10 +153,24 @@ object Main{
     writer.writeRow(column)
     writer.writeAll(formattedData)
 
+    /*val s = reader.toStream
+    println("Stream OK")
+    val column = s.head
+    val data = s.tail
+    println("split done")
+    val completedData = putNUll(data.par)
+    println("putNULL done")
+    //Perform integrity checks
+    val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
+    println("checkData done")
+    //remove % $ and "" from data
+    val formattedData = formatData(checkedData).toList
+
+    println("Data checked and formatted")
 
     //Close to save ressources
     reader.close
-    writer.close()
+    writer.close()*/
 
   }
 
@@ -142,8 +240,7 @@ object Main{
 
     }
 
-    for(line <- seq
-    )yield replaceInLine(line)
+    for(line <- seq) yield replaceInLine(line)
 
   }
 
@@ -153,7 +250,7 @@ object Main{
     * @param b the buffered source from the file
     * @return an iterator on a sequence of strings
     */
-  def checkListing(l : ParSeq[List[String]]): ParSeq[List[String]] = for(list <- l if(check(list))) yield list
+  def checkListing(l : ParSeq[List[String]],sensitiveColumns: List[(Int, String)], mandatory: List[Int]): ParSeq[List[String]] = for(list <- l if check(list, sensitiveColumns, mandatory)) yield list
 
 
   /**
@@ -161,9 +258,9 @@ object Main{
     * @param l the list of all fields
     * @return true if the data is correct false otherwise
     */
-  def check(l: List[String]):Boolean = {
+  def check(l: List[String],sensitiveColumns: List[(Int, String)], mandatory: List[Int]):Boolean = {
 
-    if(primaryKeysOK(l) && fieldsFormatOK(l)) return true   //add here all checks that necessitate to DROP the current line
+    if(primaryKeysOK(l, mandatory) && fieldsFormatOK(l, sensitiveColumns)) return true   //add here all checks that necessitate to DROP the current line
 
     else
       println(l.toString())
@@ -175,11 +272,9 @@ object Main{
     * @param l the csv line to check
     * @return true if all the primary keys are present fasle otherwise
     */
-  def primaryKeysOK(l: List[String]):Boolean = {
+  def primaryKeysOK(l: List[String],mandatory: List[Int]):Boolean = {
 
-    val primaryKeysIndex = List(0, 1, 2, 14, 13)    //add indexes of mandatory columns here
-
-    for(i <- primaryKeysIndex){
+    for(i <- mandatory){
       if(l(i) == nullVal) false
     }
 
@@ -192,12 +287,7 @@ object Main{
     * @param l the csv line to check
     * @return true if the data is consistent false otherwise
     */
-  def fieldsFormatOK(l: List[String]):Boolean = {
-
-
-    val sensitiveColumns = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
-      (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
-      (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
+  def fieldsFormatOK(l: List[String], sensitiveColumns: List[(Int, String)]):Boolean = {
 
 
     for(column <- sensitiveColumns){
