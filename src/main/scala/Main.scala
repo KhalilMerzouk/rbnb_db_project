@@ -1,9 +1,10 @@
 import java.io._
+import java.util.concurrent.ForkJoinPool
 
 import com.github.tototoshi.csv.{CSVReader, CSVWriter}
 
-import scala.collection.parallel.{ParSeq, ParSet}
-
+import scala.collection.parallel.{ForkJoinTasks, ParSeq, ParSet, Task}
+import scala.concurrent._
 /**
   * Program to clean up the data
   */
@@ -18,40 +19,62 @@ object Main{
     println("Main app for cleaning DB")
 
     //IO Paths
-    val filePath = "../dataset/barcelona_listings.csv"
-    val outputPath = "../cleanedData/barcelona_listings_cleaned.csv"
+    val barcIn = "../dataset/barcelona_listings.csv"
+    val barcOut = "../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../dataset/berlin_listings_filtered.csv"
+    val berOut = "../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../dataset/madrid_listings_filtered.csv"
+    val madOut = "../cleanedData/madrid_listings_cleaned.csv"
 
 
-    //IO Objects
-    val reader = CSVReader.open(new File(filePath))
-    val writer = CSVWriter.open(new File(outputPath))
-
-    //Fetch Data
-    val dataset = reader.all()
-
-    val column = dataset.head   //column names
-
-    val data = dataset.tail.par
-
-    val completedData = putNUll(data)   //put NULL instead of empty strings
-
-    //Perform integrity checks
-    val checkedData = checkListing(completedData)
-
-    //remove % $ and "" from data
-    val formattedData = formatData(checkedData).toList
+    //prepare tasks
+    val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
 
 
-    //TODO insert data into DB
-
-    //Write in file
-    writer.writeRow(column)
-    writer.writeAll(formattedData)
+    //launch computation
+    tasks.foreach[Unit](path => cleanDataset(path._1, path._2))
 
 
-   //Close to save ressources
-    reader.close
-    writer.close()
+    def cleanDataset(pathIn: String, pathOut: String): Unit = {
+
+      //IO Objects
+      val reader = CSVReader.open(new File(pathIn))
+      val writer = CSVWriter.open(new File(pathOut))
+
+      //Fetch Data
+      val dataset = reader.all()
+
+      val column = dataset.head   //column names
+
+      val data = dataset.tail.par
+
+      val completedData = putNUll(data)   //put NULL instead of empty strings
+
+      //Perform integrity checks
+      val checkedData = checkListing(completedData)
+
+      //remove % $ and "" from data
+      val formattedData = formatData(checkedData).toList
+
+
+      //TODO insert data into DB
+
+      //Write in file
+      writer.writeRow(column)
+      writer.writeAll(formattedData)
+
+
+      //Close to save ressources
+      reader.close
+      writer.close()
+
+    }
+
+
+
+
+
+
   }
 
 
@@ -62,13 +85,14 @@ object Main{
     */
   def formatData(data: ParSeq[List[String]]): ParSeq[List[String]] = {
 
+
     def replaceInLine(line : List[String]): List[String] ={
 
       for(column <- line) yield {
 
         if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.contains("\"\"")) column.replaceAll("\"\"", "") //column.take(column.length -2).tail.tail   //TODO not working....
+        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)  //TODO not working ??
 
         else if(column.startsWith("$")) column.tail
 

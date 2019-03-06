@@ -91,8 +91,10 @@ class Test extends FunSuite {
 
   test("testFormatData"){
 
-    val data = List(List("$1","\"\"  data  \"\"", "18%")).par
-    val array = List(List("1","  data  ", "18")).par
+    val amenities = "{TV,Internet,Wifi,\"\"Air conditioning\"\",\"\"Wheelchair accessible\"\",Kitchen,Elevator}"
+    val correctAmenities = "{TV,Internet,Wifi,Air conditioning,Wheelchair accessible,Kitchen,Elevator}"
+    val data = List(List("$1","\"\"  data  \"\"", "18%"), List("data", amenities,"other data")).par
+    val array = List(List("1","  data  ", "18"), List("data", correctAmenities,"other data")).par
 
     assert(Main.formatData(data) equals array)
 
