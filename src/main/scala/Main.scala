@@ -2,7 +2,7 @@ import java.io._
 
 import com.github.tototoshi.csv.{CSVReader, CSVWriter}
 
-import scala.collection.parallel.ParSeq
+import scala.collection.parallel.{ParSeq, ParSet}
 
 /**
   * Program to clean up the data
@@ -47,6 +47,25 @@ object Main{
     reader.close
     writer.close()
   }
+
+
+  /**
+    * Method to extract the list of amenities from a listing
+    * @param line a line from the listing dataset
+    * @return the list of amenities associated to this listing
+    */
+  def extractAmenities(line: List[String]): Array[String] = line(37).split(',')   //TODO check correctness !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+  /**
+    * Compute the set of amenities for a given listing file
+    * @param data the listings
+    * @return the set of amenities of the listings
+    */
+  def computeAmenitiesSet(data : ParSeq[List[String]]): ParSet[String] = (for(line <- data) yield extractAmenities(line)).flatten.toSet    //TODO check correctness !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 
 
   /**
