@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="FC0FD96A-761D-0D59-D559-FEF352561ED6" containerWithKeyObject="D23529B6-759C-A381-DFEF-83E80CB7CAC1" localFKIndex="44A04930-289A-16AF-EECF-2A19F4CE4485" name="CALENDAR_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:27:53 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<referredTableLongName>LISTING</referredTableLongName>
+<deleteRule>CASCADE</deleteRule>
+<referredTableID>552FADBD-CFE3-5E6C-479B-414E7AAFB7B9</referredTableID>
+<keyObject>EAABDC11-372B-4A01-2E83-207319DDC2A9</keyObject>
+<referredKeyID>EAABDC11-372B-4A01-2E83-207319DDC2A9</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>LISTING_ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

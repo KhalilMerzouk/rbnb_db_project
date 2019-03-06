@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5D5A4144-D36C-107C-38E5-6D4AC85E9F6D" name="REVIEWS_SCORES">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:11:34 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_9</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="F94EB5D7-292F-AAC2-FA3F-909BB821A532">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="12D8E9DB-D419-7698-AA26-D2DF0B3A9DE3" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</associations>
+</Column>
+<Column name="REVIEWS_SCORES_RATING" id="7659C2B8-E33A-9142-871D-2B7B0CE10E04">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REVIEW_SCORES_ACCURACY" id="C2C6EED3-866B-0C54-2EE9-A3C4E5DE0966">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REVIEW_SCORES_CLEANLINESS" id="3B8C585A-F6C6-C9F9-9C65-75B669DEF5AD">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REVIEW_SCORES_CHECKIN" id="52CE0EA6-C8ED-2D11-EF6A-7E32ADABDCC8">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REVIEW_SCORES_COMMUNICATION" id="9E852E3E-C4F2-5A9A-B351-B2B51BB2C2FB">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REVIEW_SCORES_LOCATION" id="6B97A4C9-099C-41D8-105A-75B96F0DE590">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REVIEW_SCORES_VALUE" id="772AB0EC-2EBC-DA1D-62BD-67B679DA145C">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0868AF0B-42AD-171D-BDF7-24BD18D093B4" name="REVIEWS_SCORES_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F94EB5D7-292F-AAC2-FA3F-909BB821A532"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="43875F07-CBE7-0A6D-47A0-2994CCC6DF8D" name="REVIEWS_SCORES_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:18:57 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F94EB5D7-292F-AAC2-FA3F-909BB821A532"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

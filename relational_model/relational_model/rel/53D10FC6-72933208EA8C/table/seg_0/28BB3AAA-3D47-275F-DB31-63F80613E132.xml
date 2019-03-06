@@ -1,0 +1,114 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="28BB3AAA-3D47-275F-DB31-63F80613E132" name="HOST_DETAILS">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:25:57 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_5</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="HOST_ID" id="EC738D27-3CA0-8EA2-9963-359B84EB2999">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:27:26 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CAF7D1E3-2C0A-9112-EEFB-4E4ABDAC15A6" referredColumn="EDCEA967-7E10-3F7C-234B-27447B52DCE5"/>
+</associations>
+</Column>
+<Column name="HOST_ABOUT" id="583145FE-BD90-52FF-5700-56FF87DF369F">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:27:26 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_RESPONSE_TIME" id="4F372D30-B452-124A-D06A-527E7E87CE48">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:27:26 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_RESPONSE_RATE" id="57C9181B-7FAB-E2E8-1F70-47DB9F2221FB">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:28:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_PICTURE_URL" id="51DC6321-4A7C-20D8-7213-DE0627EFE787">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:28:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_NEIGHBORHOOD" id="B064E138-7385-8A12-62F5-76B4AF565D0B">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:28:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_VERIFICATIONS" id="DDE23E4B-ADA6-4429-A25C-173554F97AFA">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:28:56 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="31A9A2BE-D057-7772-DC21-EAE58B48A009" name="HOST_DETAILS_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:27:26 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EC738D27-3CA0-8EA2-9963-359B84EB2999"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D564A0B0-5B49-B541-95FB-858C4C99C59F" name="HOST_DETAILS_HOST_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:29:08 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EC738D27-3CA0-8EA2-9963-359B84EB2999"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

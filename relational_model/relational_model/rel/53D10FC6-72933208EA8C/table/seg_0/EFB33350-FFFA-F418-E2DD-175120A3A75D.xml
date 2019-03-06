@@ -1,0 +1,94 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EFB33350-FFFA-F418-E2DD-175120A3A75D" name="HOST">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:15:37 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_3</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="HOST_ID" id="EDCEA967-7E10-3F7C-234B-27447B52DCE5">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:17:44 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="263CE0A7-2FCD-EA82-F3EE-C9BB8C7018AC" referredColumn="438D40E7-0304-B3C7-13AE-5BE65F5F200A"/>
+</associations>
+</Column>
+<Column name="HOST_URL" id="29B7A8A6-D2DA-F43B-3C92-3D1DE07B0D29">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:17:44 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_NAME" id="A606AA71-4B40-CBAB-1181-1773C09C6C06">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:17:44 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="263CE0A7-2FCD-EA82-F3EE-C9BB8C7018AC" referredColumn="B72CEF7B-8ED2-63D9-5B78-787148C52566"/>
+</associations>
+</Column>
+<Column name="HOST_SINCE" id="88FE9882-F552-074B-95B0-F0272E408C24">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:17:44 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HOST_THUMBNAIL_URL" id="081657DD-133C-839A-08F3-B2A3DF709451">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:17:44 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3A93A3CC-1C66-8C31-C3FA-1A2D00109976" name="HOST_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 18:17:44 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EDCEA967-7E10-3F7C-234B-27447B52DCE5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A4738F7A-6B4E-F604-5B28-2B19512EADA0" name="HOST_USER_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 09:59:48 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EDCEA967-7E10-3F7C-234B-27447B52DCE5"/>
+<colUsage columnID="A606AA71-4B40-CBAB-1181-1773C09C6C06"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

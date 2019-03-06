@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="A66918BA-4504-8523-1EDA-C5221EEF477A" name="COSTS_DETAILS">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:05:12 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_8</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="5900E410-31C4-FC0F-CF65-EDF5F948AA84">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="12D906B4-6FD6-9F0D-0478-A7186DE555D3" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
+</associations>
+</Column>
+<Column name="PRICE" id="7B7F743F-99D1-59E4-76A3-524AEDBC5EBC">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="WEEKLY_PRICE" id="87069469-B459-ABD9-B95B-26820C310E23">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MONTHLY_PRICE" id="6F84F658-74EC-F86E-2169-A6960C787A62">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SECURITY_DEPOSIT" id="A9E1F3F4-58E2-45FD-B1E3-69D53FBEF1F8">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CLEANING_FEE" id="DBE7A0D5-8F45-3594-F3F8-4A4DC81B04AC">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="GUESTS_INCLUDED" id="2422BDAF-0DA2-06D5-459B-5EE0AAB370E7">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="EXTRA_PEOPLE" id="172F7B61-BA23-3423-30A8-E54448E37D5D">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="00383F09-E2B4-204C-1AF3-E5CE542E50D0" name="COSTS_DETAILS_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:01 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5900E410-31C4-FC0F-CF65-EDF5F948AA84"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5B624896-D244-CA74-8035-A5E315A86805" name="COSTS_DETAILS_LISTING_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-05 19:10:51 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5900E410-31C4-FC0F-CF65-EDF5F948AA84"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

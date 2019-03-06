@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5182ADF7-3C4A-FEF6-CD40-DB165FBD5FD2" name="USER">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 09:57:12 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_11</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="USER_ID" id="438D40E7-0304-B3C7-13AE-5BE65F5F200A">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 09:58:34 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="USER_NAME" id="B72CEF7B-8ED2-63D9-5B78-787148C52566">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 09:58:34 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="149E6011-6BFC-AC8A-2D8B-76192083AA63" name="USER_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 09:58:41 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="438D40E7-0304-B3C7-13AE-5BE65F5F200A"/>
+<colUsage columnID="B72CEF7B-8ED2-63D9-5B78-787148C52566"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
