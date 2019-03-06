@@ -117,61 +117,50 @@ object Main{
     */
   def cleanData(pathIn: String, pathOut: String, sensitiveColumns: List[(Int, String)], mandatory: List[Int]): Unit = {
 
+    val out = new BufferedWriter(new FileWriter(pathOut))
+    val in = new BufferedReader(new FileReader(pathIn))
+
     //IO Objects
-    val reader = CSVReader.open(new File(pathIn))
-    val writer = CSVWriter.open(new File(pathOut))
+    val reader = CSVReader.open(in)
+    val writer = CSVWriter.open(out)
+    val it = reader.iterator
 
-    //Fetch Data
-    val dataset = reader.all()
+    val batchSize = 50
 
-    println("Data loaded")
+    def takeBatch(it: Iterator[Seq[String]], acc: List[List[String]], count: Int): List[List[String]] = {
+      if(count < batchSize && it.hasNext) takeBatch(it, it.next().toList :: acc, count + 1)
+      else acc
+    }
 
-    val column = dataset.head   //column names
 
-    val data = dataset.tail.par
+    val column = it.next()   //column names
 
-    println("split done")
+    while(it.hasNext){
 
-    //put NULL instead of empty strings
-    val completedData = putNUll(data)
+      //take a few line (so there will be no memory problems)
+      val data = takeBatch(it, Nil, 0).par
 
-    println("putNUll done")
 
-    //Perform integrity checks
-    val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
+      //put NULL instead of empty strings
+      val completedData = putNUll(data)
 
-    println("data check done")
 
-    //remove % $ and "" from data
-    val formattedData = formatData(checkedData).toList
+      //Perform integrity checks
+      val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
 
-    println("Data checked and formatted")
 
-    //TODO insert data into DB
+      //remove % $ and "" from data
+      val formattedData = formatData(checkedData).toList
 
-    //Write in file
-    writer.writeRow(column)
-    writer.writeAll(formattedData)
 
-    /*val s = reader.toStream
-    println("Stream OK")
-    val column = s.head
-    val data = s.tail
-    println("split done")
-    val completedData = putNUll(data.par)
-    println("putNULL done")
-    //Perform integrity checks
-    val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
-    println("checkData done")
-    //remove % $ and "" from data
-    val formattedData = formatData(checkedData).toList
+      //TODO insert data into DB
 
-    println("Data checked and formatted")
+      //Write in file
+      writer.writeRow(column)
+      writer.writeAll(formattedData)
 
-    //Close to save ressources
-    reader.close
-    writer.close()*/
-
+    }
+    
   }
 
 
