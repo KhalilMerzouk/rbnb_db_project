@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="833B19F9-263D-80F4-F52D-A589734B1CEF" containerWithKeyObject="517F1B0B-5575-9B5E-C096-6E93F24A4EB3" localFKIndex="A7522852-87B8-8B1C-0A87-F9BE63A1C461" name="LISTING_AMENITIES_AMENITIES_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:22:30 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<referredTableLongName>AMENITIES</referredTableLongName>
+<deleteRule>CASCADE</deleteRule>
+<referredTableID>CD36332E-7028-D24A-3AFD-E86DDB4B27BD</referredTableID>
+<keyObject>0D5884DF-9982-1145-6489-1E7C6D21C312</keyObject>
+<referredKeyID>0D5884DF-9982-1145-6489-1E7C6D21C312</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>AMENITY_ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

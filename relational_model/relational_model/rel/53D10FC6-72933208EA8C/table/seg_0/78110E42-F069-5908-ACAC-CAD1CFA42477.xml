@@ -1,0 +1,72 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="78110E42-F069-5908-ACAC-CAD1CFA42477" name="HOST_VERIFICATIONS">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:34:15 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_16</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="HOST_ID" id="5DBED027-277E-3E17-388C-D439EF1D140F">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:35:18 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="54A8154C-B156-F7C1-301B-2B30F2F452C3" referredColumn="EC738D27-3CA0-8EA2-9963-359B84EB2999"/>
+</associations>
+</Column>
+<Column name="VERIFICATION_ID" id="58540655-CC35-E1A1-88DC-0C97F2CA5655">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:35:18 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DF4349A5-8DB1-1C99-8FC8-063512532F22" referredColumn="D7CE5689-25C2-1173-0F8D-7CC8859EAEB5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AC790502-276C-B67E-0C89-825AF5978FD5" name="HOST_VERIFICATIONS_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:35:18 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5DBED027-277E-3E17-388C-D439EF1D140F"/>
+<colUsage columnID="58540655-CC35-E1A1-88DC-0C97F2CA5655"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2B2B2FAF-B6DA-0B5A-AD3B-5CF855C5547E" name="HOST_VERIFICATIONS_VERIFICATIONS_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:36:28 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="58540655-CC35-E1A1-88DC-0C97F2CA5655"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DAE03DC2-5219-F508-7E98-81F5B8D937A3" name="HOST_VERIFICATIONS_HOST_DETAILS_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:36:49 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5DBED027-277E-3E17-388C-D439EF1D140F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

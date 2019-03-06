@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="REVIEWS_SCORES_LISTING_FK" directorySegmentName="seg_0" id="E71DECB6-F621-16EB-2909-86E2DDE0FF4E">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>12D8E9DB-D419-7698-AA26-D2DF0B3A9DE3</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<sourcePk>72B0D0B6-6B1C-3510-7900-96427BB2A8F4</sourcePk>
+<dominantRole>0F2C0FAC-2E8B-BEBF-16FF-F984AA68E01B</dominantRole>
+<identifying>true</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>0F2C0FAC-2E8B-BEBF-16FF-F984AA68E01B</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>8E7D12E4-04B1-2D8A-F4F9-8CE3399DEB6C</targetEntity>
+<transferable>true</transferable>
+<deleteRule>CASCADE</deleteRule>
+</Relation>
