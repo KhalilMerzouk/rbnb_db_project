@@ -1,10 +1,9 @@
 import java.io._
-import java.util.concurrent.ForkJoinPool
 
 import com.github.tototoshi.csv.{CSVReader, CSVWriter}
 
-import scala.collection.parallel.{ForkJoinTasks, ParSeq, ParSet, Task}
-import scala.concurrent._
+import scala.collection.parallel.{ParSeq, ParSet}
+
 /**
   * Program to clean up the data
   */
@@ -32,50 +31,51 @@ object Main{
 
 
     //launch computation
-    tasks.foreach[Unit](path => cleanDataset(path._1, path._2))
-
-
-    def cleanDataset(pathIn: String, pathOut: String): Unit = {
-
-      //IO Objects
-      val reader = CSVReader.open(new File(pathIn))
-      val writer = CSVWriter.open(new File(pathOut))
-
-      //Fetch Data
-      val dataset = reader.all()
-
-      val column = dataset.head   //column names
-
-      val data = dataset.tail.par
-
-      val completedData = putNUll(data)   //put NULL instead of empty strings
-
-      //Perform integrity checks
-      val checkedData = checkListing(completedData)
-
-      //remove % $ and "" from data
-      val formattedData = formatData(checkedData).toList
-
-
-      //TODO insert data into DB
-
-      //Write in file
-      writer.writeRow(column)
-      writer.writeAll(formattedData)
-
-
-      //Close to save ressources
-      reader.close
-      writer.close()
-
-    }
-
-
-
-
-
+    tasks.foreach[Unit](path => cleanListings(path._1, path._2))
 
   }
+
+  /**
+    * Method that will read, clean and write the cleaned data to files (or DB)
+    * This method will only works for the "Listings" type
+    * @param pathIn  path to the input file
+    * @param pathOut path to the output file
+    */
+  def cleanListings(pathIn: String, pathOut: String): Unit = {
+
+    //IO Objects
+    val reader = CSVReader.open(new File(pathIn))
+    val writer = CSVWriter.open(new File(pathOut))
+
+    //Fetch Data
+    val dataset = reader.all()
+
+    val column = dataset.head   //column names
+
+    val data = dataset.tail.par
+
+    val completedData = putNUll(data)   //put NULL instead of empty strings
+
+    //Perform integrity checks
+    val checkedData = checkListing(completedData)
+
+    //remove % $ and "" from data
+    val formattedData = formatData(checkedData).toList
+
+
+    //TODO insert data into DB
+
+    //Write in file
+    writer.writeRow(column)
+    writer.writeAll(formattedData)
+
+
+    //Close to save ressources
+    reader.close
+    writer.close()
+
+  }
+
 
 
   /**
@@ -92,7 +92,7 @@ object Main{
 
         if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)  //TODO not working ??
+        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)  //TODO not working ?? Seems like "" reappears after being rewritten to csv file....
 
         else if(column.startsWith("$")) column.tail
 
