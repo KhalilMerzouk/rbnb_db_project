@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="EB3A1668-F4F0-C2B1-73E0-6013514E1EBA" name="HOST">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>EFB33350-FFFA-F418-E2DD-175120A3A75D</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="HOST ID" id="042B6F4A-7599-F07A-B556-7215B0B68C3D">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>80599695-DDC9-46D7-5991-C5B4B940F5F2</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<referedAttribute>9773CEF0-B57F-C467-39FA-5E6F0867E89D</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="HOST URL" id="5DDFB605-0DD1-66D0-42EA-D3F6D2AB6D1A">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>29B7A8A6-D2DA-F43B-3C92-3D1DE07B0D29</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="HOST NAME" id="05B6D3DB-8DFE-3004-E9F5-E710AB8A68F8">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>80599695-DDC9-46D7-5991-C5B4B940F5F2</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<referedAttribute>184A84EA-14D1-2871-9225-D107A78BD305</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="HOST SINCE" id="4B1CB4DA-1F9B-5F0E-4F17-45A3F5A6F261">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>88FE9882-F552-074B-95B0-F0272E408C24</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="HOST THUMBNAIL URL" id="E531D4BC-14E3-2A8E-DA97-623A43190945">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>081657DD-133C-839A-08F3-B2A3DF709451</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="962AE83D-B0C5-65FF-8309-1D328F03DD36" name="HOST PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>3A93A3CC-1C66-8C31-C3FA-1A2D00109976</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>042B6F4A-7599-F07A-B556-7215B0B68C3D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

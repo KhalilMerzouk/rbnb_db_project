@@ -1,0 +1,72 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="517F1B0B-5575-9B5E-C096-6E93F24A4EB3" name="LISTING_AMENITIES">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:21:19 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_14</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LISTING_ID" id="7620FCC8-34BE-1966-BD92-7D9327715FA4">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:22:14 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0B483591-D4FF-E0DA-7378-72F630F54B51" referredColumn="68EB2132-DEA7-6037-E3F2-4EC57A0D2D8A"/>
+</associations>
+</Column>
+<Column name="AMENITY_ID" id="B5998EA6-D760-DCF8-3014-FD98ED13CCAA">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:22:14 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="833B19F9-263D-80F4-F52D-A589734B1CEF" referredColumn="D6C5B28B-AA67-56D8-16CE-9B27D0040993"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FC2F8896-3E17-9125-E11F-2460A54E1CBF" name="LISTING_AMENITIES_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:22:14 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7620FCC8-34BE-1966-BD92-7D9327715FA4"/>
+<colUsage columnID="B5998EA6-D760-DCF8-3014-FD98ED13CCAA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A7522852-87B8-8B1C-0A87-F9BE63A1C461" name="LISTING_AMENITIES_AMENITIES_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:22:30 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B5998EA6-D760-DCF8-3014-FD98ED13CCAA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="45F30F95-E2A3-4E7A-0471-2776FDA7A4BC" name="LISTING_AMENITIES_MATERIAL_DESCRIPTION_FK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:23:26 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7620FCC8-34BE-1966-BD92-7D9327715FA4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

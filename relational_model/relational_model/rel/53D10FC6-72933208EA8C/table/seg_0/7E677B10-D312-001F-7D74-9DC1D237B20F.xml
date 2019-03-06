@@ -1,0 +1,47 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7E677B10-D312-001F-7D74-9DC1D237B20F" name="VERIFICATIONS">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:31:37 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<ordsAlias>table_15</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="VERIFICATION_ID" id="D7CE5689-25C2-1173-0F8D-7CC8859EAEB5">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:33:14 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERIFICATION_NAME" id="803AAE3E-B035-7BE6-723F-3194D6C21553">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:33:14 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E1DACDB5-2820-1008-4DF1-4E46C4568DB1" name="VERIFICATIONS_PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 15:33:14 UTC</createdTime>
+<ownerDesignName>relational_model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D7CE5689-25C2-1173-0F8D-7CC8859EAEB5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,144 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="0F2C0FAC-2E8B-BEBF-16FF-F984AA68E01B" name="LISTING">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>552FADBD-CFE3-5E6C-479B-414E7AAFB7B9</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="LISTING ID" id="454F2D9B-79A1-A1CB-1F56-BB394C67E0E6">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>985E6F34-4F35-ABCB-5395-C27B7640F442</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="LISTING URL" id="2DBFF9A7-2A32-2873-37B8-F57EDEEFE2EA">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>0DE00523-3524-5EA9-7D25-5E07F1EAFE5A</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NAME" id="D1061941-E790-C27C-D8A9-6E718202BE8E">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>D6868CA9-CB83-8F02-1AC8-8377F3C54161</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="SUMMARY" id="001F0E1F-A3EC-355E-C694-9C3DCC2CB27C">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>B6CECECE-9348-7BDD-2236-6249C52B18B2</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PICTURE URL" id="F32A07F3-81BE-1FFE-8057-15B54346390F">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>9831C3AF-2520-594A-D15B-F573AE056329</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="COUNTRY" id="BBFE2944-02BD-1EC3-A5E5-F15188D9F90E">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>DDBAADD9-300D-0037-6245-C61AC7540D4C</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CITY" id="94990F06-E9BA-1312-E12A-10F3E6D3E4A8">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>053FDD85-EA50-E214-BBB7-A3FFD21C0194</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="HOST ID" id="3766D460-181B-EF5D-567E-336C431EC5A0">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>9883EBBB-2715-647A-410C-372CB335C0D8</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<referedAttribute>042B6F4A-7599-F07A-B556-7215B0B68C3D</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="72B0D0B6-6B1C-3510-7900-96427BB2A8F4" name="LISTING PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>EAABDC11-372B-4A01-2E83-207319DDC2A9</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>454F2D9B-79A1-A1CB-1F56-BB394C67E0E6</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

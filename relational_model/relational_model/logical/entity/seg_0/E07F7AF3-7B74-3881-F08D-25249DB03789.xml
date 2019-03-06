@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="E07F7AF3-7B74-3881-F08D-25249DB03789" name="CALENDAR">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>D23529B6-759C-A381-DFEF-83E80CB7CAC1</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="LISTING ID" id="248A41CE-56CD-9123-AC0C-BE05DFD8A9B5">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>8F6C3BD7-8720-8D3E-4AAC-776445C9E269</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<referedAttribute>454F2D9B-79A1-A1CB-1F56-BB394C67E0E6</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="DATE" id="C23C6C47-73A4-80B2-37A2-2302A631E0CC">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>35E9766A-C29F-D975-6C83-E3A81B23B666</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="AVAILABLE" id="D1C86FB5-3DF7-6F1B-D763-8B5CAD9B19C9">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>D8339B3E-CE7D-FFA5-5F8D-3015C93473E6</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PRICE" id="0E73DAB6-B2BE-DB4C-3AA7-868593CE9414">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>D93176D7-0E40-0EB9-56DB-8955B42242F5</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5A5B6D7D-B0A3-5FCD-8457-7AD44E36F4A1" name="CALENDAR PK">
+<createdBy>simon</createdBy>
+<createdTime>2019-03-06 10:13:19 UTC</createdTime>
+<generatorID>DB2D2755-450F-AD89-F876-F2FE657EE2C2</generatorID>
+<ownerDesignName>relational_model</ownerDesignName>
+<engineerTo>
+<item key="53D10FC6-23B1-7E0D-B93D-72933208EA8C" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>248A41CE-56CD-9123-AC0C-BE05DFD8A9B5</attributeRef>
+<attributeRef>C23C6C47-73A4-80B2-37A2-2302A631E0CC</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -98,17 +98,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="AMENITIES" id="87AB47D0-CE19-C7E4-2102-00EC8A2CC8E4">
-<createdBy>simon</createdBy>
-<createdTime>2019-03-05 18:36:46 UTC</createdTime>
-<ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="SQUARE_FEET" id="5F7ECD3D-BE67-5E8F-A22D-A26898984EBE">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 18:36:46 UTC</createdTime>
