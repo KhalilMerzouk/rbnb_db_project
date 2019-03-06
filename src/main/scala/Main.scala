@@ -26,7 +26,7 @@ object Main{
     val reader = CSVReader.open(new File(filePath))
     val writer = CSVWriter.open(new File(outputPath))
 
-  //Fetch Data
+    //Fetch Data
     val dataset = reader.all()
 
     val column = dataset.head   //column names
@@ -156,7 +156,7 @@ object Main{
     */
   def checkPositiveInt(s: String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
     s.forall(Character.isDigit)
   }
@@ -169,9 +169,9 @@ object Main{
     */
   def checkPositiveDouble(s: String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
-    val split = s.split(".")
+    val split = s.split('.')
 
     split.size == 2 && split(0).forall(Character.isDigit)
 
@@ -185,11 +185,11 @@ object Main{
     */
   def checkDateFormate(s : String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
-    val ymd = s.split("-")
+    val ymd = s.split('-')
 
-    if(ymd.size != 3 || !checkPositiveInt(ymd(0)) || !checkPositiveInt(ymd(1)) || !checkPositiveInt(ymd(2)) || ymd(0).toInt > 2019 || ymd(1).toInt > 24 || ymd(2).toInt > 32) false
+    if(ymd.size != 3 || !checkPositiveInt(ymd(0)) || !checkPositiveInt(ymd(1)) || !checkPositiveInt(ymd(2)) || ymd(0).toInt > 2019 || ymd(1).toInt > 12 || ymd(2).toInt > 32) return false
 
     true
 
@@ -203,9 +203,9 @@ object Main{
     */
   def checkRateFormat(s: String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
-    if(!s.endsWith("%") || !checkPositiveInt(s.substring(s.size-1)) || s.substring(s.size-1).toInt > 100) false
+    if(!s.endsWith("%") || !checkPositiveInt(s.take(s.length -1)) || s.take(s.length -1).toInt > 100) return false
 
     true
   }
@@ -218,9 +218,9 @@ object Main{
     */
   def checkCountryCodeFormat(s: String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
-    if(s.size != 2 || !Character.isLetter(s(0)) || !Character.isLetter(s(1))) false
+    if(s.length != 2 || !Character.isLetter(s(0)) || !Character.isLetter(s(1))) return false
 
     true
   }
@@ -232,11 +232,11 @@ object Main{
     */
   def checkLongLat(s: String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
-    val deg = s.split(".")
+    val deg = s.split('.')
 
-    if(deg != 2 || !checkPositiveInt(deg(0)) || !checkPositiveInt(deg(1)) || deg(0).toInt > 180 || deg(1).toInt > 180) false
+    if(deg.size != 2 || (!checkPositiveInt(deg(0)) && !(deg(0).startsWith("-") && checkPositiveInt(deg(0).tail))) || !checkPositiveInt(deg(1)) || abs(deg(0).toInt) > 90 || (deg(1).toInt != 0 && abs(deg(0).toInt) == 90)) return false
 
     true
 
@@ -249,7 +249,7 @@ object Main{
     */
   def checkPrice(s: String): Boolean = {
 
-    if(s == nullVal) true
+    if(s == nullVal) return true
 
    ! Character.isDigit(s.head) && !s.tail.forall(Character.isDigit)
 
@@ -261,5 +261,13 @@ object Main{
     * @return true if it' a boolean false otherwise
     */
   def checkBool(s: String): Boolean = s == "f" || s == "t"
+
+
+  /**
+    * Compute absolute value
+    * @param i integer
+    * @return the absolute value of i
+    */
+  def abs(i: Int): Int = if(i >= 0) i else -i
 
 }
