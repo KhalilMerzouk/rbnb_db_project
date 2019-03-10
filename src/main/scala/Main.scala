@@ -69,7 +69,7 @@ object Main{
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "dateFormat"), (2, "Bool"), (3, "Price"))
 
-    val mandatoryColumnsListings = List(0, 1, 2, 3)
+    val mandatoryColumnsListings = List(0, 1, 2)  //price may be optional
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
@@ -264,7 +264,7 @@ object Main{
   def primaryKeysOK(l: List[String],mandatory: List[Int]):Boolean = {
 
     for(i <- mandatory){
-      
+
       if(l(i) == nullVal || l(i) == "")
         return false
     }
