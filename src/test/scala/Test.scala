@@ -1,3 +1,6 @@
+import java.io.{BufferedReader, FileReader}
+
+import com.github.tototoshi.csv.CSVReader
 import org.scalatest.FunSuite
 
 
@@ -97,6 +100,29 @@ class Test extends FunSuite {
     val array = List(List("1","  data  ", "18"), List("data", correctAmenities,"other data")).par
 
     assert(Main.formatData(data) equals array)
+
+  }
+
+
+  test("end to end test"){
+
+    val dataIn = "../testData/test.csv"
+    val dataOut = "../testData/testResult.csv"
+
+    val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
+      (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
+      (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
+
+    val mandatoryColumnsListings = List(0, 1, 2, 14, 13)
+
+    Main.cleanData(dataIn,dataOut,sensitiveColumnsListing,mandatoryColumnsListings)
+
+    val in = new BufferedReader(new FileReader(dataOut))
+    val reader = CSVReader.open(in)
+    val result = reader.all
+
+    assert(result.length == 1)
+
 
   }
 

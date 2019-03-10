@@ -146,7 +146,7 @@ object Main{
 
 
       //Perform integrity checks
-      val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
+      val checkedData = checkLines(completedData, sensitiveColumns, mandatory)
 
 
       //remove % $ and "" from data
@@ -239,7 +239,7 @@ object Main{
     * @param b the buffered source from the file
     * @return an iterator on a sequence of strings
     */
-  def checkListing(l : ParSeq[List[String]],sensitiveColumns: List[(Int, String)], mandatory: List[Int]): ParSeq[List[String]] = for(list <- l if check(list, sensitiveColumns, mandatory)) yield list
+  def checkLines(l : ParSeq[List[String]], sensitiveColumns: List[(Int, String)], mandatory: List[Int]): ParSeq[List[String]] = for(list <- l if check(list, sensitiveColumns, mandatory)) yield list
 
 
   /**
@@ -264,7 +264,9 @@ object Main{
   def primaryKeysOK(l: List[String],mandatory: List[Int]):Boolean = {
 
     for(i <- mandatory){
-      if(l(i) == nullVal) false
+
+      if(l(i) == nullVal || l(i) == "")
+        return false
     }
 
     true
@@ -282,31 +284,31 @@ object Main{
     for(column <- sensitiveColumns){
       column._2 match{
         case "PosInt" =>
-          if(!checkPositiveInt(l(column._1))) false
+          if(!checkPositiveInt(l(column._1))) return false
 
         case "PosDouble" =>
-          if(!checkPositiveDouble(l(column._1))) false
+          if(!checkPositiveDouble(l(column._1))) return false
 
         case "dateFormat" =>
-          if(!checkDateFormate(l(column._1))) false
+          if(!checkDateFormate(l(column._1))) return false
 
         case "rateFormat" =>
-          if(!checkRateFormat(l(column._1))) false
+          if(!checkRateFormat(l(column._1))) return false
 
         case "countryCode" =>
-          if(!checkCountryCodeFormat(l(column._1))) false
+          if(!checkCountryCodeFormat(l(column._1))) return false
 
         case "longLat" =>
-          if(!checkLongLat(l(column._1))) false
+          if(!checkLongLat(l(column._1))) return false
 
         case "Price" =>
-          if(!checkPrice(l(column._1))) false
+          if(!checkPrice(l(column._1))) return false
 
         case "Bool" =>
-          if(!checkBool(l(column._1))) false
+          if(!checkBool(l(column._1))) return false
 
         case "Array" =>
-          if(!checkArray(l(column._1))) false
+          if(!checkArray(l(column._1))) return false
 
       }
     }
