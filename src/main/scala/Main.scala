@@ -264,7 +264,7 @@ object Main{
   def primaryKeysOK(l: List[String],mandatory: List[Int]):Boolean = {
 
     for(i <- mandatory){
-
+      
       if(l(i) == nullVal || l(i) == "")
         return false
     }
