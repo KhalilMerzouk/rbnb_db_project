@@ -69,7 +69,7 @@ object Main{
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "dateFormat"), (2, "Bool"), (3, "Price"))
 
-    val mandatoryColumnsListings = List(0, 1, 2, 3)
+    val mandatoryColumnsListings = List(0, 1, 2)  //price may be optional
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
@@ -94,7 +94,7 @@ object Main{
     val madOut = "../cleanedData/madrid_listings_cleaned.csv"
 
     //things to check
-    val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosInt"), (34, "PosDouble"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
+    val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosDouble"), (34, "PosInt"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
       (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
       (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
 
@@ -146,7 +146,7 @@ object Main{
 
 
       //Perform integrity checks
-      val checkedData = checkListing(completedData, sensitiveColumns, mandatory)
+      val checkedData = checkLines(completedData, sensitiveColumns, mandatory)
 
 
       //remove % $ and "" from data
@@ -239,7 +239,7 @@ object Main{
     * @param b the buffered source from the file
     * @return an iterator on a sequence of strings
     */
-  def checkListing(l : ParSeq[List[String]],sensitiveColumns: List[(Int, String)], mandatory: List[Int]): ParSeq[List[String]] = for(list <- l if check(list, sensitiveColumns, mandatory)) yield list
+  def checkLines(l : ParSeq[List[String]], sensitiveColumns: List[(Int, String)], mandatory: List[Int]): ParSeq[List[String]] = for(list <- l if check(list, sensitiveColumns, mandatory)) yield list
 
 
   /**
@@ -247,29 +247,17 @@ object Main{
     * @param l the list of all fields
     * @return true if the data is correct false otherwise
     */
-  def check(l: List[String],sensitiveColumns: List[(Int, String)], mandatory: List[Int]):Boolean = {
-
-    if(primaryKeysOK(l, mandatory) && fieldsFormatOK(l, sensitiveColumns)) return true   //add here all checks that necessitate to DROP the current line
-
-    else
-      println(l.toString())
-      false
-  }
+  def check(l: List[String],sensitiveColumns: List[(Int, String)], mandatory: List[Int]):Boolean = primaryKeysOK(l, mandatory) && fieldsFormatOK(l, sensitiveColumns)
 
   /**
     * Check that all primary keys (or mandatory data) are present
     * @param l the csv line to check
     * @return true if all the primary keys are present fasle otherwise
     */
-  def primaryKeysOK(l: List[String],mandatory: List[Int]):Boolean = {
+  def primaryKeysOK(l: List[String],mandatory: List[Int]):Boolean = mandatory.forall(i => !(l(i) == nullVal || l(i) == ""))
 
-    for(i <- mandatory){
-      if(l(i) == nullVal) false
-    }
 
-    true
 
-  }
 
   /**
     * Check that the format of the data is consistent (date, strings, numbers etc...)
@@ -279,39 +267,32 @@ object Main{
   def fieldsFormatOK(l: List[String], sensitiveColumns: List[(Int, String)]):Boolean = {
 
 
-    for(column <- sensitiveColumns){
-      column._2 match{
-        case "PosInt" =>
-          if(!checkPositiveInt(l(column._1))) false
+    def checkHelper(column: (Int, String)):Boolean =  column._2 match{
 
-        case "PosDouble" =>
-          if(!checkPositiveDouble(l(column._1))) false
+      case "PosInt" => checkPositiveInt(l(column._1))
 
-        case "dateFormat" =>
-          if(!checkDateFormate(l(column._1))) false
+      case "PosDouble" => checkPositiveDouble(l(column._1))
 
-        case "rateFormat" =>
-          if(!checkRateFormat(l(column._1))) false
+      case "dateFormat" => checkDateFormate(l(column._1))
 
-        case "countryCode" =>
-          if(!checkCountryCodeFormat(l(column._1))) false
+      case "rateFormat" => checkRateFormat(l(column._1))
 
-        case "longLat" =>
-          if(!checkLongLat(l(column._1))) false
+      case "countryCode" => checkCountryCodeFormat(l(column._1))
 
-        case "Price" =>
-          if(!checkPrice(l(column._1))) false
+      case "longLat" => checkLongLat(l(column._1))
 
-        case "Bool" =>
-          if(!checkBool(l(column._1))) false
+      case "Price" => checkPrice(l(column._1))
 
-        case "Array" =>
-          if(!checkArray(l(column._1))) false
+      case "Bool" => checkBool(l(column._1))
 
-      }
+      case "Array" => checkArray(l(column._1))
+
+      case _ => println("ERROR"); false
+
     }
 
-    true
+    sensitiveColumns.forall(checkHelper)
+
   }
 
   /**
@@ -321,7 +302,6 @@ object Main{
     */
   def checkPositiveInt(s: String): Boolean = {
 
-    if(s == nullVal) return true
 
     s.forall(Character.isDigit)
   }
@@ -338,7 +318,7 @@ object Main{
 
     val split = s.split('.')
 
-    split.size == 2 && split(0).forall(Character.isDigit)
+    split.size == 2 && split(0).forall(Character.isDigit) && split(1).forall(Character.isDigit)
 
   }
 

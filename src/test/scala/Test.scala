@@ -1,3 +1,6 @@
+import java.io.{BufferedReader, FileReader}
+
+import com.github.tototoshi.csv.CSVReader
 import org.scalatest.FunSuite
 
 
@@ -63,7 +66,7 @@ class Test extends FunSuite {
 
     assert(Main.checkPositiveInt("12"))
     assert(!Main.checkPositiveInt("-12"))
-    assert(!Main.checkPositiveInt("12.0"))
+    assert(!Main.checkPositiveInt("12.01"))
     assert(!Main.checkPositiveInt("12.034"))
   }
 
@@ -97,6 +100,50 @@ class Test extends FunSuite {
     val array = List(List("1","  data  ", "18"), List("data", correctAmenities,"other data")).par
 
     assert(Main.formatData(data) equals array)
+
+  }
+
+
+  test("end to end test corrupt data"){
+
+    val dataIn = "../testData/test.csv"
+    val dataOut = "../testData/testResult.csv"
+
+    val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosDouble"), (34, "PosInt"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
+      (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
+      (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
+
+    val mandatoryColumnsListings = List(0, 1, 2, 14, 13)
+
+    Main.cleanData(dataIn,dataOut,sensitiveColumnsListing,mandatoryColumnsListings)
+
+    val in = new BufferedReader(new FileReader(dataOut))
+    val reader = CSVReader.open(in)
+    val result = reader.all
+
+    assert(result.length == 1)
+
+  }
+
+  test("end to end good data"){
+
+    val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosDouble"), (34, "PosInt"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
+      (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
+      (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
+
+    val mandatoryColumnsListings = List(0, 1, 2, 14, 13)
+
+    val goodDataIn = "../testData/correctData.csv"
+    val goodDataOut = "../testData/correctOut.csv"
+
+    println("Begin cleaning..........")
+
+    Main.cleanData(goodDataIn, goodDataOut, sensitiveColumnsListing, mandatoryColumnsListings)
+    println("End cleaning .............")
+    val r = new BufferedReader(new FileReader(goodDataOut))
+    val readerGood = CSVReader.open(r)
+
+    assert(readerGood.all().length == 2)
 
   }
 
