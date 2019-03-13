@@ -98,7 +98,7 @@ object Main{
       (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
       (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
 
-    val mandatoryColumnsListings = List(0, 1, 2, 14, 13)
+    val mandatoryColumnsListings = List(0, 1, 2, 13, 14, 15)
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
