@@ -136,10 +136,10 @@ class Test extends FunSuite {
     val goodDataIn = "testData/correctData.csv"
     val goodDataOut = "testData/correctOut.csv"
 
-    println("Begin cleaning..........")
 
     Main.cleanData(goodDataIn, goodDataOut, sensitiveColumnsListing, mandatoryColumnsListings)
-    println("End cleaning .............")
+
+
     val r = new BufferedReader(new FileReader(goodDataOut))
     val readerGood = CSVReader.open(r)
 

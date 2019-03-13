@@ -225,7 +225,7 @@ object Main{
 
     def replaceInLine(line : List[String]): List[String] ={
 
-      for(data <- line) yield if(data.isEmpty)  nullVal else data
+      for(data <- line) yield if(data.isEmpty || data == "N/A")  nullVal else data
 
     }
 
@@ -302,6 +302,7 @@ object Main{
     */
   def checkPositiveInt(s: String): Boolean = {
 
+    if(s == nullVal) return true
 
     s.forall(Character.isDigit)
   }
