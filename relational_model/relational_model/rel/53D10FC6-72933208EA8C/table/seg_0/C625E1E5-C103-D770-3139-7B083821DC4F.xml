@@ -17,9 +17,6 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="0F3979EA-6269-E7E9-5B75-F532581B6D46" referredColumn="438D40E7-0304-B3C7-13AE-5BE65F5F200A"/>
-</associations>
 </Column>
 <Column name="REVIEWER_NAME" id="5E9C8767-8644-B8D5-A003-26B61575BBDA">
 <createdBy>simon</createdBy>
@@ -30,9 +27,6 @@
 <logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="0F3979EA-6269-E7E9-5B75-F532581B6D46" referredColumn="B72CEF7B-8ED2-63D9-5B78-787148C52566"/>
-</associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
@@ -45,17 +39,6 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="CF3048CC-3BE3-1AC3-161F-339D1D8D3CD9"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="363834EC-8EEA-8932-7F3F-41D4E05E343A" name="REVIEWER_USER_FK">
-<createdBy>simon</createdBy>
-<createdTime>2019-03-06 10:09:27 UTC</createdTime>
-<ownerDesignName>relational_model</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="CF3048CC-3BE3-1AC3-161F-339D1D8D3CD9"/>
-<colUsage columnID="5E9C8767-8644-B8D5-A003-26B61575BBDA"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
