@@ -42,7 +42,7 @@ object Main{
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "PosInt"), (2, "dateFormat"), (3, "PosInt"))
 
-    val mandatoryColumnsListings = List(0, 1, 2, 3, 4)
+    val mandatoryColumnsListings = List(0, 1, 2, 3, 4, 5)
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
