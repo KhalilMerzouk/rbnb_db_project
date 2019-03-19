@@ -1,8 +1,9 @@
 import java.io._
 
 import com.github.tototoshi.csv.{CSVReader, CSVWriter}
-
 import scala.collection.parallel.{ParSeq, ParSet}
+import java.sql.DriverManager
+import java.sql.Connection
 
 /**
   * Program to clean up the data
@@ -15,7 +16,7 @@ object Main{
 
   def main(args: Array[String]): Unit = {
 
-    println("Main app for cleaning DB")
+  /*  println("Main app for cleaning DB")
 
     cleanListings()
     println("Listings cleaned")
@@ -23,6 +24,44 @@ object Main{
     println("Calendars cleaned")
     cleanReviews()
     println("Reviews cleaned")
+*/
+
+    val driver = "oracle.jdbc.driver.OracleDriver"
+    val url = "jdbc:oracle:thin:@cs322-db.epfl.ch:1521:ORCLCDB"
+    val username = "C##DB2019_G26"
+    val password = "DB2019_G26"
+
+
+    var connection:Connection = null
+
+    try {
+      // make the connection
+      Class.forName(driver)
+      connection = DriverManager.getConnection(url, username, password)
+
+    } catch {
+      case e => e.printStackTrace
+    }
+
+
+    //TODO insert data in DB here !
+
+/*
+    // create the statement, and run the select query
+    val statement = connection.createStatement()
+    val resultSet = statement.executeQuery("SELECT host, user FROM user")
+
+
+    //read result from query
+    while ( resultSet.next() ) {
+      val host = resultSet.getString("host")
+      val user = resultSet.getString("user")
+      println("host, user = " + host + ", " + user)
+    }
+
+*/
+
+    connection.close()
 
   }
 
@@ -42,7 +81,7 @@ object Main{
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "PosInt"), (2, "dateFormat"), (3, "PosInt"))
 
-    val mandatoryColumnsListings = List(0, 1, 2, 3, 4)
+    val mandatoryColumnsListings = List(0, 1, 2, 3, 4, 5)
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
@@ -98,7 +137,7 @@ object Main{
       (39, "Price"), (40, "Price"), (41, "Price"), (42, "Price"), (43, "Price"), (44, "PosInt"), (45, "Price"), (46, "PosInt"), (47, "PosInt"), (48, "PosInt"), (49, "PosInt"), (50, "PosInt"), (51, "PosInt"), (52, "PosInt"), (53, "PosInt"),
       (54, "PosInt"), (55, "Bool"), (57, "Bool"), (58, "Bool"))
 
-    val mandatoryColumnsListings = List(0, 1, 2, 14, 13)
+    val mandatoryColumnsListings = List(0, 1, 2, 13, 14, 15)
 
     //prepare tasks
     val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
@@ -153,8 +192,6 @@ object Main{
       val formattedData = formatData(checkedData).toList
 
 
-      //TODO insert data into DB
-
       //Write in file
       writer.writeRow(column)
       writer.writeAll(formattedData)
@@ -179,7 +216,7 @@ object Main{
 
         if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)  //TODO not working ?? Seems like "" reappears after being rewritten to csv file....
+        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)
 
         else if(column.startsWith("$")) column.tail
 
