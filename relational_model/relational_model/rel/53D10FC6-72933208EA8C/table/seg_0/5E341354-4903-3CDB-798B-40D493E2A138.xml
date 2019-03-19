@@ -48,7 +48,6 @@
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:24:24 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
@@ -59,7 +58,6 @@
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:24:24 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT007</logicalDatatype>

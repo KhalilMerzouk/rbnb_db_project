@@ -48,7 +48,7 @@
 <colUsage columnID="58540655-CC35-E1A1-88DC-0C97F2CA5655"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="2B2B2FAF-B6DA-0B5A-AD3B-5CF855C5547E" name="HOST_VERIFICATIONS_VERIFICATIONS_FK">
+<ind_PK_UK id="2B2B2FAF-B6DA-0B5A-AD3B-5CF855C5547E" name="HOST_VERIF_VERIF_FK">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-06 15:36:28 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
@@ -58,7 +58,7 @@
 <colUsage columnID="58540655-CC35-E1A1-88DC-0C97F2CA5655"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="DAE03DC2-5219-F508-7E98-81F5B8D937A3" name="HOST_VERIFICATIONS_HOST_DETAILS_FK">
+<ind_PK_UK id="DAE03DC2-5219-F508-7E98-81F5B8D937A3" name="HOST_VERIF_HOST_DETAILS_FK">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-06 15:36:49 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>

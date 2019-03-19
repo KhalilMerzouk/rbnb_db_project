@@ -35,7 +35,6 @@
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:27:42 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT006</logicalDatatype>

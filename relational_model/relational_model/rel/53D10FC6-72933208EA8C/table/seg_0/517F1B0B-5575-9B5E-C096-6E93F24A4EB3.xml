@@ -58,7 +58,7 @@
 <colUsage columnID="B5998EA6-D760-DCF8-3014-FD98ED13CCAA"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="45F30F95-E2A3-4E7A-0471-2776FDA7A4BC" name="LISTING_AMENITIES_MATERIAL_DESCRIPTION_FK">
+<ind_PK_UK id="45F30F95-E2A3-4E7A-0471-2776FDA7A4BC" name="LISTING_AMENITIES_MAT_DESCR_FK">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-06 15:23:26 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
