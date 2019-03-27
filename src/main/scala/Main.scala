@@ -5,6 +5,7 @@ import scala.collection.parallel.{ParSeq, ParSet}
 import java.sql.DriverManager
 import java.sql.Connection
 
+
 /**
   * Program to clean up the data
   */
@@ -24,8 +25,16 @@ object Main{
     println("Calendars cleaned")
     cleanReviews()
     println("Reviews cleaned")
-*/
 
+*/
+    //Creationn of new csv files for lists
+
+
+    createLists()
+
+
+    //DB connection
+/*
     val driver = "oracle.jdbc.driver.OracleDriver"
     val url = "jdbc:oracle:thin:@cs322-db.epfl.ch:1521:ORCLCDB"
     val username = "C##DB2019_G26"
@@ -42,10 +51,10 @@ object Main{
     } catch {
       case e => e.printStackTrace
     }
+*/
 
 
-    //TODO insert data in DB here !
-
+  //examples on how to run queries
 /*
     // create the statement, and run the select query
     val statement = connection.createStatement()
@@ -61,8 +70,177 @@ object Main{
 
 */
 
-    connection.close()
+   // connection.close()
 
+  }
+
+
+
+  def createLists():Unit = {
+
+    val barcIn = "../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../cleanedData/madrid_listings_cleaned.csv"
+
+    val amen = "../cleanedData/amenities.csv"
+    val verif = "../cleanedData/verification.csv"
+    val amenSet = "../cleanedData/amenSet.csv"
+    val verifSet = "../cleanedData/verifSet.csv"
+
+    val amenities = new BufferedWriter(new FileWriter(amen))
+    val verification = new BufferedWriter(new FileWriter(verif))
+    val amenitiesSet = new BufferedWriter(new FileWriter(amenSet))
+    val verificationSet = new BufferedWriter(new FileWriter(verifSet))
+
+    val in1 = new BufferedReader(new FileReader(barcIn))
+    val in2 = new BufferedReader(new FileReader(berIn))
+    val in3 = new BufferedReader(new FileReader(madIn))
+
+
+    val inputs = List(in1, in2, in3)
+
+    val columnAmen = 37
+    val columnVerif = 23
+
+    //compute set of amenities and verifications
+    val in1S = new BufferedReader(new FileReader(barcIn))
+    val in2S = new BufferedReader(new FileReader(berIn))
+    val in3S = new BufferedReader(new FileReader(madIn))
+    val bar_list = CSVReader.open(in1S).all().tail.par
+    val ber_list = CSVReader.open(in2S).all().tail.par
+    val mad_list = CSVReader.open(in3S).all().tail.par
+    val aSet = computeSet(bar_list, columnAmen) ++  computeSet(ber_list, columnAmen) ++ computeSet(mad_list, columnAmen)
+    val vSet = computeSet(bar_list, columnVerif) ++ computeSet(ber_list, columnVerif) ++ computeSet(mad_list, columnVerif)
+
+    in1S.close()
+    in2S.close()
+    in3S.close()
+
+
+    //map with id's generated
+    val aMap = aSet.zip(1 to aSet.size).map(p => p._1.toString -> p._2).toMap
+    val vMap = vSet.zip(1 to vSet.size).map(p =>p._1.toString -> p._2).toMap
+
+    //prepare writers
+
+    val writer1 = CSVWriter.open(amenitiesSet)
+    val writer2 = CSVWriter.open(verificationSet)
+    val writer3 = CSVWriter.open(amenities)
+    val writer4 = CSVWriter.open(verification)
+
+
+    //prepare columns titles
+    val column1 = Seq[String]("amenity_id","amenity_name")
+    val column2 = Seq[String]("verification_id","verification_name")
+    val column3 = Seq[String]("listing_id", "amenity_id")
+    val column4 = Seq[String]("listing_id", "verification_id")
+
+    //write column titles
+    writer1.writeRow(column1)
+    writer2.writeRow(column2)
+    writer3.writeRow(column3)
+    writer4.writeRow(column4)
+
+    //write list of amenities and verifications with a generated id
+    writer1.writeAll(aSet.zip(1 to aSet.size).map(p => List(p._2.toString , p._1)).toList)
+    writer2.writeAll(vSet.zip(1 to vSet.size).map(p => List(p._2.toString , p._1)).toList)
+
+
+    //read all input files for listings
+    for(in <- inputs) {
+
+
+      //IO Objects
+      val reader = CSVReader.open(in)
+
+
+      val it = reader.iterator
+
+      it.next //don't take the first row
+
+
+
+      val batchSize = 50
+
+      def takeBatch(it: Iterator[Seq[String]], acc: List[List[String]], count: Int): List[List[String]] = {
+        if (count < batchSize && it.hasNext) takeBatch(it, it.next().toList :: acc, count + 1)
+        else acc
+      }
+
+
+      while (it.hasNext) {
+
+        //take a few line (so there will be no memory problems)
+        val data = takeBatch(it, Nil, 0).par
+
+
+        //extract the amenities and verifications (with their corresponding listing id)
+        val (amenities, verifications) = extractData(data)
+
+
+        //Write in file (amenity_id -> listing_id)
+
+        amenities.foreach{
+          case l => writer3.writeAll(l.map(a => List(a._1, aMap(a._2))))
+        }
+
+
+        //Write in file (verification_id -> listing_id)
+       verifications.foreach(
+
+         v => writer4.writeAll(v.map(v => List(v._1, vMap(v._2))))
+
+       )
+
+      }
+
+
+    }
+
+    //free ressources
+
+    amenities.close()
+    verification.close()
+    amenitiesSet.close()
+    verificationSet.close()
+    in1.close()
+    in2.close()
+    in3.close()
+
+  }
+
+  /**
+    *
+    * Extract the amenities and verifications for each listing and also compute the set of amenities and verifications
+    * @param data chunck of csv data
+    * @return 4-tuple containing the amenities, verifications, amenity set, vverification set
+    */
+  def extractData(data: ParSeq[List[String]]):(List[List[(String, String)]], List[List[(String, String)]]) = {
+
+
+    val columnAmen = 37
+    val columnVerif = 23
+
+
+
+    val data1 = data.foldLeft[List[List[(String, String)]]](Nil){
+
+      case (acc, l) =>
+
+          extractArray(l, columnAmen).filter(s => !s.isEmpty).toList.map(e => (l(0), e)) :: acc
+
+    }
+
+
+    val data2 = data.foldLeft[List[List[(String, String)]]](Nil){
+
+      case (acc, l) =>
+        extractArray(l, columnVerif).filter(s => !s.isEmpty).toList.map(e => (l(0) , e)) :: acc
+    }
+
+
+
+    (data1, data2)
   }
 
   /**
@@ -198,6 +376,9 @@ object Main{
 
     }
 
+    out.close()
+    in.close()
+
   }
 
 
@@ -236,9 +417,11 @@ object Main{
     */
   def extractArray(line: List[String], column: Int): Array[String] = {
 
-    val splitted = line(column).split(',')
+    if(line.isEmpty || line(column).isEmpty || line(column).size < 3) Array.empty
 
-    Array(splitted.head.tail) ++ splitted.tail.reverse.tail.reverse ++ Array(splitted.reverse.head.takeWhile(e => e != '}' && e != ']'))    //remove enclosing "{}" or "[]"
+    line(column).tail.reverse.tail.reverse.split(',')
+
+
   }
 
 
@@ -248,7 +431,7 @@ object Main{
     * @param data the listings
     * @return the set for the given selection
     */
-  def computeSet(data : ParSeq[List[String]], column: Int): ParSet[String] = (for(line <- data) yield extractArray(line, column)).flatten.toSet
+  def computeSet(data : ParSeq[List[String]], column: Int): ParSet[String] = (for(line <- data) yield extractArray(line, column).filter(s => !s.isEmpty)).flatten.toSet
 
 
 
