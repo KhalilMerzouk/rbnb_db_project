@@ -78,8 +78,15 @@ object Main{
   }
 
 
-
+  /**
+    *
+    * Method to generate the peak lists for amenities and host verifications
+    * Not pretty but working.
+    * A lot of code is duplicated from the cleanData function.... feel free to improve the code :)
+    */
   def createLists():Unit = {
+
+    //initialize paths
 
     val barcIn = "../cleanedData/barcelona_listings_cleaned.csv"
     val berIn = "../cleanedData/berlin_listings_cleaned.csv"
@@ -89,6 +96,8 @@ object Main{
     val verif = "../cleanedData/verification.csv"
     val amenSet = "../cleanedData/amenSet.csv"
     val verifSet = "../cleanedData/verifSet.csv"
+
+    //writers and writers
 
     val amenities = new BufferedWriter(new FileWriter(amen))
     val verification = new BufferedWriter(new FileWriter(verif))
@@ -102,16 +111,19 @@ object Main{
 
     val inputs = List(in1, in2, in3)
 
+    //indexes for amenities and verifications
     val columnAmen = 37
     val columnVerif = 23
 
-    //compute set of amenities and verifications
+    //compute set of amenities and verifications with different readers or else file pointers will be at the end of the file for the next part !!!!!!!!!!!!!!!!!!!
     val in1S = new BufferedReader(new FileReader(barcIn))
     val in2S = new BufferedReader(new FileReader(berIn))
     val in3S = new BufferedReader(new FileReader(madIn))
     val bar_list = CSVReader.open(in1S).all().tail.par
     val ber_list = CSVReader.open(in2S).all().tail.par
     val mad_list = CSVReader.open(in3S).all().tail.par
+
+    //compute the set of amenities and host verifications and generate an ID for them
     val aSet = computeSet(bar_list, columnAmen) ++  computeSet(ber_list, columnAmen) ++ computeSet(mad_list, columnAmen)
     val vSet = computeSet(bar_list, columnVerif) ++ computeSet(ber_list, columnVerif) ++ computeSet(mad_list, columnVerif)
 
