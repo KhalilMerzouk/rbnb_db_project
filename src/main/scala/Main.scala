@@ -17,7 +17,7 @@ object Main{
 
   def main(args: Array[String]): Unit = {
 
-  /*  println("Main app for cleaning DB")
+    println("Main app for cleaning DB")
 
     cleanListings()
     println("Listings cleaned")
@@ -26,11 +26,14 @@ object Main{
     cleanReviews()
     println("Reviews cleaned")
 
-*/
-    //Creationn of new csv files for lists
 
+
+
+    //Creation of new csv files for lists
 
     createLists()
+
+    println("Finished generating csv for amenities and host verifications")
 
 
     //DB connection
@@ -351,6 +354,7 @@ object Main{
 
 
     val column = it.next()   //column names
+    writer.writeRow(column)
 
     while(it.hasNext){
 
@@ -371,9 +375,7 @@ object Main{
 
 
       //Write in file
-      writer.writeRow(column)
       writer.writeAll(formattedData)
-
     }
 
     out.close()
