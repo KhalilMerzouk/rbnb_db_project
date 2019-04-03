@@ -88,14 +88,14 @@ object Main{
 
     //initialize paths
 
-    val barcIn = "../cleanedData/barcelona_listings_cleaned.csv"
-    val berIn = "../cleanedData/berlin_listings_cleaned.csv"
-    val madIn = "../cleanedData/madrid_listings_cleaned.csv"
+    val barcIn = "../../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../../cleanedData/madrid_listings_cleaned.csv"
 
-    val amen = "../cleanedData/amenities.csv"
-    val verif = "../cleanedData/verification.csv"
-    val amenSet = "../cleanedData/amenSet.csv"
-    val verifSet = "../cleanedData/verifSet.csv"
+    val amen = "../../cleanedData/amenities.csv"
+    val verif = "../../cleanedData/verification.csv"
+    val amenSet = "../../cleanedData/amenSet.csv"
+    val verifSet = "../../cleanedData/verifSet.csv"
 
     //writers and writers
 
@@ -264,12 +264,12 @@ object Main{
   def cleanReviews():Unit = {
 
     //IO Paths
-    val barcIn = "../dataset/barcelona_reviews.csv"
-    val barcOut = "../cleanedData/barcelona_reviews_cleaned.csv"
-    val berIn = "../dataset/berlin_reviews.csv"
-    val berOut = "../cleanedData/berlin_reviews_cleaned.csv"
-    val madIn = "../dataset/madrid_reviews.csv"
-    val madOut = "../cleanedData/madrid_reviews_cleaned.csv"
+    val barcIn = "../../dataset/barcelona_reviews.csv"
+    val barcOut = "../../cleanedData/barcelona_reviews_cleaned.csv"
+    val berIn = "../../dataset/berlin_reviews.csv"
+    val berOut = "../../cleanedData/berlin_reviews_cleaned.csv"
+    val madIn = "../../dataset/madrid_reviews.csv"
+    val madOut = "../../cleanedData/madrid_reviews_cleaned.csv"
 
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "PosInt"), (2, "dateFormat"), (3, "PosInt"))
@@ -291,12 +291,12 @@ object Main{
   def cleanCalendar():Unit = {
 
     //IO Paths
-    val barcIn = "../dataset/barcelona_calendar.csv"
-    val barcOut = "../cleanedData/barcelona_calendar_cleaned.csv"
-    val berIn = "../dataset/berlin_calendar.csv"
-    val berOut = "../cleanedData/berlin_calendar_cleaned.csv"
-    val madIn = "../dataset/madrid_calendar.csv"
-    val madOut = "../cleanedData/madrid_calendar_cleaned.csv"
+    val barcIn = "../../dataset/barcelona_calendar.csv"
+    val barcOut = "../../cleanedData/barcelona_calendar_cleaned.csv"
+    val berIn = "../../dataset/berlin_calendar.csv"
+    val berOut = "../../cleanedData/berlin_calendar_cleaned.csv"
+    val madIn = "../../dataset/madrid_calendar.csv"
+    val madOut = "../../cleanedData/madrid_calendar_cleaned.csv"
 
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "dateFormat"), (2, "Bool"), (3, "Price"))
@@ -318,12 +318,12 @@ object Main{
   def cleanListings():Unit = {
 
     //IO Paths
-    val barcIn = "../dataset/barcelona_listings.csv"
-    val barcOut = "../cleanedData/barcelona_listings_cleaned.csv"
-    val berIn = "../dataset/berlin_listings_filtered.csv"
-    val berOut = "../cleanedData/berlin_listings_cleaned.csv"
-    val madIn = "../dataset/madrid_listings_filtered.csv"
-    val madOut = "../cleanedData/madrid_listings_cleaned.csv"
+    val barcIn = "../../dataset/barcelona_listings.csv"
+    val barcOut = "../../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../../dataset/berlin_listings_filtered.csv"
+    val berOut = "../../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../../dataset/madrid_listings_filtered.csv"
+    val madOut = "../../cleanedData/madrid_listings_cleaned.csv"
 
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosDouble"), (34, "PosInt"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
