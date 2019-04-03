@@ -21,7 +21,7 @@
 <colAssociation fkAssociation="12D8E9DB-D419-7698-AA26-D2DF0B3A9DE3" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
 </associations>
 </Column>
-<Column name="REVIEWS_SCORES_RATING" id="7659C2B8-E33A-9142-871D-2B7B0CE10E04">
+<Column name="REVIEW_SCORES_RATING" id="7659C2B8-E33A-9142-871D-2B7B0CE10E04">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:18:51 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
