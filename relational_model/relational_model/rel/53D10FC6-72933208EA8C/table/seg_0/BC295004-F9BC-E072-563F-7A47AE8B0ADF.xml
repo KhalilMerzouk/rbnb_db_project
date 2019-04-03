@@ -23,7 +23,7 @@
 <colAssociation fkAssociation="75150C51-AF28-CED1-94F8-890A4CB91B81" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
 </associations>
 </Column>
-<Column name="SPACE" id="4C3D4334-0917-9854-6E8F-CCBFDCB6A5D0">
+<Column name="LISTING_SPACE" id="4C3D4334-0917-9854-6E8F-CCBFDCB6A5D0">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 18:37:55 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
