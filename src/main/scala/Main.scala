@@ -411,9 +411,11 @@ object Main{
 
         if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.contains("\"")) column.split("\"").fold("")(_++_)
-
         else if(column.startsWith("$")) column.tail
+
+        else if(column.endsWith(separator)) column.reverse.tail.reverse
+
+        else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
         else column
       }
