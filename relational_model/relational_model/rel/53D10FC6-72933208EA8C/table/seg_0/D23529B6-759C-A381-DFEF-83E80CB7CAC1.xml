@@ -21,7 +21,7 @@
 <colAssociation fkAssociation="FC0FD96A-761D-0D59-D559-FEF352561ED6" referredColumn="985E6F34-4F35-ABCB-5395-C27B7640F442"/>
 </associations>
 </Column>
-<Column name="DATE" id="35E9766A-C29F-D975-6C83-E3A81B23B666">
+<Column name="CALENDAR_DATE" id="35E9766A-C29F-D975-6C83-E3A81B23B666">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:27:42 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>

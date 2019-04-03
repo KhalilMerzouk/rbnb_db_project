@@ -28,7 +28,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="NAME" id="D6868CA9-CB83-8F02-1AC8-8377F3C54161">
+<Column name="LISTING_NAME" id="D6868CA9-CB83-8F02-1AC8-8377F3C54161">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 17:57:09 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
@@ -38,7 +38,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="SUMMARY" id="B6CECECE-9348-7BDD-2236-6249C52B18B2">
+<Column name="LISTING_SUMMARY" id="B6CECECE-9348-7BDD-2236-6249C52B18B2">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 17:57:09 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>

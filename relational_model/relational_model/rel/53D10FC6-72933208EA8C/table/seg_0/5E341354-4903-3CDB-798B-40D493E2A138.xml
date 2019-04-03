@@ -54,7 +54,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="DATE" id="FB2DCB86-18A0-3971-CD2B-5D932FA11B7C">
+<Column name="REVIEW_DATE" id="FB2DCB86-18A0-3971-CD2B-5D932FA11B7C">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 19:24:24 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
