@@ -411,7 +411,7 @@ object Main{
 
         if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)
+        else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
         else if(column.startsWith("$")) column.tail
 
