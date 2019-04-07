@@ -105,11 +105,11 @@ object Main{
 
     val inputs = List(in1, in2, in3)
 
-    val columnIndex = List(13,14,15,16,20)
+    val columnIndex = List(13,14,15,16, 17 , 18, 19 ,20, 21, 22, 23)
 
     //write column names
 
-    val columnNames = List("host_id","host_url","host_name","host_since","host_thumbnail_url")
+    val columnNames = List("host_id","host_url","host_name","host_since", "host_about", "host_response_time", "host_response_rate","host_thumbnail_url", "host_picture_url" , "host_neighbourhood" )
 
     writer.writeRow(columnNames)
 
