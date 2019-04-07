@@ -413,7 +413,7 @@ object Main{
 
         else if(column.startsWith("$")) column.tail
 
-        else if(column.endsWith(separator)) column.reverse.tail.reverse
+        else if(column.contains(separator)) column.split(separator).fold("")((a,b) => a + " " + b)    //replace end of line by whitespace
 
         else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
