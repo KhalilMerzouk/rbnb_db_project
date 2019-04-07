@@ -502,7 +502,7 @@ object Main{
 
         else if(column.contains(separator)) column.split(separator).fold("")((a,b) => a + " " + b)    //replace end of line by whitespace
 
-        else if(column.contains("\"")) column.split("\"").fold("")(_++_)
+        else if(column.contains("\"")) "\"\""+column.split("\"").fold("")(_++_)+"\"\""    //double quotes everywhere
 
         else column
       }
