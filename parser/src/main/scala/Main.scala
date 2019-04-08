@@ -40,6 +40,10 @@ object Main{
 
     println("Finished creating csv for hosts")
 
+    createReviewer()
+
+    println("Finished creating csv for reviewers")
+
     //DB connection
 /*
     val driver = "oracle.jdbc.driver.OracleDriver"
@@ -80,6 +84,93 @@ object Main{
    // connection.close()
 
   }
+
+
+
+
+  /**
+    * Method to generate csv file that contains all data related to hosts
+    */
+  def createReviewer():Unit = {
+
+    //prepare IO objects
+
+    val barcIn = "../../cleanedData/barcelona_reviews_cleaned.csv"
+    val berIn = "../../cleanedData/berlin_reviews_cleaned.csv"
+    val madIn = "../../cleanedData/madrid_reviews_cleaned.csv"
+
+    val hosts = "../../cleanedData/reviewers.csv"
+
+    val hostsWriter = new BufferedWriter(new FileWriter(hosts))
+
+    val writer = CSVWriter.open(hostsWriter)
+
+    val in1 = new BufferedReader(new FileReader(barcIn))
+    val in2 = new BufferedReader(new FileReader(berIn))
+    val in3 = new BufferedReader(new FileReader(madIn))
+
+
+    val inputs = List(in1, in2, in3)
+
+    val columnIndex = List(3, 4)
+
+    //write column names
+
+    val columnNames = List("reviewer_id", "reviewer_name")
+
+    writer.writeRow(columnNames)
+
+
+    var reviewerSet: Set[String] = Set.empty
+
+    //read all input files for listings
+    for(in <- inputs) {
+
+
+      //IO Objects
+      val reader = CSVReader.open(in)
+
+
+      val it = reader.iterator
+
+      it.next //don't take the first row
+
+
+
+      val batchSize = 50
+
+      def takeBatch(it: Iterator[Seq[String]], acc: List[List[String]], count: Int): List[List[String]] = {
+        if (count < batchSize && it.hasNext) takeBatch(it, it.next().toList :: acc, count + 1)
+        else acc
+      }
+
+
+      while (it.hasNext) {
+
+        //take a few line (so there will be no memory problems)
+        val data = takeBatch(it, Nil, 0)
+
+        for(l <- data  if !reviewerSet.contains(l(columnIndex.head)) ){   //if the host isn't already taken
+
+          reviewerSet += l(columnIndex.head)
+
+          writer.writeRow(for(c <- columnIndex) yield l(c))
+
+        }
+
+
+      }
+
+    }
+
+    in1.close()
+    in2.close()
+    in3.close()
+    writer.close()
+
+
+  }
+
 
   /**
     * Method to generate csv file that contains all data related to hosts
