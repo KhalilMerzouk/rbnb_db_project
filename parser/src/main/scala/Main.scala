@@ -559,6 +559,8 @@ object Main{
 
         else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
+        else if(column.startsWith(" ")) column.tail     //remove starting whitespace
+
         else column
       }
 
