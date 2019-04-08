@@ -36,44 +36,185 @@ object Main{
     println("Finished generating csv for amenities and host verifications")
 
 
-    //DB connection
-/*
-    val driver = "oracle.jdbc.driver.OracleDriver"
-    val url = "jdbc:oracle:thin:@cs322-db.epfl.ch:1521:ORCLCDB"
-    val username = "C##DB2019_G26"
-    val password = "DB2019_G26"
+    createHost()
+
+    println("Finished creating csv for hosts")
+
+    createReviewer()
+
+    println("Finished creating csv for reviewers")
 
 
-    var connection:Connection = null
+  }
 
-    try {
-      // make the connection
-      Class.forName(driver)
-      connection = DriverManager.getConnection(url, username, password)
 
-    } catch {
-      case e => e.printStackTrace
+
+
+  /**
+    * Method to generate csv file that contains all data related to hosts
+    * copy past with createHost.... feel free to improve :)
+    */
+  def createReviewer():Unit = {
+
+    //prepare IO objects
+
+    val barcIn = "../../cleanedData/barcelona_reviews_cleaned.csv"
+    val berIn = "../../cleanedData/berlin_reviews_cleaned.csv"
+    val madIn = "../../cleanedData/madrid_reviews_cleaned.csv"
+
+    val hosts = "../../cleanedData/reviewers.csv"
+
+    val hostsWriter = new BufferedWriter(new FileWriter(hosts))
+
+    val writer = CSVWriter.open(hostsWriter)
+
+    val in1 = new BufferedReader(new FileReader(barcIn))
+    val in2 = new BufferedReader(new FileReader(berIn))
+    val in3 = new BufferedReader(new FileReader(madIn))
+
+
+    val inputs = List(in1, in2, in3)
+
+    val columnIndex = List(3, 4)
+
+    //write column names
+
+    val columnNames = List("reviewer_id", "reviewer_name")
+
+    writer.writeRow(columnNames)
+
+
+    var reviewerSet: Set[String] = Set.empty
+
+    //read all input files for listings
+    for(in <- inputs) {
+
+
+      //IO Objects
+      val reader = CSVReader.open(in)
+
+
+      val it = reader.iterator
+
+      it.next //don't take the first row
+
+
+
+      val batchSize = 50
+
+      def takeBatch(it: Iterator[Seq[String]], acc: List[List[String]], count: Int): List[List[String]] = {
+        if (count < batchSize && it.hasNext) takeBatch(it, it.next().toList :: acc, count + 1)
+        else acc
+      }
+
+
+      while (it.hasNext) {
+
+        //take a few line (so there will be no memory problems)
+        val data = takeBatch(it, Nil, 0)
+
+        for(l <- data  if !reviewerSet.contains(l(columnIndex.head)) ){   //if the host isn't already taken
+
+          reviewerSet += l(columnIndex.head)
+
+          writer.writeRow(for(c <- columnIndex) yield l(c))
+
+        }
+
+
+      }
+
     }
-*/
+
+    in1.close()
+    in2.close()
+    in3.close()
+    writer.close()
 
 
-  //examples on how to run queries
-/*
-    // create the statement, and run the select query
-    val statement = connection.createStatement()
-    val resultSet = statement.executeQuery("SELECT host, user FROM user")
+  }
 
 
-    //read result from query
-    while ( resultSet.next() ) {
-      val host = resultSet.getString("host")
-      val user = resultSet.getString("user")
-      println("host, user = " + host + ", " + user)
-    }
+  /**
+    * Method to generate csv file that contains all data related to hosts
+    */
+  def createHost():Unit = {
 
-*/
+    //prepare IO objects
 
-   // connection.close()
+    val barcIn = "../../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../../cleanedData/madrid_listings_cleaned.csv"
+
+    val hosts = "../../cleanedData/hosts.csv"
+
+    val hostsWriter = new BufferedWriter(new FileWriter(hosts))
+
+    val writer = CSVWriter.open(hostsWriter)
+
+    val in1 = new BufferedReader(new FileReader(barcIn))
+    val in2 = new BufferedReader(new FileReader(berIn))
+    val in3 = new BufferedReader(new FileReader(madIn))
+
+
+    val inputs = List(in1, in2, in3)
+
+    val columnIndex = List(13,14,15,16, 17 , 18, 19 ,20, 21, 22, 23)
+
+    //write column names
+
+    val columnNames = List("host_id","host_url","host_name","host_since", "host_about", "host_response_time", "host_response_rate","host_thumbnail_url", "host_picture_url" , "host_neighbourhood" )
+
+    writer.writeRow(columnNames)
+
+
+    var hostSet: Set[String] = Set.empty
+
+    //read all input files for listings
+    for(in <- inputs) {
+
+
+      //IO Objects
+      val reader = CSVReader.open(in)
+
+
+      val it = reader.iterator
+
+      it.next //don't take the first row
+
+
+
+      val batchSize = 50
+
+      def takeBatch(it: Iterator[Seq[String]], acc: List[List[String]], count: Int): List[List[String]] = {
+        if (count < batchSize && it.hasNext) takeBatch(it, it.next().toList :: acc, count + 1)
+        else acc
+      }
+
+
+      while (it.hasNext) {
+
+        //take a few line (so there will be no memory problems)
+        val data = takeBatch(it, Nil, 0)
+
+        for(l <- data  if !hostSet.contains(l(columnIndex.head)) ){   //if the host isn't already taken
+
+          hostSet += l(columnIndex.head)
+
+          writer.writeRow(for(c <- columnIndex) yield l(c))
+
+        }
+
+
+      }
+
+      }
+
+    in1.close()
+    in2.close()
+    in3.close()
+    writer.close()
+
 
   }
 
@@ -88,14 +229,14 @@ object Main{
 
     //initialize paths
 
-    val barcIn = "../cleanedData/barcelona_listings_cleaned.csv"
-    val berIn = "../cleanedData/berlin_listings_cleaned.csv"
-    val madIn = "../cleanedData/madrid_listings_cleaned.csv"
+    val barcIn = "../../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../../cleanedData/madrid_listings_cleaned.csv"
 
-    val amen = "../cleanedData/amenities.csv"
-    val verif = "../cleanedData/verification.csv"
-    val amenSet = "../cleanedData/amenSet.csv"
-    val verifSet = "../cleanedData/verifSet.csv"
+    val amen = "../../cleanedData/amenities.csv"
+    val verif = "../../cleanedData/verification.csv"
+    val amenSet = "../../cleanedData/amenSet.csv"
+    val verifSet = "../../cleanedData/verifSet.csv"
 
     //writers and writers
 
@@ -148,7 +289,7 @@ object Main{
     val column1 = Seq[String]("amenity_id","amenity_name")
     val column2 = Seq[String]("verification_id","verification_name")
     val column3 = Seq[String]("listing_id", "amenity_id")
-    val column4 = Seq[String]("listing_id", "verification_id")
+    val column4 = Seq[String]("host_id", "verification_id")
 
     //write column titles
     writer1.writeRow(column1)
@@ -200,7 +341,7 @@ object Main{
         }
 
 
-        //Write in file (verification_id -> listing_id)
+        //Write in file (verification_id -> host_id)
        verifications.foreach(
 
          v => writer4.writeAll(v.map(v => List(v._1, vMap(v._2))))
@@ -228,21 +369,21 @@ object Main{
     *
     * Extract the amenities and verifications for each listing and also compute the set of amenities and verifications
     * @param data chunck of csv data
-    * @return 4-tuple containing the amenities, verifications, amenity set, vverification set
+    * @return 4-tuple containing the amenities, verifications, amenity set, verification set
     */
   def extractData(data: ParSeq[List[String]]):(List[List[(String, String)]], List[List[(String, String)]]) = {
 
 
     val columnAmen = 37
     val columnVerif = 23
-
-
+    val columnListingId = 0
+    val columnHostId = 13
 
     val data1 = data.foldLeft[List[List[(String, String)]]](Nil){
 
       case (acc, l) =>
 
-          extractArray(l, columnAmen).filter(s => !s.isEmpty).toList.map(e => (l(0), e)) :: acc
+          extractArray(l, columnAmen).filter(s => !s.isEmpty).toList.map(e => (l(columnListingId), e)) :: acc
 
     }
 
@@ -250,7 +391,7 @@ object Main{
     val data2 = data.foldLeft[List[List[(String, String)]]](Nil){
 
       case (acc, l) =>
-        extractArray(l, columnVerif).filter(s => !s.isEmpty).toList.map(e => (l(0) , e)) :: acc
+        extractArray(l, columnVerif).filter(s => !s.isEmpty).toList.map(e => (l(columnHostId) , e)) :: acc
     }
 
 
@@ -264,12 +405,12 @@ object Main{
   def cleanReviews():Unit = {
 
     //IO Paths
-    val barcIn = "../dataset/barcelona_reviews.csv"
-    val barcOut = "../cleanedData/barcelona_reviews_cleaned.csv"
-    val berIn = "../dataset/berlin_reviews.csv"
-    val berOut = "../cleanedData/berlin_reviews_cleaned.csv"
-    val madIn = "../dataset/madrid_reviews.csv"
-    val madOut = "../cleanedData/madrid_reviews_cleaned.csv"
+    val barcIn = "../../dataset/barcelona_reviews.csv"
+    val barcOut = "../../cleanedData/barcelona_reviews_cleaned.csv"
+    val berIn = "../../dataset/berlin_reviews.csv"
+    val berOut = "../../cleanedData/berlin_reviews_cleaned.csv"
+    val madIn = "../../dataset/madrid_reviews.csv"
+    val madOut = "../../cleanedData/madrid_reviews_cleaned.csv"
 
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "PosInt"), (2, "dateFormat"), (3, "PosInt"))
@@ -291,12 +432,12 @@ object Main{
   def cleanCalendar():Unit = {
 
     //IO Paths
-    val barcIn = "../dataset/barcelona_calendar.csv"
-    val barcOut = "../cleanedData/barcelona_calendar_cleaned.csv"
-    val berIn = "../dataset/berlin_calendar.csv"
-    val berOut = "../cleanedData/berlin_calendar_cleaned.csv"
-    val madIn = "../dataset/madrid_calendar.csv"
-    val madOut = "../cleanedData/madrid_calendar_cleaned.csv"
+    val barcIn = "../../dataset/barcelona_calendar.csv"
+    val barcOut = "../../cleanedData/barcelona_calendar_cleaned.csv"
+    val berIn = "../../dataset/berlin_calendar.csv"
+    val berOut = "../../cleanedData/berlin_calendar_cleaned.csv"
+    val madIn = "../../dataset/madrid_calendar.csv"
+    val madOut = "../../cleanedData/madrid_calendar_cleaned.csv"
 
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (1, "dateFormat"), (2, "Bool"), (3, "Price"))
@@ -318,12 +459,12 @@ object Main{
   def cleanListings():Unit = {
 
     //IO Paths
-    val barcIn = "../dataset/barcelona_listings.csv"
-    val barcOut = "../cleanedData/barcelona_listings_cleaned.csv"
-    val berIn = "../dataset/berlin_listings_filtered.csv"
-    val berOut = "../cleanedData/berlin_listings_cleaned.csv"
-    val madIn = "../dataset/madrid_listings_filtered.csv"
-    val madOut = "../cleanedData/madrid_listings_cleaned.csv"
+    val barcIn = "../../dataset/barcelona_listings.csv"
+    val barcOut = "../../cleanedData/barcelona_listings_cleaned.csv"
+    val berIn = "../../dataset/berlin_listings_filtered.csv"
+    val berOut = "../../cleanedData/berlin_listings_cleaned.csv"
+    val madIn = "../../dataset/madrid_listings_filtered.csv"
+    val madOut = "../../cleanedData/madrid_listings_cleaned.csv"
 
     //things to check
     val sensitiveColumnsListing = List((0, "PosInt"), (13, "PosInt"), (16, "dateFormat"), (19, "rateFormat"), (23, "Array"), (26, "countryCode"), (28, "longLat"), (29, "longLat"), (32, "PosInt"), (33, "PosDouble"), (34, "PosInt"), (35, "PosInt"), (37, "Array"), (38, "PosInt"),
@@ -382,7 +523,7 @@ object Main{
       val checkedData = checkLines(completedData, sensitiveColumns, mandatory)
 
 
-      //remove % $ and "" from data
+      //remove % $ , EOL and "" from data
       val formattedData = formatData(checkedData).toList
 
 
@@ -398,7 +539,9 @@ object Main{
 
 
   /**
-    * Delete "$", "%" and double quotes from the data
+    * Delete "$", "%", line separator and quotes from the data
+    * the function could be recursive to check all possible cases (instead of else if)
+    * but for this particular dataset it's not a problem
     * @param data the data to check
     * @return a cleaned version of the dataset
     */
@@ -408,12 +551,15 @@ object Main{
     def replaceInLine(line : List[String]): List[String] ={
 
       for(column <- line) yield {
+        if(column.contains(separator)) column.split(separator).fold("")((a,b) => a + " " + b)    //replace end of line by whitespace
 
-        if(column.endsWith("%")) column.take(column.length - 1)
+        else if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.contains("\"\"")) column.split("\"\"").fold("")(_++_)
+        else if(column.startsWith("$")) column.tail.split(",").fold("")(_++_)   //for $1,000.00
 
-        else if(column.startsWith("$")) column.tail
+        else if(column.startsWith("'") && column.endsWith("'")) column.tail.drop(column.tail.length -1)
+
+        else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
         else column
       }
@@ -433,7 +579,7 @@ object Main{
 
     if(line.isEmpty || line(column).isEmpty || line(column).size < 3) Array.empty
 
-    line(column).tail.reverse.tail.reverse.split(',')
+    line(column).tail.reverse.tail.reverse.split(',').map(s => s.trim)
 
 
   }
@@ -631,7 +777,7 @@ object Main{
 
     if(s == nullVal) return true
 
-   ! Character.isDigit(s.head) && !s.tail.forall(Character.isDigit)
+   ! Character.isDigit(s.head) && s.tail.forall(c => Character.isDigit(c) || c == '.' || c == ',' )
 
   }
 
