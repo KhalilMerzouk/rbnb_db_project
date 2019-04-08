@@ -555,7 +555,7 @@ object Main{
 
         else if(column.endsWith("%")) column.take(column.length - 1)
 
-        else if(column.startsWith("$")) column.tail
+        else if(column.startsWith("$")) column.tail.split(",").fold("")(_++_)   //for $1,000.00
 
         else if(column.startsWith("'") && column.endsWith("'")) column.tail.drop(column.tail.length -1)
 
@@ -777,7 +777,7 @@ object Main{
 
     if(s == nullVal) return true
 
-   ! Character.isDigit(s.head) && !s.tail.forall(Character.isDigit)
+   ! Character.isDigit(s.head) && s.tail.forall(c => Character.isDigit(c) || c == '.' || c == ',' )
 
   }
 
