@@ -557,7 +557,7 @@ object Main{
 
         else if(column.startsWith("$")) column.tail
 
-        else if(column.startsWith("'") && column.endsWith("'")) column.tail.drop(column.tail.length -1)
+        else if(column.trim.startsWith("'") && column.trim.endsWith("'")) column.tail.drop(column.tail.length -1)
 
         else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
