@@ -44,44 +44,6 @@ object Main{
 
     println("Finished creating csv for reviewers")
 
-    //DB connection
-/*
-    val driver = "oracle.jdbc.driver.OracleDriver"
-    val url = "jdbc:oracle:thin:@cs322-db.epfl.ch:1521:ORCLCDB"
-    val username = "C##DB2019_G26"
-    val password = "DB2019_G26"
-
-
-    var connection:Connection = null
-
-    try {
-      // make the connection
-      Class.forName(driver)
-      connection = DriverManager.getConnection(url, username, password)
-
-    } catch {
-      case e => e.printStackTrace
-    }
-*/
-
-
-  //examples on how to run queries
-/*
-    // create the statement, and run the select query
-    val statement = connection.createStatement()
-    val resultSet = statement.executeQuery("SELECT host, user FROM user")
-
-
-    //read result from query
-    while ( resultSet.next() ) {
-      val host = resultSet.getString("host")
-      val user = resultSet.getString("user")
-      println("host, user = " + host + ", " + user)
-    }
-
-*/
-
-   // connection.close()
 
   }
 
@@ -90,6 +52,7 @@ object Main{
 
   /**
     * Method to generate csv file that contains all data related to hosts
+    * copy past with createHost.... feel free to improve :)
     */
   def createReviewer():Unit = {
 
