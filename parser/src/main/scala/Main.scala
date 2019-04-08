@@ -539,7 +539,7 @@ object Main{
 
 
   /**
-    * Delete "$", "%", line separator and double quotes from the data
+    * Delete "$", "%", line separator and quotes from the data
     * the function could be recursive to check all possible cases (instead of else if)
     * but for this particular dataset it's not a problem
     * @param data the data to check
@@ -559,9 +559,7 @@ object Main{
 
         else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
-        else if(Character.isWhitespace(column.head)) column.tail     //remove starting whitespace
-
-        else column
+        else column.trim
       }
 
     }
