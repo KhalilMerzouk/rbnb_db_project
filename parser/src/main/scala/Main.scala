@@ -289,7 +289,7 @@ object Main{
     val column1 = Seq[String]("amenity_id","amenity_name")
     val column2 = Seq[String]("verification_id","verification_name")
     val column3 = Seq[String]("listing_id", "amenity_id")
-    val column4 = Seq[String]("listing_id", "verification_id")
+    val column4 = Seq[String]("host_id", "verification_id")
 
     //write column titles
     writer1.writeRow(column1)
@@ -341,7 +341,7 @@ object Main{
         }
 
 
-        //Write in file (verification_id -> listing_id)
+        //Write in file (verification_id -> host_id)
        verifications.foreach(
 
          v => writer4.writeAll(v.map(v => List(v._1, vMap(v._2))))
@@ -369,21 +369,21 @@ object Main{
     *
     * Extract the amenities and verifications for each listing and also compute the set of amenities and verifications
     * @param data chunck of csv data
-    * @return 4-tuple containing the amenities, verifications, amenity set, vverification set
+    * @return 4-tuple containing the amenities, verifications, amenity set, verification set
     */
   def extractData(data: ParSeq[List[String]]):(List[List[(String, String)]], List[List[(String, String)]]) = {
 
 
     val columnAmen = 37
     val columnVerif = 23
-
-
+    val columnListingId = 0
+    val columnHostId = 13
 
     val data1 = data.foldLeft[List[List[(String, String)]]](Nil){
 
       case (acc, l) =>
 
-          extractArray(l, columnAmen).filter(s => !s.isEmpty).toList.map(e => (l(0), e)) :: acc
+          extractArray(l, columnAmen).filter(s => !s.isEmpty).toList.map(e => (l(columnListingId), e)) :: acc
 
     }
 
@@ -391,7 +391,7 @@ object Main{
     val data2 = data.foldLeft[List[List[(String, String)]]](Nil){
 
       case (acc, l) =>
-        extractArray(l, columnVerif).filter(s => !s.isEmpty).toList.map(e => (l(0) , e)) :: acc
+        extractArray(l, columnVerif).filter(s => !s.isEmpty).toList.map(e => (l(columnHostId) , e)) :: acc
     }
 
 
