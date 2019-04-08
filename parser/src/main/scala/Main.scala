@@ -557,7 +557,7 @@ object Main{
 
         else if(column.startsWith("$")) column.tail
 
-        else if(column.contains("\"")) "\"\""+column.split("\"").fold("")(_++_)+"\"\""    //double quotes everywhere
+        else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
         else column
       }
