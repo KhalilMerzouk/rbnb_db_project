@@ -50,7 +50,7 @@
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -66,17 +66,6 @@
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column name="HOST_NEIGHBORHOOD" id="B064E138-7385-8A12-62F5-76B4AF565D0B">
-<createdBy>simon</createdBy>
-<createdTime>2019-03-05 18:28:56 UTC</createdTime>
-<ownerDesignName>relational_model</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="HOST_VERIFICATIONS" id="DDE23E4B-ADA6-4429-A25C-173554F97AFA">
 <createdBy>simon</createdBy>
 <createdTime>2019-03-05 18:28:56 UTC</createdTime>
 <ownerDesignName>relational_model</ownerDesignName>
