@@ -557,11 +557,11 @@ object Main{
 
         else if(column.startsWith("$")) column.tail
 
-        else if(column.trim.startsWith("'") && column.trim.endsWith("'")) column.tail.drop(column.tail.length -1)
+        else if(column.startsWith("'") && column.endsWith("'")) column.tail.drop(column.tail.length -1)
 
         else if(column.contains("\"")) column.split("\"").fold("")(_++_)
 
-        else column.trim
+        else column
       }
 
     }
@@ -579,7 +579,7 @@ object Main{
 
     if(line.isEmpty || line(column).isEmpty || line(column).size < 3) Array.empty
 
-    line(column).tail.reverse.tail.reverse.split(',')
+    line(column).tail.reverse.tail.reverse.split(',').map(s => s.trim)
 
 
   }
