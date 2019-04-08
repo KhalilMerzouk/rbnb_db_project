@@ -523,7 +523,7 @@ object Main{
       val checkedData = checkLines(completedData, sensitiveColumns, mandatory)
 
 
-      //remove % $ and "" from data
+      //remove % $ , EOL and "" from data
       val formattedData = formatData(checkedData).toList
 
 
@@ -539,7 +539,9 @@ object Main{
 
 
   /**
-    * Delete "$", "%" and double quotes from the data
+    * Delete "$", "%", line separator and double quotes from the data
+    * the function could be recursive to check all possible cases (instead of else if)
+    * but for this particular dataset it's not a problem
     * @param data the data to check
     * @return a cleaned version of the dataset
     */
@@ -549,12 +551,11 @@ object Main{
     def replaceInLine(line : List[String]): List[String] ={
 
       for(column <- line) yield {
+        if(column.contains(separator)) column.split(separator).fold("")((a,b) => a + " " + b)    //replace end of line by whitespace
 
-        if(column.endsWith("%")) column.take(column.length - 1)
+        else if(column.endsWith("%")) column.take(column.length - 1)
 
         else if(column.startsWith("$")) column.tail
-
-        else if(column.contains(separator)) column.split(separator).fold("")((a,b) => a + " " + b)    //replace end of line by whitespace
 
         else if(column.contains("\"")) "\"\""+column.split("\"").fold("")(_++_)+"\"\""    //double quotes everywhere
 
