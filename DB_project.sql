@@ -126,34 +126,11 @@ select H.HOST_ID , H.HOST_NAME
 
 
               
-select L.LISTING_ID, L.NAME
+select L.LISTING_ID, L.LISTING_NAME
 from LISTING L, REVIEWS_SCORES RS
 where L.LISTING_ID IN (select L1.LISTING_ID
-                      from LISTIING L1, MATERIAL_DESCRIPTION MD
-                      where L.CITY = 'Barcelona' and MD.LISTING_ID = L.LISTING_ID and MD.PROPERTY_TYPE = 'appartment');
-order by RS.REVIEW_SCORES_RATING DESC
+                      from LISTING L1, MATERIAL_DESCRIPTION MD
+                      where L.CITY = 'Barcelona' and MD.LISTING_ID = L.LISTING_ID and MD.PROPERTY_TYPE = 'Apartment')
+order by RS.REVIEW_SCORES_RATING DESC;
 
-LIMIT 10
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-                     
-                                                        
-                                                        
-                                                        
+--LIMIT 10
