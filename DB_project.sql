@@ -70,35 +70,34 @@ where H.HOST_ID IN (select L.HOST_ID
 -------------------------------------------------------------------------------------------------------
       
       
-with with_wifi as (select LA.LISTING_ID
-                         from AMENITIES AM, LISTING_AMENITIES LA                                     
-                         where AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'WIFI');
-                         
-         
+create view wifi as 
+  select LA.LISTING_ID
+  from AMENITIES AM, LISTING_AMENITIES LA                                     
+  where AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'Wifi';
+  
 select AVG(CD1.PRICE) - AVG(CD2.PRICE)
 from COSTS_DETAILS CD1, COSTS_DETAILS CD2
-where CD1.LISTING_ID in with_wifi
+where CD1.LISTING_ID in (select * from wifi)
                                                         
-and CD2.LISTING_ID not in with_wifi;
-
+and CD2.LISTING_ID not in (select * from wifi);
 
 -------------------------------------------------------------------------------------------------------
                                                         
                                                  
               
-with 8_beds as (select MD.LISTING_ID
-                         from MATERIAL_DESCRIPTION MD                                    
-                         where MD.BEDS = 8)   
-         
 select AVG(CD1.PRICE) - AVG(CD2.PRICE)
 from COSTS_DETAILS CD1, COSTS_DETAILS CD2
-where CD1.LISTING_ID IN 8_beds
+where CD1.LISTING_ID IN (select MD.LISTING_ID
+                         from MATERIAL_DESCRIPTION MD                                    
+                         where MD.BEDS = 8)
 
 and CD1.LISTING_ID IN (select L.LISTING_ID
                       from LISTING L
-                      where L.CITY = 'Berlin');
+                      where L.CITY = 'Berlin')
                                                         
-and CD2.LISTING_ID not in 8_beds  
+and CD2.LISTING_ID not in (select MD.LISTING_ID
+                         from MATERIAL_DESCRIPTION MD                                    
+                         where MD.BEDS = 8)  
 
 and CD2.LISTING_ID IN (select L.LISTING_ID
                       from LISTING L
@@ -106,31 +105,28 @@ and CD2.LISTING_ID IN (select L.LISTING_ID
                       
                       
                       
-                      
 -------------------------------------------------------------------------------------------------------
 
 
-select H.HOST_ID , H.HOST_NAME
-                    from LISTING L, HOST H                                          --not sure if working. need to test
-                    where L.COUNTRY = 'Spain' and L.HOST_ID = H.HOST_ID
-                    group by L.HOST_ID
-                    order by COUNT(*) DESC
-                    
-                    LIMIT 10
-
+select * from 
+  (select H.HOST_ID , H.HOST_NAME
+    from LISTING L, HOST H                                          --not sure if working. need to test
+    where L.COUNTRY = 'Spain' and L.HOST_ID = H.HOST_ID
+    group by L.HOST_ID, H.HOST_NAME, H.HOST_ID
+    order by COUNT(*) DESC)
+    
+    where rownum <= 10;
 
 
 
 -------------------------------------------------------------------------------------------------------
 
-
-
-              
-select L.LISTING_ID, L.LISTING_NAME
+select * from 
+(select L.LISTING_ID, L.LISTING_NAME
 from LISTING L, REVIEWS_SCORES RS
-where L.LISTING_ID IN (select L1.LISTING_ID
+where L.LISTING_ID = RS.LISTING_ID 
+  and L.LISTING_ID IN (select L1.LISTING_ID
                       from LISTING L1, MATERIAL_DESCRIPTION MD
                       where L.CITY = 'Barcelona' and MD.LISTING_ID = L.LISTING_ID and MD.PROPERTY_TYPE = 'Apartment')
-order by RS.REVIEW_SCORES_RATING DESC;
-
---LIMIT 10
+order by RS.REVIEW_SCORES_RATING DESC)
+where rownum <=10;
