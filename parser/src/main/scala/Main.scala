@@ -474,11 +474,11 @@ object Main{
     val mandatoryColumnsListings = List(0, 1, 2, 13, 14, 15)
 
     //prepare tasks
-    val tasks = List((barcIn, barcOut),(berIn, berOut), (madIn, madOut)).par
+    val tasks = List((barcIn, barcOut, "Barcelona"),(berIn, berOut, "Berlin"), (madIn, madOut, "Madrid")).par
 
 
     //launch computation
-    tasks.foreach[Unit](path => cleanData(path._1, path._2, sensitiveColumnsListing, mandatoryColumnsListings))
+    tasks.foreach[Unit](path => cleanData(path._1, path._2, sensitiveColumnsListing, mandatoryColumnsListings, path._3))
 
   }
 
@@ -525,7 +525,7 @@ object Main{
 
       //remove % $ , EOL and "" from data
       val formattedData = formatData(checkedData).toList
-      
+
 
       if(city != null)
         writer.writeAll(setCity(formattedData.par, city).toList)
