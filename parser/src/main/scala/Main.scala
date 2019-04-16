@@ -558,7 +558,7 @@ object Main{
 
       val split = l.splitAt(cityColumn)
 
-      split._1 ::: city :: split._2
+      split._1 ::: city :: split._2.tail
 
     }
 
