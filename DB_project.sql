@@ -76,7 +76,8 @@ with with_wifi as (select LA.LISTING_ID
                          
          
 select average(CD1.PRICE) - average(CD2.PRICE)
-from COSTS_DETAILS CD1, COSTS_DETAILS CD2
+from COSTS_DETAILS CD1
+from COSTS_DETAILS CD2
 where CD1.LISTING_ID in with_wifi
                                                         
 and CD2.LISTING_ID not in with_wifi
