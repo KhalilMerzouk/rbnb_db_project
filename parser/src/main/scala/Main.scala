@@ -488,7 +488,7 @@ object Main{
     * @param pathIn  path to the input file
     * @param pathOut path to the output file
     */
-  def cleanData(pathIn: String, pathOut: String, sensitiveColumns: List[(Int, String)], mandatory: List[Int]): Unit = {
+  def cleanData(pathIn: String, pathOut: String, sensitiveColumns: List[(Int, String)], mandatory: List[Int], city:String = null): Unit = {
 
     val out = new BufferedWriter(new FileWriter(pathOut))
     val in = new BufferedReader(new FileReader(pathIn))
@@ -525,14 +525,44 @@ object Main{
 
       //remove % $ , EOL and "" from data
       val formattedData = formatData(checkedData).toList
+      
+
+      if(city != null)
+        writer.writeAll(setCity(formattedData.par, city).toList)
+
+      else  //Write in file
+        writer.writeAll(formattedData)
 
 
-      //Write in file
-      writer.writeAll(formattedData)
+
     }
 
     out.close()
     in.close()
+
+  }
+
+
+  /**Method used to set the city name since it's sometimes misspelled in the data
+    * @param data the data where to insert the city name
+    * @param city the city concerned
+    * @return the cleaned data
+    */
+
+  def setCity(data:ParSeq[List[String]], city:String):ParSeq[List[String]]= {
+
+    val cityColumn = 25
+
+
+    def replace(l: List[String]): List[String] = {
+
+      val split = l.splitAt(cityColumn)
+
+      split._1 ::: city :: split._2
+
+    }
+
+    for(l <- data) yield replace(l)
 
   }
 
