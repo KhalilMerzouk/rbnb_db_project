@@ -6,22 +6,15 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main extends Application{
@@ -166,7 +159,7 @@ public class Main extends Application{
 
     /**
      * Setup layout and event handlers for the search layout
-     * @return
+     * @return the layout for the search window
      */
     private BorderPane getSearchLayout(){
 
@@ -176,14 +169,35 @@ public class Main extends Application{
 
         Button searchButton = new Button("Search");
 
-        TableView t = new TableView();
+        b.setTop(searchButton);
+        b.setLeft(txt);
+
+
+        //create checkboxes and add them to the layout
 
         CheckBox t1 = new CheckBox(Table.HOSTS.toString());
         CheckBox t2 = new CheckBox(Table.REVIEWS.toString());
-        CheckBox t3 = new CheckBox(Table.LISTINGS.toString());
+        CheckBox t3 = new CheckBox(Table.LISTINGS.toString());          //TODO put labels next to checkboxes
         CheckBox t4 = new CheckBox();
         CheckBox t5 = new CheckBox();
         CheckBox t6 = new CheckBox();
+
+        t1.setLayoutX(20);
+        t1.setLayoutY(200);
+        t2.setLayoutX(20);
+        t2.setLayoutY(220);
+        t3.setLayoutX(20);
+        t3.setLayoutY(240);
+        t4.setLayoutX(20);
+        t4.setLayoutY(260);
+        t5.setLayoutX(20);
+        t5.setLayoutY(280);
+        t6.setLayoutX(20);
+        t6.setLayoutY(300);
+
+
+
+        //prepare list of checkboxes that will match with the list of tables
 
         ArrayList<Table> tables = new ArrayList<>();
         ArrayList<CheckBox> checks = new ArrayList<>();
@@ -205,6 +219,12 @@ public class Main extends Application{
 
 
         searchButton.addEventHandler(MouseEvent.MOUSE_CLICKED,e -> search(txt.getText(), b, tables) );
+
+
+
+        b.getChildren().addAll(t1,t2,t3,t4,t5,t6);
+
+
 
         return b;
     }
@@ -241,41 +261,94 @@ public class Main extends Application{
     private void search(String text, BorderPane b, ArrayList<Table> table) {
 
 
+        //scroll panel is in the layout and container is in the scroll panel
+
+        ScrollPane scroll = new ScrollPane();
+
+        Pane container = new Pane();
+
+        scroll.setContent(container);
+
+        b.getChildren().add(scroll);
+
+
+
         table.forEach(t -> {
 
+            //create result table for each table
+            TableView tableView = new TableView();
+
+
             //will specify which column to search into for each table
-            String columns = null;
+            ArrayList<String> columnNames = new ArrayList<>();
 
             switch (t) {
 
                 case LISTINGS:
-                    columns = "()";
+                    columnNames.add("Listing_id");
+
                     break;
 
                 case HOSTS:
-                    columns = "()";
+                    columnNames.add("Host_id");
+
                     break;
 
                 case REVIEWS:
-                    columns = "()";
+                    columnNames.add("Review_id");
+
                     break;
 
             }
 
-            String query = "SELECT * FROM  " + table + " WHERE " + text + " IN " + columns;
+            //build the query
+
+            String query = "SELECT * FROM  " + table + " WHERE " + text + " IN " +   "("+columnNames.toString()+")";
 
 
+            //execute statement and insert them into the table view
             try {
                 Statement s = sqlConnection.createStatement();
 
                 ResultSet res = s.executeQuery(query);
 
-                //add data into panel
+
+
+                //prepare columns
+
+                ArrayList<TableColumn> tableColumns = new ArrayList<>();
+
+                columnNames.forEach(c ->{
+                    tableColumns.add(new TableColumn(c)) ;
+                });
+
+
+                //read result and insert data into the table
 
                 while (res.next()) {
 
+                    //get data from result set and put them in corresponding columns
+
+                    tableColumns.forEach(c -> {
+
+                        try {
+
+                            c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } );
+
+
+                    //insert columns in the table view
+
+                    tableView.getColumns().addAll(tableColumns);
 
                 }
+
+                //add table view to the container
+                container.getChildren().add(tableView);
 
 
             } catch (Exception e) {
