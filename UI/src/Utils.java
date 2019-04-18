@@ -14,7 +14,7 @@ import java.util.List;
  * Bunch of useful methods used in Main
  */
 
-public class Utils {
+public abstract class Utils {
 
 
     /**

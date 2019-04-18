@@ -1,3 +1,4 @@
+import javafx.concurrent.Task;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Contains the methods that control the layout
  */
-public class Controllers {
+public abstract class Controllers {
 
 
 
@@ -139,12 +140,20 @@ public class Controllers {
      */
     public static void executePredefined(String query, BorderPane b){
 
+      Thread t = new Thread(){
 
-        ResultSet res = Utils.executeQuery(query);
+          @Override
+          public void run() {
+              
+              ResultSet res = Utils.executeQuery(query);
 
-        System.out.println(res.toString());
+              //TODO modify layout with resulset
 
-        //TODO modify layout with resulset
+          }
+      };
+
+
+      t.start();
 
     }
 

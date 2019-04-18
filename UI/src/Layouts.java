@@ -5,10 +5,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class Layouts {
+public abstract class Layouts {
 
 
     /**
@@ -19,8 +20,95 @@ public class Layouts {
 
         BorderPane b = new BorderPane();
 
-        String query1 = "SELECT * FROM LISTING_AMENITIES";
-        String query2 = "";         //TODO write down all the predefined queries here
+        String query1 = "select AVG(CD.PRICE)\n" +
+                "from COSTS_DETAILS CD , LISTING L\n" +
+                "where L.LISTING_ID = CD.LISTING_ID AND L.LISTING_ID IN (Select M.LISTING_ID\n" +
+                "\n" +
+                "                                                        from MATERIAL_DESCRIPTION M\n" +
+                "where M.BEDROOMS = 8)";
+
+        String query2 = "select AVG(RS.REVIEW_SCORES_CLEANLINESS)\n" +
+                "from REVIEWS_SCORES RS, LISTING L\n" +
+                "where RS.LISTING_ID = L.LISTING_ID AND L.LISTING_ID IN (select LA.LISTING_ID\n" +
+                "                                                        from AMENITIES AM, LISTING_AMENITIES LA\n" +
+                "                                                        where AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'TV'\n" +
+                ")";
+
+        String query3 = "select * \n" +
+                "from HOST H\n" +
+                "where H.HOST_ID IN (select L.HOST_ID\n" +
+                "                    from LISTING L, CALENDAR CA\n" +
+                "                    where L.LISTING_ID = CA.LISTING_ID and CA.AVAILABLE = 't' and CA.CALENDAR_DATE >= '01-MAR-19' and CA.CALENDAR_DATE <= '30-SEP-19'\n" +
+                ")";
+
+        String query4 = "select COUNT(*)\n" +
+                "from LISTING L, HOST H\n" +
+                "where L.HOST_ID = H.HOST_ID and H.HOST_ID IN (Select H1.HOST_ID\n" +
+                "                      from HOST H1, Host H2\n" +
+                "                      where H1.HOST_NAME = H2.HOST_NAME and H1.HOST_ID != H2.HOST_ID\n" +
+                ")";
+
+        String query5 = "select CA.CALENDAR_DATE\n" +
+                "from CALENDAR CA, LISTING L\n" +
+                "where CA.LISTING_ID = L.LISTING_ID and CA.AVAILABLE = 't' and L.LISTING_ID IN (select L1.LISTING_ID\n" +
+                "                                                                              from LISTING L1, HOST H\n" +
+                "                                                                              where L1.HOST_ID = H.HOST_ID and H.HOST_NAME = 'Viajes Eco'\n" +
+                ")";
+
+        String query6 = "select H.HOST_ID, H.HOST_NAME\n" +
+                "from HOST H \n" +
+                "where H.HOST_ID IN (select L.HOST_ID\n" +
+                "                    from LISTING L\n" +
+                "                    group by L.HOST_ID having COUNT(*) = 1\n" +
+                ")";
+
+        String query7 = "select AVG(CD1.PRICE) - AVG(CD2.PRICE)\n" +
+                "from COSTS_DETAILS CD1, COSTS_DETAILS CD2\n" +
+                "where CD1.LISTING_ID in (select LA.LISTING_ID\n" +
+                "               from AMENITIES AM, LISTING_AMENITIES LA\n" +
+                "               where AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'Wifi')\n" +
+                "                                                        \n" +
+                "and CD2.LISTING_ID not in (select LA.LISTING_ID\n" +
+                "               from AMENITIES AM, LISTING_AMENITIES LA     \n" +
+                "               where AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'Wifi')\n";
+
+        String query8 = "select AVG(CD1.PRICE) - AVG(CD2.PRICE)\n" +
+                "from COSTS_DETAILS CD1, COSTS_DETAILS CD2\n" +
+                "where CD1.LISTING_ID IN (select MD.LISTING_ID\n" +
+                "                         from MATERIAL_DESCRIPTION MD                                    \n" +
+                "                         where MD.BEDS = 8)\n" +
+                "\n" +
+                "and CD1.LISTING_ID IN (select L.LISTING_ID\n" +
+                "                      from LISTING L\n" +
+                "                      where L.CITY = 'Berlin')\n" +
+                "                                                        \n" +
+                "and CD2.LISTING_ID not in (select MD.LISTING_ID\n" +
+                "                         from MATERIAL_DESCRIPTION MD                                    \n" +
+                "                         where MD.BEDS = 8)  \n" +
+                "\n" +
+                "and CD2.LISTING_ID IN (select L.LISTING_ID\n" +
+                "                      from LISTING L\n" +
+                "where L.CITY = 'Madrid') ";
+
+        String query9 = "select * from \n" +
+                "  (select H.HOST_ID , H.HOST_NAME\n" +
+                "    from LISTING L, HOST H\n" +
+                "    where L.COUNTRY = 'Spain' and L.HOST_ID = H.HOST_ID\n" +
+                "    group by L.HOST_ID, H.HOST_NAME, H.HOST_ID\n" +
+                "    order by COUNT(*) DESC)\n" +
+                "    \n" +
+                "    where rownum <= 10\n" +
+                "\n";
+
+        String query10 = "select * from \n" +
+                "(select L.LISTING_ID, L.LISTING_NAME\n" +
+                "from LISTING L, REVIEWS_SCORES RS\n" +
+                "where L.LISTING_ID = RS.LISTING_ID \n" +
+                "  and L.LISTING_ID IN (select L1.LISTING_ID\n" +
+                "                      from LISTING L1, MATERIAL_DESCRIPTION MD\n" +
+                "                      where L.CITY = 'Barcelona' and MD.LISTING_ID = L.LISTING_ID and MD.PROPERTY_TYPE = 'Apartment')\n" +
+                "order by RS.REVIEW_SCORES_RATING DESC)\n" +
+                "where rownum <=10";
 
 
         Button q1 = new Button("Q1");
@@ -37,14 +125,53 @@ public class Layouts {
 
         q1.setLayoutX(40);
         q1.setLayoutY(100);
-
         q1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query1, b));
 
+        q2.setLayoutX(40);
+        q2.setLayoutY(120);
+        q2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query2, b));
 
-        //TODO do the same for all the other predefined queries
+        q3.setLayoutX(40);
+        q3.setLayoutY(140);
+        q3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query3, b));
+
+        q4.setLayoutX(40);
+        q4.setLayoutY(160);
+        q4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query4, b));
+
+        q5.setLayoutX(40);
+        q5.setLayoutY(180);
+        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b));
+
+        q6.setLayoutX(40);
+        q6.setLayoutY(200);
+        q6.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query6, b));
+
+        q7.setLayoutX(40);
+        q7.setLayoutY(220);
+        q7.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query7, b));
+
+        q8.setLayoutX(40);
+        q8.setLayoutY(240);
+        q8.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query8, b));
+
+        q9.setLayoutX(40);
+        q9.setLayoutY(260);
+        q9.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query9, b));
+
+        q10.setLayoutX(40);
+        q10.setLayoutY(280);
+        q10.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query10, b));
 
 
-        b.setLeft(q1);
+        //add the buttons to the layout
+
+        VBox box = new VBox();
+        box.setSpacing(10);
+
+        box.getChildren().addAll(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10);
+
+        b.setLeft(box);
 
         return b;
 
