@@ -78,6 +78,7 @@ public abstract class Controllers {
             String query = "SELECT * FROM  " + t.toString() + Utils.GenerateSubstringMatch(text,columnNames);
 
 
+            Thread thread = new Thread(() -> {
 
             //execute statement and insert them into the table view
 
@@ -124,6 +125,9 @@ public abstract class Controllers {
                 //add table view to the container
                 container.getChildren().add(tableView);
 
+        });
+
+            thread.start();
 
 
         });
@@ -140,17 +144,13 @@ public abstract class Controllers {
      */
     public static void executePredefined(String query, BorderPane b){
 
-      Thread t = new Thread(){
+      Thread t = new Thread(() -> {
 
-          @Override
-          public void run() {
-              
-              ResultSet res = Utils.executeQuery(query);
+          ResultSet res = Utils.executeQuery(query);
 
-              //TODO modify layout with resulset
+          //TODO modify layout with resulset
 
-          }
-      };
+      });
 
 
       t.start();
