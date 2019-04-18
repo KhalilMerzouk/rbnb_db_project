@@ -1,11 +1,11 @@
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
@@ -171,6 +171,29 @@ public class Utils {
 
         return checks;
 
+    }
+
+
+    /**
+     * Method to execute queries and return the resultset
+     * @param query the query to execute
+     * @return teh resultset of the given query
+     */
+    public static ResultSet executeQuery(String query){
+
+
+        ResultSet res = null;
+
+        try {
+            Statement s = MyApplication.getDBConnection().createStatement();
+
+            res = s.executeQuery(query);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
 }

@@ -1,3 +1,4 @@
+import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -18,7 +19,32 @@ public class Layouts {
 
         BorderPane b = new BorderPane();
 
+        String query1 = "SELECT * FROM LISTING_AMENITIES";
+        String query2 = "";         //TODO write down all the predefined queries here
 
+
+        Button q1 = new Button("Q1");
+        Button q2 = new Button("Q2");
+        Button q3 = new Button("Q3");
+        Button q4 = new Button("Q4");
+        Button q5 = new Button("Q5");
+        Button q6 = new Button("Q6");
+        Button q7 = new Button("Q7");
+        Button q8 = new Button("Q8");
+        Button q9 = new Button("Q9");
+        Button q10 = new Button("Q10");
+
+
+        q1.setLayoutX(40);
+        q1.setLayoutY(100);
+
+        q1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query1, b));
+
+
+        //TODO do the same for all the other predefined queries
+
+
+        b.setLeft(q1);
 
         return b;
 
@@ -63,8 +89,6 @@ public class Layouts {
         HBox h4 = new HBox();
         HBox h5 = new HBox();
         HBox h6 = new HBox();
-
-
 
 
         CheckBox t1 = new CheckBox(Utils.TableToString(Table.HOSTS));

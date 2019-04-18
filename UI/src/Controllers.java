@@ -77,13 +77,10 @@ public class Controllers {
             String query = "SELECT * FROM  " + t.toString() + Utils.GenerateSubstringMatch(text,columnNames);
 
 
+
             //execute statement and insert them into the table view
-            try {
-                Statement s = MyApplication.getDBConnection().createStatement();
 
-                ResultSet res = s.executeQuery(query);
-
-
+            ResultSet res = Utils.executeQuery(query);
 
                 //prepare columns
 
@@ -95,39 +92,59 @@ public class Controllers {
 
 
                 //read result and insert data into the table
+                try {
+                    while (res.next()) {                    //TODO need to test this part.. must wait until data are all imported into the DB
 
-                while (res.next()) {                    //TODO need to test this part.. must wait until data are all imported into the DB
+                        //get data from result set and put them in corresponding columns
 
-                    //get data from result set and put them in corresponding columns
+                        tableColumns.forEach(c -> {
 
-                    tableColumns.forEach(c -> {
+                            try {
 
-                        try {
+                                c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
 
-                            c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
-
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    } );
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        } );
 
 
-                    //insert columns in the table view
+                        //insert columns in the table view
 
-                    tableView.getColumns().addAll(tableColumns);
+                        tableView.getColumns().addAll(tableColumns);
 
+                    }
                 }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
                 //add table view to the container
                 container.getChildren().add(tableView);
 
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
         });
 
+
+    }
+
+
+
+    /**
+     * Method to execute the predefined queries and modify the layout accordingly
+     * @param query the query to execute
+     * @param b the layout Object
+     */
+    public static void executePredefined(String query, BorderPane b){
+
+
+        ResultSet res = Utils.executeQuery(query);
+
+        System.out.println(res.toString());
+
+        //TODO modify layout with resulset
 
     }
 
