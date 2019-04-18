@@ -67,10 +67,10 @@ public class Layouts {
 
 
 
-        CheckBox t1 = new CheckBox(Utils.TableToString(Main.Table.HOSTS));
-        CheckBox t2 = new CheckBox(Utils.TableToString(Main.Table.REVIEWS));
-        CheckBox t3 = new CheckBox(Utils.TableToString(Main.Table.LISTINGS));
-        CheckBox t4 = new CheckBox();
+        CheckBox t1 = new CheckBox(Utils.TableToString(Table.HOSTS));
+        CheckBox t2 = new CheckBox(Utils.TableToString(Table.REVIEWS));
+        CheckBox t3 = new CheckBox(Utils.TableToString(Table.LISTINGS));
+        CheckBox t4 = new CheckBox();                                   //TODO add other tables
         CheckBox t5 = new CheckBox();
         CheckBox t6 = new CheckBox();
 
@@ -105,26 +105,9 @@ public class Layouts {
 
         //prepare list of checkboxes that will match with the list of tables
 
-        ArrayList<Main.Table> tables = new ArrayList<>();
-        ArrayList<CheckBox> checks = new ArrayList<>();
-
-        checks.add(t1);
-        checks.add(t2);
-        checks.add(t3);
-        checks.add(t4);
-        checks.add(t5);
-        checks.add(t6);
-
-        checks.removeIf(e -> !e.isSelected());
-
-        for(int i = 0; i < checks.size();++i){
-
-            tables.add(Utils.StringToTable(checks.get(i).getText()));
-
-        }
 
 
-        searchButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.search(txt.getText(), b, tables) );
+        searchButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.search(txt.getText(), b) );
 
 
 

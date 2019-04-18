@@ -1,5 +1,13 @@
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.HBox;
+
 import java.util.List;
 
 /**
@@ -20,7 +28,7 @@ public class Utils {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("WHERE");
+        sb.append(" WHERE");
 
         columns.forEach(c ->{
 
@@ -42,20 +50,20 @@ public class Utils {
      * @param s the string to convert
      * @return the table corresponding to the string
      */
-    public static Main.Table StringToTable(String s){
+    public static Table StringToTable(String s){
 
         switch(s){
 
             case "LISTINGS":
-                return Main.Table.LISTINGS;
+                return Table.LISTINGS;
             case "HOSTS":
-                return Main.Table.HOSTS;
+                return Table.HOSTS;
             case "REVIEWS":
-                return Main.Table.REVIEWS;
+                return Table.REVIEWS;
 
         }
 
-        return Main.Table.NONE;
+        return Table.NONE;
 
     }
 
@@ -65,7 +73,7 @@ public class Utils {
      * @param t the string to convert
      * @return the table corresponding to the string
      */
-    public static String TableToString(Main.Table t){
+    public static String TableToString(Table t){
 
         switch(t){
 
@@ -116,8 +124,53 @@ public class Utils {
     }
 
 
+    /**
+     * Get list of tables from list of checkboxes
+     * @param checks the list of checkboxes with names corresponding to table names
+     * @return the list of tables that are selected for the query
+     */
+    public static ArrayList<Table> getCheckedBoxes(ArrayList<CheckBox> checks){
 
 
+        ArrayList<Table> tables = new ArrayList<>();
 
+
+        checks.removeIf(e -> !e.isSelected());
+
+        for(int i = 0; i < checks.size();++i){
+
+            tables.add(Utils.StringToTable(checks.get(i).getText()));
+
+        }
+
+        return tables;
+
+    }
+
+
+    /**
+     * Method to retrieve all Checkboxes from a list of Nodes
+     * @param nodes the list of nodes (can get it with Panel.getChildren)
+     * @return a list of checkboxes
+     */
+    public static ArrayList<CheckBox> getCheckboxFromLayout(ObservableList<Node> nodes){
+
+
+        ArrayList<CheckBox> checks = new ArrayList<>();
+
+        nodes.forEach(n -> {
+
+            if(n instanceof CheckBox){
+                checks.add((CheckBox) n);
+            }
+            else if (n instanceof HBox){
+                checks.addAll(getCheckboxFromLayout(((HBox) n).getChildren()));
+            }
+
+        });
+
+        return checks;
+
+    }
 
 }

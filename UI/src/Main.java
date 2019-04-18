@@ -1,26 +1,20 @@
 
 
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Entry point for the whole program. The main page is designed here
+ */
 
 public class Main extends Application{
 
-    //enum for all tables
-    enum Table{LISTINGS, HOSTS, REVIEWS, NONE}
+
 
     //declare components for the primary stage
 

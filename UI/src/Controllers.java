@@ -1,3 +1,4 @@
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,7 +24,12 @@ public class Controllers {
      * @param text the text to perform the search with
      * @param b the panel to modify
      */
-    public static void search(String text, BorderPane b, ArrayList<Main.Table> table) {
+    public static void search(String text, BorderPane b) {
+
+        //retrieve checkboxes and convert them into tables
+
+        ArrayList<CheckBox> checks = Utils.getCheckboxFromLayout(b.getChildren());
+        ArrayList<Table> table = Utils.getCheckedBoxes(checks);
 
 
         //scroll panel is in the layout and container is in the scroll panel
@@ -50,17 +56,17 @@ public class Controllers {
             switch (t) {
 
                 case LISTINGS:
-                    columnNames.add("Listing_id");
+                    columnNames.add("listing_id");              //TODO complete list of columns
 
                     break;
 
                 case HOSTS:
-                    columnNames.add("Host_id");
+                    columnNames.add("host_id");
 
                     break;
 
                 case REVIEWS:
-                    columnNames.add("Review_id");
+                    columnNames.add("review_id");
 
                     break;
 
