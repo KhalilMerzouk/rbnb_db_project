@@ -229,7 +229,7 @@ public abstract class Layouts {
 
         insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {Controllers.insertIntoTables(b);});
 
-        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {Controllers.deleteIntoTables(b);});
+        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {Controllers.deleteFromTable(b);});
 
         b.setTop(box);
 
@@ -321,97 +321,71 @@ public abstract class Layouts {
 
 
     /**
-     * Build layout for review insertion
-     * @return the layout element for review insertion
+     * Build layout for insertion given a table
+      * @param t table in which to perform the insertion
+     * @return a layout for the insertion window
      */
-    public static BorderPane getInsertReviewLayout(){
+    public static BorderPane getInsertLayout(Table t){
+
 
         BorderPane b = new BorderPane();
 
-        Button insert = new Button("Insert Review");
+        Button insert = new Button("Insert "+Utils.tableToString(t));
 
-        VBox box = new VBox();
-        b.setCenter(box);
+        setupQuerySubmissionLayout(b, insert, Utils.getColumnsFromTable(t));
 
-
-        TextField listingId = new TextField("listing id");
-        TextField reviewer_id = new TextField("reviewer id");
-        TextField comments = new TextField("comments");
-        TextField reviewDate = new TextField("date of the review");
-
-
-        box.getChildren().addAll(listingId, reviewer_id, comments, reviewDate);
-
-
-        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, Table.REVIEWS));
+        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, t));
 
         return b;
     }
 
 
     /**
-     * Build layout for host insertion
-     * @return the layout element for host insertion
+     * Build layout for data deletion
+     * @return the layout element for data deletion
      */
-    public static BorderPane getInsertHostLayout(){
+    public static Parent getDeleteLayout(Table t){
 
         BorderPane b = new BorderPane();
 
-        Button insert = new Button("Insert Host");
+        Button delete = new Button("Delete "+Utils.tableToString(t));
+
+        setupQuerySubmissionLayout(b, delete, Utils.getColumnsFromTable(t));
+
+        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.deleteData(b, t));
+
+
+        return b;
+    }
+
+
+    /**
+     * Build a layout used for form submission (insert and delete)
+     * @param b teh layout
+     * @param submitButton the button used for submission
+     * @param textFields the list of textfields that will appear in the layout
+     */
+    public static void setupQuerySubmissionLayout(BorderPane b, Button submitButton, ArrayList<String> textFields){
+
+
+        HBox hBox = new HBox();
+        hBox.getChildren().add(submitButton);
+
+        b.setBottom(hBox);
 
         VBox box = new VBox();
         b.setCenter(box);
 
-        //TODO auto-generate host-id ? or do we insert it manually ?
+        //TODO auto-generate listing-id ??????
 
-        TextField name = new TextField("name");
-        TextField pageUrl = new TextField("url");
-        TextField since = new TextField("subscription date");
-        TextField thumbNailUrl = new TextField("thumbnail url");
+        //generate textFields
+        ArrayList<TextField> fields = new ArrayList<>();
+        textFields.forEach(t -> fields.add(new TextField(t)));
 
-
-        box.getChildren().addAll(name, pageUrl, since, thumbNailUrl);
+        //add them into the layout
+        box.getChildren().addAll(fields);
         box.setSpacing(15);
 
-
-        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, Table.HOST));
-
-        return b;
-    }
-
-
-    /**
-     * Build layout for listing insertion
-     * @return the layout element for listing insertion
-     */
-    public static BorderPane getInsertListingLayout(){
-
-        BorderPane b = new BorderPane();
-
-        Button insert = new Button("Insert Listing");
-
-        //TODO write text fields here
-
-
-        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, Table.LISTING));
-
-        return b;
-    }
-
-
-    public static Parent getDeleteReviewLayout(){       //TODO prepare layout for deletion
-
-        return new BorderPane();
-    }
-
-    public static Parent getDeleteHostLayout(){
-
-        return new BorderPane();
-    }
-
-    public static Parent getDeleteListingLayout(){
-
-        return new BorderPane();
     }
 
 }

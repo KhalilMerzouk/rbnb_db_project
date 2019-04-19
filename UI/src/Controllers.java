@@ -199,7 +199,7 @@ public abstract class Controllers {
      * Method called when trying to delete data from DB
      * @param b layout element
      */
-    public static void deleteIntoTables(BorderPane b){
+    public static void deleteFromTable(BorderPane b){
 
         ArrayList<CheckBox> checks = Utils.getCheckboxFromLayout(b.getChildren());
 
@@ -218,25 +218,9 @@ public abstract class Controllers {
         Stage stage = new Stage();
         stage.setTitle("Insert into "+Utils.tableToString(t));
 
-        Parent root = null;
+        //get specific layout for the given table
+        Parent root = Layouts.getInsertLayout(t);
 
-        //select what type of insertion layout to provide
-
-        switch(t){
-
-            case REVIEWS: root = Layouts.getInsertReviewLayout();
-                break;
-
-            case HOST: root = Layouts.getInsertHostLayout();
-                break;
-
-            case LISTING: root = Layouts.getInsertListingLayout();
-                break;
-
-            case NONE:
-                return;
-
-        }
 
         //display the insertion window
         stage.setScene(new Scene(root, 450, 450));
@@ -252,32 +236,20 @@ public abstract class Controllers {
         Stage stage = new Stage();
         stage.setTitle("Delete from "+Utils.tableToString(t));
 
+
         //select what type of insertion layout to provide
-
-        Parent root = null;
-
-        switch(t){
-
-            case REVIEWS: root = Layouts.getDeleteReviewLayout();
-                break;
-
-            case HOST: root = Layouts.getDeleteHostLayout();
-                break;
-
-            case LISTING: root = Layouts.getDeleteListingLayout();
-                break;
-
-            case NONE:
-                return;
-
-        }
+        Parent root =  Layouts.getDeleteLayout(t);
 
         stage.setScene(new Scene(root, 450, 450));
         stage.show();
-
     }
 
 
+    /**
+     * Method used to insert data into DB
+     * @param b layout
+     * @param t table in which to perform the insertion
+     */
     public static void insertData(BorderPane b, Table t){
 
         ArrayList<String> data = Utils.getTextFieldsFromLayout(b.getChildren());    //TODO check correctness of input data ?
@@ -285,11 +257,38 @@ public abstract class Controllers {
 
         String query = Utils.generateInsertQuery(data, t);
 
-        Utils.executeQuery(query);      //TODO may have to use executeUpdate()
 
+        //launch query asynchronously
+        Thread thread = new Thread(() -> {
+            Utils.executeQuery(query);      //TODO may have to use executeUpdate() => may have to write another function to perform delete, update and insert statements
+        });
+
+
+        thread.start();
     }
 
 
+    /**
+     * Method used to delete data from DB
+     * @param b layout
+     * @param t table from where the data will be deleted
+     */
+    public static void deleteData(BorderPane b, Table t){
+
+        ArrayList<String> data = Utils.getTextFieldsFromLayout(b.getChildren());    //TODO check correctness of input data ?
+
+
+        String query = Utils.generateDeleteQuery(data, t);
+
+
+        //launch query asynchronously
+        Thread thread = new Thread(() -> {
+            Utils.executeQuery(query);      //TODO may have to use executeUpdate() => may have to write another function to perform delete, update and insert statements
+        });
+
+
+        thread.start();
+    }
 
 
 }

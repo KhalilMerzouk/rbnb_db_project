@@ -291,5 +291,16 @@ public abstract class Utils {
         return sb.toString();
     }
 
+    /**
+     * Generate a delete query for the given table with the given conditions
+     * @param data the conditions on the different columns
+     * @param t the table concerned by the deletion
+     * @return the delete query as a string
+     */
+    public static String generateDeleteQuery(ArrayList<String> data, Table t){
+
+        //TODO generate delete query
+        return "";
+    }
 
 }
