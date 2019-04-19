@@ -299,8 +299,27 @@ public abstract class Utils {
      */
     public static String generateDeleteQuery(ArrayList<String> data, Table t){
 
-        //TODO generate delete query
-        return "";
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("DELETE FROM "+Utils.tableToString(t)+" WHERE ");
+
+        ArrayList<String> columnsName = Utils.getColumnsFromTable(t);
+
+        for(int i = 0; i < data.size(); i++){
+
+            if(!data.get(i).isEmpty()) {    //only consider nonempty fields
+
+                sb.append(columnsName.get(i) + " = " + data.get(i) + " AND ");            //TODO for the moment it's exact match => do we need to do more/less than, like etc... ?
+            }
+
+        }
+
+        //remove last "AND"
+        sb.substring(0,sb.length()-4);
+
+        return sb.toString();
+
     }
 
 }
