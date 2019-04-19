@@ -1,4 +1,4 @@
-import javafx.event.Event;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -214,6 +214,24 @@ public abstract class Layouts {
 
         BorderPane b = new BorderPane();
 
+        //create buttons
+        Button insert = new Button("Insert");
+        Button delete = new Button("Delete");
+
+        //insert buttons in a horizontal box
+        HBox box = new HBox();
+        box.getChildren().addAll(insert, delete);
+        box.setSpacing(20);
+
+        //insert into layout the checkboxes to choose table in which to insert/delete
+        getTableCheckbox(b);
+
+
+        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {Controllers.insertIntoTables(b);});
+
+        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {Controllers.deleteIntoTables(b);});
+
+        b.setTop(box);
 
         return b;
     }
@@ -234,6 +252,23 @@ public abstract class Layouts {
         b.setTop(searchButton);
         b.setLeft(txt);
 
+        //put checkboxes in the layout
+        getTableCheckbox(b);
+
+        //call controler's procedure if search button is clicked
+        searchButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.search(txt.getText(), b) );
+
+
+        return b;
+    }
+
+
+    /**
+     * Method to put checkboxes to choose which table to perform a query on in the layout
+     * @param b a borderpane in which the checkboxes will be inserted
+     */
+    public static void getTableCheckbox(BorderPane b){
+
 
         //create checkboxes, labels and add them to the layout
 
@@ -245,9 +280,9 @@ public abstract class Layouts {
         HBox h6 = new HBox();
 
 
-        CheckBox t1 = new CheckBox(Utils.TableToString(Table.HOST));
-        CheckBox t2 = new CheckBox(Utils.TableToString(Table.REVIEWS));
-        CheckBox t3 = new CheckBox(Utils.TableToString(Table.LISTING));
+        CheckBox t1 = new CheckBox(Utils.tableToString(Table.HOST));
+        CheckBox t2 = new CheckBox(Utils.tableToString(Table.REVIEWS));
+        CheckBox t3 = new CheckBox(Utils.tableToString(Table.LISTING));
         CheckBox t4 = new CheckBox();                                   //TODO add other tables
         CheckBox t5 = new CheckBox();
         CheckBox t6 = new CheckBox();
@@ -280,25 +315,103 @@ public abstract class Layouts {
         h6.setLayoutX(20);
         h6.setLayoutY(300);
 
-
-        //prepare list of checkboxes that will match with the list of tables
-
-
-
-        searchButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.search(txt.getText(), b) );
-
-
-
         b.getChildren().addAll(h1,h2,h3,h4,h5,h6);
 
+    }
 
+
+    /**
+     * Build layout for review insertion
+     * @return the layout element for review insertion
+     */
+    public static BorderPane getInsertReviewLayout(){
+
+        BorderPane b = new BorderPane();
+
+        Button insert = new Button("Insert Review");
+
+        VBox box = new VBox();
+        b.setCenter(box);
+
+
+        TextField listingId = new TextField("listing id");
+        TextField reviewer_id = new TextField("reviewer id");
+        TextField comments = new TextField("comments");
+        TextField reviewDate = new TextField("date of the review");
+
+
+        box.getChildren().addAll(listingId, reviewer_id, comments, reviewDate);
+
+
+        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, Table.REVIEWS));
 
         return b;
     }
 
 
+    /**
+     * Build layout for host insertion
+     * @return the layout element for host insertion
+     */
+    public static BorderPane getInsertHostLayout(){
+
+        BorderPane b = new BorderPane();
+
+        Button insert = new Button("Insert Host");
+
+        VBox box = new VBox();
+        b.setCenter(box);
+
+        //TODO auto-generate host-id ? or do we insert it manually ?
+
+        TextField name = new TextField("name");
+        TextField pageUrl = new TextField("url");
+        TextField since = new TextField("subscription date");
+        TextField thumbNailUrl = new TextField("thumbnail url");
 
 
+        box.getChildren().addAll(name, pageUrl, since, thumbNailUrl);
+        box.setSpacing(15);
 
+
+        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, Table.HOST));
+
+        return b;
+    }
+
+
+    /**
+     * Build layout for listing insertion
+     * @return the layout element for listing insertion
+     */
+    public static BorderPane getInsertListingLayout(){
+
+        BorderPane b = new BorderPane();
+
+        Button insert = new Button("Insert Listing");
+
+        //TODO write text fields here
+
+
+        insert.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.insertData(b, Table.LISTING));
+
+        return b;
+    }
+
+
+    public static Parent getDeleteReviewLayout(){       //TODO prepare layout for deletion
+
+        return new BorderPane();
+    }
+
+    public static Parent getDeleteHostLayout(){
+
+        return new BorderPane();
+    }
+
+    public static Parent getDeleteListingLayout(){
+
+        return new BorderPane();
+    }
 
 }

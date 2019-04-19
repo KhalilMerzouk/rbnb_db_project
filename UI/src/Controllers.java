@@ -1,5 +1,7 @@
 import javafx.application.Platform;
-import javafx.concurrent.Task;
+import javafx.collections.ObservableList;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -7,10 +9,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,41 +54,11 @@ public abstract class Controllers {
 
 
             //will specify which column to search into for each table
-            ArrayList<String> columnNames = new ArrayList<>();
+            ArrayList<String> columnNames = Utils.getColumnsFromTable(t);
 
-            switch (t) {
-
-                case LISTING:
-                    columnNames.add("listing_id");
-                    columnNames.add("listing_url");
-                    columnNames.add("listing_name");
-                    columnNames.add("listing_summary");
-                    columnNames.add("picture_url");
-                    columnNames.add("country");
-                    columnNames.add("city");
-                    break;
-
-                case HOST:
-                    columnNames.add("host_id");
-                    columnNames.add("host_url");
-                    columnNames.add("host_name");
-                    columnNames.add("host_since");
-                    columnNames.add("host_thumbnail_url");
-
-                    break;
-
-                case REVIEWS:
-                    columnNames.add("review_id");
-                    columnNames.add("listing_id");
-                    columnNames.add("reviewer_id");
-                    columnNames.add("comments");
-                    columnNames.add("review_date");
-                    break;
-
-            }
-        //TODO remove sysout
+             //TODO remove sysout
             //build the query
-            String query = "SELECT * FROM  " +Utils.TableToString(t) + Utils.GenerateSubstringMatch(text,columnNames);
+            String query = "SELECT * FROM  " +Utils.tableToString(t) + Utils.generateSubstringMatch(text,columnNames);
 
             System.out.println("Search query ready");
 
@@ -204,10 +176,119 @@ public abstract class Controllers {
 
       });
 
-
       t.start();
+    }
+
+
+    /**
+     * Method called when trying to insert data to DB
+     * @param b layout element
+     */
+    public static void insertIntoTables(BorderPane b){
+
+        ArrayList<CheckBox> checks = Utils.getCheckboxFromLayout(b.getChildren());
+
+        ArrayList<Table> tables = Utils.getCheckedBoxes(checks);
+
+        tables.forEach(t -> createWindowInsert(t));
 
     }
+
+
+    /**
+     * Method called when trying to delete data from DB
+     * @param b layout element
+     */
+    public static void deleteIntoTables(BorderPane b){
+
+        ArrayList<CheckBox> checks = Utils.getCheckboxFromLayout(b.getChildren());
+
+        ArrayList<Table> tables = Utils.getCheckedBoxes(checks);
+
+        tables.forEach(t -> createWindowDelete(t));
+
+    }
+
+
+    /**
+     * Build the layout for insertion according to the table
+     * @param t the table into which the data will be inserted
+     */
+    public static void createWindowInsert(Table t){
+        Stage stage = new Stage();
+        stage.setTitle("Insert into "+Utils.tableToString(t));
+
+        Parent root = null;
+
+        //select what type of insertion layout to provide
+
+        switch(t){
+
+            case REVIEWS: root = Layouts.getInsertReviewLayout();
+                break;
+
+            case HOST: root = Layouts.getInsertHostLayout();
+                break;
+
+            case LISTING: root = Layouts.getInsertListingLayout();
+                break;
+
+            case NONE:
+                return;
+
+        }
+
+        //display the insertion window
+        stage.setScene(new Scene(root, 450, 450));
+        stage.show();
+    }
+
+    /**
+     * Build the layout for deletion according to the table
+     * @param t the table from which data will be deleted
+     */
+    public static void createWindowDelete(Table t){
+
+        Stage stage = new Stage();
+        stage.setTitle("Delete from "+Utils.tableToString(t));
+
+        //select what type of insertion layout to provide
+
+        Parent root = null;
+
+        switch(t){
+
+            case REVIEWS: root = Layouts.getDeleteReviewLayout();
+                break;
+
+            case HOST: root = Layouts.getDeleteHostLayout();
+                break;
+
+            case LISTING: root = Layouts.getDeleteListingLayout();
+                break;
+
+            case NONE:
+                return;
+
+        }
+
+        stage.setScene(new Scene(root, 450, 450));
+        stage.show();
+
+    }
+
+
+    public static void insertData(BorderPane b, Table t){
+
+        ArrayList<String> data = Utils.getTextFieldsFromLayout(b.getChildren());    //TODO check correctness of input data ?
+
+
+        String query = Utils.generateInsertQuery(data, t);
+
+        Utils.executeQuery(query);      //TODO may have to use executeUpdate()
+
+    }
+
 
 
 
