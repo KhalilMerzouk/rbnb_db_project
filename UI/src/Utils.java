@@ -54,10 +54,10 @@ public abstract class Utils {
 
         switch(s){
 
-            case "LISTINGS":
-                return Table.LISTINGS;
-            case "HOSTS":
-                return Table.HOSTS;
+            case "LISTING":
+                return Table.LISTING;
+            case "HOST":
+                return Table.HOST;
             case "REVIEWS":
                 return Table.REVIEWS;
 
@@ -77,10 +77,10 @@ public abstract class Utils {
 
         switch(t){
 
-            case LISTINGS:
-                return "LISTINGS";
-            case HOSTS:
-                return "HOSTS";
+            case LISTING:
+                return "LISTING";
+            case HOST:
+                return "HOST";
             case REVIEWS:
                 return "REVIEWS";
 
@@ -186,7 +186,7 @@ public abstract class Utils {
 
         try {
             Statement s = MyApplication.getDBConnection().createStatement();
-
+            System.out.println("Executing query...");            //TODO remove sysout
             res = s.executeQuery(query);
         }
         catch (SQLException e){

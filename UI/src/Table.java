@@ -3,5 +3,5 @@
  */
 public enum Table {
 
-  LISTINGS, HOSTS, REVIEWS, NONE        //TODO update if new tables are added
+  LISTING, HOST, REVIEWS, NONE        //TODO update if new tables are added
 }

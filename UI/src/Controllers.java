@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -47,8 +49,6 @@ public abstract class Controllers {
 
         table.forEach(t -> {
 
-            //create result table for each table
-            TableView tableView = new TableView();
 
 
             //will specify which column to search into for each table
@@ -56,76 +56,52 @@ public abstract class Controllers {
 
             switch (t) {
 
-                case LISTINGS:
-                    columnNames.add("listing_id");              //TODO complete list of columns
-
+                case LISTING:
+                    columnNames.add("listing_id");
+                    columnNames.add("listing_url");
+                    columnNames.add("listing_name");
+                    columnNames.add("listing_summary");
+                    columnNames.add("picture_url");
+                    columnNames.add("country");
+                    columnNames.add("city");
                     break;
 
-                case HOSTS:
+                case HOST:
                     columnNames.add("host_id");
+                    columnNames.add("host_url");
+                    columnNames.add("host_name");
+                    columnNames.add("host_since");
+                    columnNames.add("host_thumbnail_url");
 
                     break;
 
                 case REVIEWS:
                     columnNames.add("review_id");
-
+                    columnNames.add("listing_id");
+                    columnNames.add("reviewer_id");
+                    columnNames.add("comments");
+                    columnNames.add("review_date");
                     break;
 
             }
-
+        //TODO remove sysout
             //build the query
+            String query = "SELECT * FROM  " +Utils.TableToString(t) + Utils.GenerateSubstringMatch(text,columnNames);
 
-            String query = "SELECT * FROM  " + t.toString() + Utils.GenerateSubstringMatch(text,columnNames);
+            System.out.println("Search query ready");
 
-
+            //launch asynchronous query
             Thread thread = new Thread(() -> {
-
-            //execute statement and insert them into the table view
-
-            ResultSet res = Utils.executeQuery(query);
-
-                //prepare columns
-
-                ArrayList<TableColumn> tableColumns = new ArrayList<>();
-
-                columnNames.forEach(c ->{
-                    tableColumns.add(new TableColumn(c)) ;
-                });
+                System.out.println("Query thread launched");
+                //execute statement and insert them into the table view
+                ResultSet res = Utils.executeQuery(query);
+                System.out.println("Resultset OK");
 
 
-                //read result and insert data into the table
-                try {
-                    while (res.next()) {                    //TODO need to test this part.. must wait until data are all imported into the DB
+                //trick to run the update on the UI thread
+                Platform.runLater(() -> putResInTable(columnNames, res, container));
 
-                        //get data from result set and put them in corresponding columns
-
-                        tableColumns.forEach(c -> {
-
-                            try {
-
-                                c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
-
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                        } );
-
-
-                        //insert columns in the table view
-
-                        tableView.getColumns().addAll(tableColumns);
-
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                //add table view to the container
-                container.getChildren().add(tableView);
-
-        });
+            });
 
             thread.start();
 
@@ -136,19 +112,88 @@ public abstract class Controllers {
     }
 
 
+    /**
+     * Method used to insert into a panel a tableview filled with a resulset
+     * @param columnNames the name of the columns of the tableview
+     * @param res the resulset of the executed query
+     * @param container the container in which the tableview must be inserted
+     */
+    public static void putResInTable(List<String> columnNames, ResultSet res, Pane container){
+
+
+        //create result table for each table
+        TableView tableView = new TableView();
+
+
+        //prepare columns
+        ArrayList<TableColumn> tableColumns = new ArrayList<>();
+
+        columnNames.forEach(c ->{
+            tableColumns.add(new TableColumn(c)) ;
+        });
+        //TODO remove sysout
+        System.out.println("Try to insert into table");
+
+        //read result and insert data into the table
+        try {
+            while (res.next()) {                    //TODO need to test this part.. must wait until data are all imported into the DB
+
+                //get data from result set and put them in corresponding columns
+
+                tableColumns.forEach(c -> {
+
+                    try {
+
+                        c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                } );
+
+
+                //insert columns in the table view
+
+                tableView.getColumns().addAll(tableColumns);
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        //add table view to the container
+        container.getChildren().add(tableView);
+
+        System.out.println("View updated !");
+    }
+
+
 
     /**
      * Method to execute the predefined queries and modify the layout accordingly
      * @param query the query to execute
      * @param b the layout Object
      */
-    public static void executePredefined(String query, BorderPane b){
+    public static void executePredefined(String query, BorderPane b, ArrayList<String> columnNames){
 
+      //create a scrollpane and insert it in the center of the layout
+      ScrollPane scroll = new ScrollPane();
+      b.setCenter(scroll);
+
+      //the container will contain the tableview and is inserted into the scrollpane
+      Pane container = new Pane();
+      scroll.setContent(container);
+
+
+      //launch asynchronous query
       Thread t = new Thread(() -> {
 
           ResultSet res = Utils.executeQuery(query);
 
-          //TODO modify layout with resulset
+          //trick to run the update on the UI thread
+          Platform.runLater(() -> putResInTable(columnNames, res, container));
 
       });
 

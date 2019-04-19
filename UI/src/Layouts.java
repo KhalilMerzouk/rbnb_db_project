@@ -125,43 +125,70 @@ public abstract class Layouts {
 
         q1.setLayoutX(40);
         q1.setLayoutY(100);
-        q1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query1, b));
+        ArrayList<String> columnNames1 = new ArrayList<>();
+        columnNames1.add("average");
+        q1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query1, b, columnNames1));
 
         q2.setLayoutX(40);
         q2.setLayoutY(120);
-        q2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query2, b));
+        ArrayList<String> columnNames2 = new ArrayList<>();
+        columnNames2.add("average");
+        q2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query2, b, columnNames2));
 
         q3.setLayoutX(40);
         q3.setLayoutY(140);
-        q3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query3, b));
+        ArrayList<String> columnNames3 = new ArrayList<>();
+        columnNames3.add("host_id");
+        columnNames3.add("host_url");
+        columnNames3.add("host_name");
+        columnNames3.add("host_since");
+        columnNames2.add("host_thumbnail_url");
+        q3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query3, b, columnNames3));
 
         q4.setLayoutX(40);
         q4.setLayoutY(160);
-        q4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query4, b));
+        ArrayList<String> columnNames4 = new ArrayList<>();
+        columnNames4.add("count");
+        q4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query4, b, columnNames4));
 
         q5.setLayoutX(40);
         q5.setLayoutY(180);
-        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b));
+        ArrayList<String> columnNames5 = new ArrayList<>();
+        columnNames5.add("calendar_date");
+        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b, columnNames5));
 
         q6.setLayoutX(40);
         q6.setLayoutY(200);
-        q6.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query6, b));
+        ArrayList<String> columnNames6 = new ArrayList<>();
+        columnNames6.add("host_id");
+        columnNames6.add("host_name");
+        q6.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query6, b, columnNames6));
 
         q7.setLayoutX(40);
         q7.setLayoutY(220);
-        q7.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query7, b));
+        ArrayList<String> columnNames7 = new ArrayList<>();
+        columnNames7.add("average_difference");
+        q7.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query7, b, columnNames7));
 
         q8.setLayoutX(40);
         q8.setLayoutY(240);
-        q8.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query8, b));
+        ArrayList<String> columnNames8 = new ArrayList<>();
+        columnNames8.add("average_difference");
+        q8.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query8, b, columnNames8));
 
         q9.setLayoutX(40);
         q9.setLayoutY(260);
-        q9.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query9, b));
+        ArrayList<String> columnNames9 = new ArrayList<>();
+        columnNames9.add("host_id");
+        columnNames9.add("host_name");
+        q9.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query9, b, columnNames9));
 
         q10.setLayoutX(40);
         q10.setLayoutY(280);
-        q10.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query10, b));
+        ArrayList<String> columnNames10 = new ArrayList<>();
+        columnNames10.add("listing_id");
+        columnNames10.add("listing_name");
+        q10.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query10, b, columnNames10));
 
 
         //add the buttons to the layout
@@ -218,9 +245,9 @@ public abstract class Layouts {
         HBox h6 = new HBox();
 
 
-        CheckBox t1 = new CheckBox(Utils.TableToString(Table.HOSTS));
+        CheckBox t1 = new CheckBox(Utils.TableToString(Table.HOST));
         CheckBox t2 = new CheckBox(Utils.TableToString(Table.REVIEWS));
-        CheckBox t3 = new CheckBox(Utils.TableToString(Table.LISTINGS));
+        CheckBox t3 = new CheckBox(Utils.TableToString(Table.LISTING));
         CheckBox t4 = new CheckBox();                                   //TODO add other tables
         CheckBox t5 = new CheckBox();
         CheckBox t6 = new CheckBox();
