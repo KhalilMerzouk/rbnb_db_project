@@ -1,4 +1,7 @@
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,7 +75,7 @@ public abstract class Controllers {
 
 
                 //trick to run the update on the UI thread
-                Platform.runLater(() -> putResInTable(columnNames, res, container));
+                Platform.runLater(() -> putResInTable(res, container));
 
             });
 
@@ -86,60 +90,61 @@ public abstract class Controllers {
 
     /**
      * Method used to insert into a panel a tableview filled with a resulset
-     * @param columnNames the name of the columns of the tableview
      * @param res the resulset of the executed query
      * @param container the container in which the tableview must be inserted
      */
-    public static void putResInTable(List<String> columnNames, ResultSet res, Pane container){      //FIXME data is not correctly displayed in tableviews
+    public static void putResInTable(ResultSet res, Pane container){     //FIXME data is not correctly displayed in tableviews
 
 
         //create result table for each table
         TableView tableView = new TableView();
 
 
-        //prepare columns
-        ArrayList<TableColumn> tableColumns = new ArrayList<>();
-
-        columnNames.forEach(c -> tableColumns.add(new TableColumn(c)));
+        //List where the result data will be stored
+        ObservableList<ObservableList> data = FXCollections.observableArrayList();
 
 
-        //TODO remove sysout
-        System.out.println("Try to insert into table");
 
-        //read result and insert data into the table
+        //create columns, read result and insert data into the table
         try {
-            while (res.next()) {                    //TODO need to test this part.. must wait until data are all imported into the DB
 
-                //get data from result set and put them in corresponding columns
+            //prepare columns
+            for(int i=0 ; i< res.getMetaData().getColumnCount(); i++){                  //code taken from here: https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data
 
-                tableColumns.forEach(c -> {
+                //We are using non property style for making dynamic table
+                final int j = i;
 
-                    try {
+                TableColumn col = new TableColumn(res.getMetaData().getColumnName(i+1));
+                col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
 
-                        // those are no proper column names in the DB => retrieve data by column index !!!!
-                        if(c.getText().equals("average") || c.getText().equals("average_difference") || c.getText().equals("count")){
-
-                            c.setCellValueFactory(new PropertyValueFactory<>(res.getString(1)));
-                        }
-                        else {
-                            c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
-                        }
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                } );
-
-
-                //insert columns in the table view
-
-                tableView.getColumns().addAll(tableColumns);
+                tableView.getColumns().addAll(col);
 
             }
+
+
+            //retrieve data from resulset
+            while (res.next()) {
+
+             //get data from result set by row
+             ObservableList<String> row = FXCollections.observableArrayList();
+
+             for(int i = 1; i < res.getMetaData().getColumnCount(); ++i){
+
+                row.add(res.getString(i));
+             }
+
+             data.add(row);
+
+            }
+
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        //put the data into table view
+        tableView.setItems(data);
 
 
         //add table view to the container
@@ -165,6 +170,7 @@ public abstract class Controllers {
       Pane container = new Pane();
       scroll.setContent(container);
 
+      System.out.println("before thread columns names are "+columnNames);
 
       //launch asynchronous query
       Thread t = new Thread(() -> {
@@ -172,7 +178,7 @@ public abstract class Controllers {
           ResultSet res = Utils.executeQuery(query);
 
           //trick to run the update on the UI thread
-          Platform.runLater(() -> putResInTable(columnNames, res, container));
+          Platform.runLater(() -> putResInTable(res, container));
 
       });
 
