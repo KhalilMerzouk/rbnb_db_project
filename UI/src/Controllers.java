@@ -144,7 +144,14 @@ public abstract class Controllers {
 
                     try {
 
-                        c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
+                        // those are no proper column names in the DB => retrieve data by column index !!!!
+                        if(c.getText().equals("average") || c.getText().equals("average_difference") || c.getText().equals("count")){
+
+                            c.setCellValueFactory(new PropertyValueFactory<>(res.getString(1)));
+                        }
+                        else {
+                            c.setCellValueFactory(new PropertyValueFactory<>(res.getString(c.getText())));
+                        }
 
                     } catch (SQLException e) {
                         e.printStackTrace();

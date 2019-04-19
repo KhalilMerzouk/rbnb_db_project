@@ -142,7 +142,7 @@ public abstract class Layouts {
         columnNames3.add("host_url");
         columnNames3.add("host_name");
         columnNames3.add("host_since");
-        columnNames2.add("host_thumbnail_url");
+        columnNames3.add("host_thumbnail_url");
         q3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query3, b, columnNames3));
 
         q4.setLayoutX(40);
