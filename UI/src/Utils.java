@@ -310,15 +310,13 @@ public abstract class Utils {
 
             if(!data.get(i).isEmpty()) {    //only consider nonempty fields
 
-                sb.append(columnsName.get(i) + " = " + data.get(i) + " AND ");            //TODO for the moment it's exact match => do we need to do more/less than, like etc... ?
+                sb.append(columnsName.get(i) + " = '" + data.get(i) + "' AND ");            //TODO for the moment it's exact match => do we need to do more/less than, like etc... ?
             }
 
         }
 
         //remove last "AND"
-        sb.substring(0,sb.length()-4);
-
-        return sb.toString();
+        return sb.toString().substring(0,sb.length()-4);
 
     }
 

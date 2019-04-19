@@ -45,7 +45,7 @@ public abstract class Controllers {
 
         scroll.setContent(container);
 
-        b.getChildren().add(scroll);
+        b.setCenter(scroll);
 
 
 
@@ -90,7 +90,7 @@ public abstract class Controllers {
      * @param res the resulset of the executed query
      * @param container the container in which the tableview must be inserted
      */
-    public static void putResInTable(List<String> columnNames, ResultSet res, Pane container){
+    public static void putResInTable(List<String> columnNames, ResultSet res, Pane container){      //FIXME data is not correctly displayed in tableviews
 
 
         //create result table for each table
@@ -100,9 +100,9 @@ public abstract class Controllers {
         //prepare columns
         ArrayList<TableColumn> tableColumns = new ArrayList<>();
 
-        columnNames.forEach(c ->{
-            tableColumns.add(new TableColumn(c)) ;
-        });
+        columnNames.forEach(c -> tableColumns.add(new TableColumn(c)));
+
+
         //TODO remove sysout
         System.out.println("Try to insert into table");
 
@@ -261,6 +261,8 @@ public abstract class Controllers {
         //launch query asynchronously
         Thread thread = new Thread(() -> {
             Utils.executeQuery(query);      //TODO may have to use executeUpdate() => may have to write another function to perform delete, update and insert statements
+
+            System.out.println("Inserton done");
         });
 
 
@@ -284,6 +286,9 @@ public abstract class Controllers {
         //launch query asynchronously
         Thread thread = new Thread(() -> {
             Utils.executeQuery(query);      //TODO may have to use executeUpdate() => may have to write another function to perform delete, update and insert statements
+
+            System.out.println("Deletion done");
+
         });
 
 

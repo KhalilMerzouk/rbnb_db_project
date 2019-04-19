@@ -376,8 +376,6 @@ public abstract class Layouts {
         VBox box = new VBox();
         b.setCenter(box);
 
-        //TODO auto-generate listing-id ??????
-
         //generate textFields
         ArrayList<TextField> fields = new ArrayList<>();
         textFields.forEach(t -> fields.add(new TextField(t)));
