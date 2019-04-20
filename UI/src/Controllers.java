@@ -1,5 +1,6 @@
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -45,7 +47,7 @@ public abstract class Controllers {
 
         ScrollPane scroll = new ScrollPane();
 
-        Pane container = new Pane();
+        HBox container = new HBox();
 
         scroll.setContent(container);
 
@@ -75,7 +77,7 @@ public abstract class Controllers {
 
 
                 //trick to run the update on the UI thread
-                Platform.runLater(() -> putResInTable(res, container));
+                Platform.runLater(() -> putResInTable(columnNames, res, container));
 
             });
 
@@ -93,33 +95,37 @@ public abstract class Controllers {
      * @param res the resulset of the executed query
      * @param container the container in which the tableview must be inserted
      */
-    public static void putResInTable(ResultSet res, Pane container){     //FIXME data is not correctly displayed in tableviews
+    public static void putResInTable(ArrayList<String> columnNames,ResultSet res, Pane container){     //FIXME data is not correctly displayed in tableviews
 
 
         //create result table for each table
-        TableView tableView = new TableView();
+        TableView<ObservableList<String>> tableView = new TableView<>();
 
+        tableView.setMinWidth(500);
 
         //List where the result data will be stored
-        ObservableList<ObservableList> data = FXCollections.observableArrayList();
+        ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
 
 
         //create columns, read result and insert data into the table
         try {
 
-            //prepare columns
-            for(int i=0 ; i< res.getMetaData().getColumnCount(); i++){                  //code taken from here: https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data
 
-                //We are using non property style for making dynamic table
-                final int j = i;
+           for(int i = 0; i < columnNames.size(); ++i){
 
-                TableColumn col = new TableColumn(res.getMetaData().getColumnName(i+1));
-                col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
+               final int j = i;
 
-                tableView.getColumns().addAll(col);
+               TableColumn col = new TableColumn(columnNames.get(i));
 
-            }
+               //define what to do when receiving data from observable list
+               col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param ->
+                   (param.getValue().size()) > j ?  new SimpleStringProperty(param.getValue().get(j).toString()) : null
+               );
+
+               tableView.getColumns().add(col);
+
+           }
 
 
             //retrieve data from resulset
@@ -128,7 +134,7 @@ public abstract class Controllers {
              //get data from result set by row
              ObservableList<String> row = FXCollections.observableArrayList();
 
-             for(int i = 1; i < res.getMetaData().getColumnCount(); ++i){
+             for(int i = 1; i < res.getMetaData().getColumnCount() + 1; ++i){
 
                 row.add(res.getString(i));
              }
@@ -144,6 +150,7 @@ public abstract class Controllers {
 
 
         //put the data into table view
+        //tableView.setItems(data);
         tableView.setItems(data);
 
 
@@ -151,6 +158,7 @@ public abstract class Controllers {
         container.getChildren().add(tableView);
 
         System.out.println("View updated !");
+
     }
 
 
@@ -167,7 +175,7 @@ public abstract class Controllers {
       b.setCenter(scroll);
 
       //the container will contain the tableview and is inserted into the scrollpane
-      Pane container = new Pane();
+      HBox container = new HBox();
       scroll.setContent(container);
 
       System.out.println("before thread columns names are "+columnNames);
@@ -178,7 +186,7 @@ public abstract class Controllers {
           ResultSet res = Utils.executeQuery(query);
 
           //trick to run the update on the UI thread
-          Platform.runLater(() -> putResInTable(res, container));
+          Platform.runLater(() -> putResInTable(columnNames, res, container));
 
       });
 

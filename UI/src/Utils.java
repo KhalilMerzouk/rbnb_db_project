@@ -267,6 +267,47 @@ public abstract class Utils {
 
     }
 
+    /**
+     * Checks that a given string is an int
+     * @param s the string to check
+     * @return true if the string is a number false otherwise
+     */
+    public static boolean isInt(String s){
+
+        char[] c = s.toCharArray();
+
+        for(int i = 0; i < c.length; ++i){
+
+            if(!Character.isDigit(c[i])){
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Checks that a given string is a Date
+     * @param s the string to check
+     * @return true if the string is a date false otherwise
+     */
+    public static boolean isDate(String s){
+
+        char[] c = s.toCharArray();
+
+        for(int i = 0; i < c.length; ++i){
+
+            if(!Character.isDigit(c[i]) && c[i] != '-'){
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
 
     /**
      * Generate an insert query given a table and all the values
@@ -278,17 +319,27 @@ public abstract class Utils {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("INSERT INTO "+Utils.tableToString(t)+" VALUES (");
+        String columnsNames = Utils.getColumnsFromTable(t).toString();
 
-        data.forEach(d -> sb.append(d+" ,"));
+        sb.append("INSERT INTO "+Utils.tableToString(t)+" ("+columnsNames.substring(1, columnsNames.length()-1)+")"+" VALUES (");
 
+        data.forEach(d -> {
+
+            if(isInt(d)){
+                sb.append(d+" ,");
+            }
+            else if(isDate(d)){
+                sb.append("DATE '"+d+"' ,");
+            }
+
+            else{
+                sb.append("'"+d+"' ,");   //put '' around strings
+            }
+
+        });
 
         //remove the last comma and close the parenthesis
-        sb.substring(0, sb.length()-2);
-        sb.append(")");
-
-
-        return sb.toString();
+        return sb.toString().substring(0, sb.length()-2).concat(")");
     }
 
     /**
@@ -310,7 +361,20 @@ public abstract class Utils {
 
             if(!data.get(i).isEmpty()) {    //only consider nonempty fields
 
-                sb.append(columnsName.get(i) + " = '" + data.get(i) + "' AND ");            //TODO for the moment it's exact match => do we need to do more/less than, like etc... ?
+                //TODO for the moment it's exact match => do we need to do more/less than, like etc... ?
+
+                if(isInt(data.get(i))){
+                    sb.append(columnsName.get(i) + " = " + data.get(i) + " AND ");
+                }
+                else if(isDate(data.get(i))){
+                    sb.append(columnsName.get(i) + " = DATE '" + data.get(i) + "' AND ");
+                }
+
+                else{
+                    sb.append(columnsName.get(i) + " = '" + data.get(i) + "' AND ");
+                }
+
+
             }
 
         }
