@@ -77,8 +77,7 @@ create view wifi as
   
 select AVG(CD1.PRICE) - AVG(CD2.PRICE)
 from COSTS_DETAILS CD1, COSTS_DETAILS CD2
-where CD1.LISTING_ID in (select * from wifi)
-                                                        
+where CD1.LISTING_ID in (select * from wifi)                                                       
 and CD2.LISTING_ID not in (select * from wifi);
 
 -------------------------------------------------------------------------------------------------------
