@@ -119,8 +119,23 @@ public abstract class Controllers {
                TableColumn col = new TableColumn(columnNames.get(i));
 
                //define what to do when receiving data from observable list
-               col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param ->
-                   (param.getValue().size()) > j ?  new SimpleStringProperty(param.getValue().get(j).toString()) : null
+               col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param ->{
+                   if(param.getValue().size() > j){
+
+                       Object o = param.getValue().get(j);  //in case the value is NULL in DB
+
+                       if(o != null) {
+                           return new SimpleStringProperty(o.toString());
+                       }
+                       else{
+                           return null;
+                       }
+                   }
+                   else{
+                       return null;
+                   }
+               }
+
                );
 
                tableView.getColumns().add(col);
