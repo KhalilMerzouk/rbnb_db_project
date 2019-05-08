@@ -1,4 +1,52 @@
 
+
+
+-------------------------------------------------------
+--query 8
+
+create view number_of_host_verif as
+  select count(*) as verifications, HV.HOST_ID
+  from HOST_VERIFICATIONS HV
+  group by HV.HOST_ID;
+
+select avg(average_most.avg_m - average_least.avg_l) as diff
+from 
+ 
+ (select coalesce(avg(RS1.REVIEW_SCORES_COMMUNICATION),0) as avg_m        --coalesce force result to be 0 if avg resturn NULL (e.g avg on empty set)
+ from
+ 
+    (select h.HOST_ID
+    from      
+      (select n.HOST_ID
+      from number_of_host_verif n
+      order by n.verifications desc) h     --host with the most verification
+    where rownum = 1) host_most ,
+    
+    LISTING L1, REVIEWS_SCORES RS1
+    
+    where L1.LISTING_ID = RS1.LISTING_ID and L1.HOST_ID = host_most.HOST_ID and RS1.REVIEW_SCORES_COMMUNICATION is not null
+  ) average_most
+
+  ,
+
+   (select coalesce(avg(RS2.REVIEW_SCORES_COMMUNICATION),0) as avg_l
+    from
+ 
+    (select h2.HOST_ID
+    from      
+      (select n2.HOST_ID
+      from number_of_host_verif n2
+      order by n2.verifications asc) h2     --host with the least verification
+    where rownum = 1) host_least ,
+    
+    LISTING L2, REVIEWS_SCORES RS2
+    
+    where L2.LISTING_ID = RS2.LISTING_ID and L2.HOST_ID = host_least.HOST_ID and RS2.REVIEW_SCORES_COMMUNICATION is not null
+  ) average_least
+
+;
+
+
 ---------------------------------------------
 --query 10
 
