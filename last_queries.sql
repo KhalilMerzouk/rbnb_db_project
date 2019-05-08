@@ -1,6 +1,39 @@
 
 
 
+------------------------------------------------------------------
+--query 7
+
+select AMENITY_NAME, NEIGHBORHOOD 
+
+from 
+
+(select AMENITY_NAME, AMEN_COUNT, NEIGHBORHOOD , rank() over(partition by ordered_data.NEIGHBORHOOD order by AMEN_COUNT desc) as rank --rank the data with respect to neighborhood
+
+from 
+
+  (select distinct AMENITY_NAME, AMEN_COUNT, NEIGHBORHOOD 
+  from 
+
+    (select AM.AMENITY_NAME, count(AMENITY_NAME) over(partition by LOC.NEIGHBORHOOD, AM.AMENITY_NAME) as amen_count, LOC.NEIGHBORHOOD   --count the amenities with respect to their names
+    from LISTING_LOCATION LOC, AMENITIES AM, LISTING_AMENITIES LA
+    where LOC.LISTING_ID = LA.LISTING_ID and LA.AMENITY_ID = AM.AMENITY_ID and LOC.LISTING_ID in (
+
+      select L.LISTING_ID
+      from LISTING L, MATERIAL_DESCRIPTION MD
+      where L.LISTING_ID = MD.LISTING_ID and L.CITY = 'Berlin' and MD.ROOM_TYPE = 'Private room'    --listings with private room in berlin
+
+      )
+    ) data_amen
+
+  order by data_amen.NEIGHBORHOOD, data_amen.amen_count desc) ordered_data    --order the data with respect to the neighborhood
+  ) ranked_data
+
+where ranked_data.rank <= 3   --select data with rank smaller than 3 ==>  select first 3 for each neighborhood
+
+;
+
+
 -------------------------------------------------------
 --query 8
 
