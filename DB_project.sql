@@ -145,33 +145,23 @@ where h.HOST_ID in
 ------------------------------------------------------------------------------------------------------
 QUERY NO2
 
-drop view review_scores_asc;
-
-create view review_scores_asc as 
-  select * from REVIEWS_SCORES rs where rs.REVIEW_SCORES_RATING is not null order by rs.REVIEW_SCORES_RATING asc
-;
-
 select * from
-(select loc.NEIGHBORHOOD
-from LISTING_LOCATION loc, LISTING l, REVIEWS_SCORES rs
-where loc.LISTING_ID = l.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and loc.NEIGHBORHOOD is not null and rs.REVIEW_SCORES_RATING is not null and l.CITY = 'Madrid' group by loc.NEIGHBORHOOD order by (
 
-  select rs2.REVIEW_SCORES_RATING
-  from LISTING_LOCATION loc2, LISTING l2, review_scores_asc rs2
-  where loc2.LISTING_ID = l2.LISTING_ID and l2.LISTING_ID = rs2.LISTING_ID and loc2.NEIGHBORHOOD = loc.NEIGHBORHOOD and l2.CITY = 'Madrid' and rs2.REVIEW_SCORES_RATING is not null 
-  
-  and rownum = FLOOR(
-    (select count(*) from  
-      (select rs3.REVIEW_SCORES_RATING
-      from LISTING_LOCATION loc3, LISTING l3, REVIEWS_SCORES rs3
-      where loc3.LISTING_ID = l3.LISTING_ID and l3.LISTING_ID = rs3.LISTING_ID and loc3.NEIGHBORHOOD = loc.NEIGHBORHOOD and l3.CITY = 'Madrid' and rs3.REVIEW_SCORES_RATING is not null 
-      )
-    )
-     / 2)
-  
-) desc)
-where rownum <= 5;
+(select distinct(med_per_ng.NEIGHBORHOOD), REVIEW_SCORES_RATING from
 
+(select distinct(loc.NEIGHBORHOOD), floor((count(*) over(partition by loc.NEIGHBORHOOD)+1)/2) as median_elem_per_ng
+from REVIEWS_SCORES rs, LISTING l, LISTING_LOCATION loc
+where rs.LISTING_ID = l.LISTING_ID and loc.LISTING_ID = l.LISTING_ID and rs.REVIEW_SCORES_RATING is not null and l.CITY = 'Madrid') med_per_ng,
+
+(select loc.NEIGHBORHOOD, rs.REVIEW_SCORES_RATING, ROW_NUMBER() over(partition by loc.NEIGHBORHOOD order by rs.REVIEW_SCORES_RATING desc) as rnum
+from REVIEWS_SCORES rs, LISTING_LOCATION loc, LISTING l
+where rs.LISTING_ID = loc.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and l.CITY = 'Madrid' and rs.REVIEW_SCORES_RATING is not null) ranked_by_ng_and_rev
+
+where med_per_ng.NEIGHBORHOOD = ranked_by_ng_and_rev.NEIGHBORHOOD and median_elem_per_ng = rnum
+order by REVIEW_SCORES_RATING desc)
+
+where rownum <= 5
+;
 ------------------------------------------------------------------------------------------------------
 QUERY NO7
 
