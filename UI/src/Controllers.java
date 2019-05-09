@@ -1,16 +1,11 @@
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -18,9 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -97,6 +90,9 @@ public abstract class Controllers {
      */
     public static void putResInTable(ArrayList<String> columnNames,ResultSet res, Pane container){     //FIXME data is not correctly displayed in tableviews
 
+        if(res == null){
+            return;
+        }
 
         //create result table for each table
         TableView<ObservableList<String>> tableView = new TableView<>();
@@ -183,7 +179,30 @@ public abstract class Controllers {
      * @param query the query to execute
      * @param b the layout Object
      */
-    public static void executePredefined(String query, BorderPane b, ArrayList<String> columnNames){
+    public static void executePredefined(String query, BorderPane b, ArrayList<String> columnNames, TextField txt, String queryNumber){
+
+
+      if(txt != null && !txt.getText().isEmpty()){  //pass parameters to query
+
+          switch(queryNumber){
+
+
+              case "Q1" :
+                  if(Utils.isInt(txt.getText())){
+                    query = query.substring(0, query.length()-2) + txt.getText()+")";
+                  }
+                  break;
+              case "Q2" : query = query.substring(0,query.length() - 6) + "'" +txt.getText() +"')";
+                  break;
+              case "Q5" : query = query.substring(0, query.length() -14) + "'" +txt.getText() +"')";
+                  break;
+
+          }
+
+
+      }
+
+      final String modified_query = query;  //little hack to pass the string as final to the Thread
 
       //create a scrollpane and insert it in the center of the layout
       ScrollPane scroll = new ScrollPane();
@@ -198,7 +217,7 @@ public abstract class Controllers {
       //launch asynchronous query
       Thread t = new Thread(() -> {
 
-          ResultSet res = Utils.executeQuery(query);
+          ResultSet res = Utils.executeQuery(modified_query);
 
           //trick to run the update on the UI thread
           Platform.runLater(() -> putResInTable(columnNames, res, container));
@@ -291,7 +310,7 @@ public abstract class Controllers {
         Thread thread = new Thread(() -> {
             Utils.executeQuery(query);      //TODO may have to use executeUpdate() => may have to write another function to perform delete, update and insert statements
 
-            System.out.println("Inserton done");
+            System.out.println("Insertion done");
         });
 
 
