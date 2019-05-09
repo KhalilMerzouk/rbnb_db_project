@@ -132,17 +132,48 @@ where rownum <=10;
 
 
 
+--queries for milestone 3 (in order)
 
+QUERY NO1
 
+select count(*)
+from HOST h, LISTING l1
+where h.HOST_ID in 
+(select distinct(l2.HOST_ID) from LISTING l2, MATERIAL_DESCRIPTION md where l2.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null)
+ and h.HOST_ID = l1.HOST_ID  group by l1.CITY order by l1.CITY asc;
 
+------------------------------------------------------------------------------------------------------
+QUERY NO2
 
+drop view review_scores_asc;
 
-------------------------------------Queries MIlestone 3 ------------------------------------------------
+create view review_scores_asc as 
+  select * from REVIEWS_SCORES rs where rs.REVIEW_SCORES_RATING is not null order by rs.REVIEW_SCORES_RATING asc
+;
 
+select * from
+(select loc.NEIGHBORHOOD
+from LISTING_LOCATION loc, LISTING l, REVIEWS_SCORES rs
+where loc.LISTING_ID = l.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and loc.NEIGHBORHOOD is not null and rs.REVIEW_SCORES_RATING is not null and l.CITY = 'Madrid' group by loc.NEIGHBORHOOD order by (
 
+  select rs2.REVIEW_SCORES_RATING
+  from LISTING_LOCATION loc2, LISTING l2, review_scores_asc rs2
+  where loc2.LISTING_ID = l2.LISTING_ID and l2.LISTING_ID = rs2.LISTING_ID and loc2.NEIGHBORHOOD = loc.NEIGHBORHOOD and l2.CITY = 'Madrid' and rs2.REVIEW_SCORES_RATING is not null 
+  
+  and rownum = FLOOR(
+    (select count(*) from  
+      (select rs3.REVIEW_SCORES_RATING
+      from LISTING_LOCATION loc3, LISTING l3, REVIEWS_SCORES rs3
+      where loc3.LISTING_ID = l3.LISTING_ID and l3.LISTING_ID = rs3.LISTING_ID and loc3.NEIGHBORHOOD = loc.NEIGHBORHOOD and l3.CITY = 'Madrid' and rs3.REVIEW_SCORES_RATING is not null 
+      )
+    )
+     / 2)
+  
+) desc)
+where rownum <= 5;
 
-------------------------------------------------------------------
---query 7
+------------------------------------------------------------------------------------------------------
+QUERY NO7
 
 select AMENITY_NAME, NEIGHBORHOOD 
 
@@ -174,8 +205,8 @@ where ranked_data.rank <= 3   --select data with rank smaller than 3 ==>  select
 ;
 
 
--------------------------------------------------------
---query 8
+------------------------------------------------------------------------------------------------------
+QUERY NO8
 
 create view number_of_host_verif as
   select count(*) as verifications, HV.HOST_ID
@@ -215,13 +246,32 @@ from
     LISTING L2, REVIEWS_SCORES RS2
     
     where L2.LISTING_ID = RS2.LISTING_ID and L2.HOST_ID = host_least.HOST_ID and RS2.REVIEW_SCORES_COMMUNICATION is not null
-  ) average_least
+  ) average_least;
 
+------------------------------------------------------------------------------------------------------
+QUERY NO9
+
+select ROOM_TYPE, CITY from
+(select ROOM_TYPE, CITY, rank() over(partition by ROOM_TYPE order by total desc) as rank
+from
+
+(select distinct(ROOM_TYPE), sum(rev_per_list) over(partition by CITY, ROOM_TYPE) as total, CITY from
+
+LISTING l,
+
+(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list
+from REVIEWS rev) rpl,
+
+(select md.LISTING_ID, md.ROOM_TYPE, AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type
+from MATERIAL_DESCRIPTION md) av
+
+where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and average_per_room_type > 3))
+
+where rank = 1
 ;
 
-
----------------------------------------------
---query 10
+------------------------------------------------------------------------------------------------------
+QUERY NO10
 
 select total_listing.NEIGHBORHOOD
 from 
@@ -249,10 +299,8 @@ where L2.LISTING_ID = LOC.LISTING_ID and L2.CITY = 'Madrid' and L2.LISTING_ID in
 ) group by LOC.NEIGHBORHOOD) filtered_listing
 
 where total_listing.NEIGHBORHOOD = filtered_listing.NEIGHBORHOOD and (filtered_listing.occupied_listings / total_listing.total) >= 0.5;
-
-
------------------------------------------------------------------------------
---query 11
+------------------------------------------------------------------------------------------------------
+QUERY NO11
 
 select filtered.COUNTRY
 from 
@@ -273,10 +321,8 @@ from LISTING L2
 group by L2.COUNTRY) total
 
 where filtered.COUNTRY = total.COUNTRY and (filtered.available/ total.total_listing) >= 0.2;
-
-------------------------------------------------------------
---query 12
-
+------------------------------------------------------------------------------------------------------
+QUERY NO12
 
 select total.NEIGHBORHOOD
 from 
@@ -295,40 +341,3 @@ where LOC.LISTING_ID = LD.LISTING_ID and L2.LISTING_ID = LD.LISTING_ID and L2.CI
 ) filtered
 
 where total.NEIGHBORHOOD = filtered.NEIGHBORHOOD and (filtered.strict_count / total.total_list) >= 0.05;
-
-
-------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
