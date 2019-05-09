@@ -123,17 +123,31 @@ public abstract class Layouts {
         Button q10 = new Button("Q10");
 
 
+        TextField paramQ1 = new TextField("enter number of bedrooms for Q1");
+        paramQ1.setLayoutY(100);
+        paramQ1.setLayoutX(70);
+
+        TextField paramQ2 = new TextField("enter amenity for Q2");
+        paramQ1.setLayoutY(120);
+        paramQ1.setLayoutX(70);
+
+
+        TextField paramQ5 = new TextField("enter host name for Q5");
+        paramQ1.setLayoutY(180);
+        paramQ1.setLayoutX(70);
+
+
         q1.setLayoutX(40);
         q1.setLayoutY(100);
         ArrayList<String> columnNames1 = new ArrayList<>();
         columnNames1.add("average");
-        q1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query1, b, columnNames1));
+        q1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query1, b, columnNames1, paramQ1,"Q1"));
 
         q2.setLayoutX(40);
         q2.setLayoutY(120);
         ArrayList<String> columnNames2 = new ArrayList<>();
         columnNames2.add("average");
-        q2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query2, b, columnNames2));
+        q2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query2, b, columnNames2, paramQ2, "Q2"));
 
         q3.setLayoutX(40);
         q3.setLayoutY(140);
@@ -143,52 +157,52 @@ public abstract class Layouts {
         columnNames3.add("host_name");
         columnNames3.add("host_since");
         columnNames3.add("host_thumbnail_url");
-        q3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query3, b, columnNames3));
+        q3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query3, b, columnNames3,null, null));
 
         q4.setLayoutX(40);
         q4.setLayoutY(160);
         ArrayList<String> columnNames4 = new ArrayList<>();
         columnNames4.add("count");
-        q4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query4, b, columnNames4));
+        q4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query4, b, columnNames4,null, null));
 
         q5.setLayoutX(40);
         q5.setLayoutY(180);
         ArrayList<String> columnNames5 = new ArrayList<>();
         columnNames5.add("calendar_date");
-        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b, columnNames5));
+        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b, columnNames5,paramQ5, "Q5"));
 
         q6.setLayoutX(40);
         q6.setLayoutY(200);
         ArrayList<String> columnNames6 = new ArrayList<>();
         columnNames6.add("host_id");
         columnNames6.add("host_name");
-        q6.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query6, b, columnNames6));
+        q6.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query6, b, columnNames6,null, null));
 
         q7.setLayoutX(40);
         q7.setLayoutY(220);
         ArrayList<String> columnNames7 = new ArrayList<>();
         columnNames7.add("average_difference");
-        q7.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query7, b, columnNames7));
+        q7.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query7, b, columnNames7,null, null));
 
         q8.setLayoutX(40);
         q8.setLayoutY(240);
         ArrayList<String> columnNames8 = new ArrayList<>();
         columnNames8.add("average_difference");
-        q8.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query8, b, columnNames8));
+        q8.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query8, b, columnNames8,null, null));
 
         q9.setLayoutX(40);
         q9.setLayoutY(260);
         ArrayList<String> columnNames9 = new ArrayList<>();
         columnNames9.add("host_id");
         columnNames9.add("host_name");
-        q9.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query9, b, columnNames9));
+        q9.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query9, b, columnNames9,null, null));
 
         q10.setLayoutX(40);
         q10.setLayoutY(280);
         ArrayList<String> columnNames10 = new ArrayList<>();
         columnNames10.add("listing_id");
         columnNames10.add("listing_name");
-        q10.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query10, b, columnNames10));
+        q10.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query10, b, columnNames10,null, null));
 
 
         //add the buttons to the layout
@@ -196,7 +210,14 @@ public abstract class Layouts {
         VBox box = new VBox();
         box.setSpacing(10);
 
+        VBox paramBox = new VBox();
+        box.setSpacing(10);
+
         box.getChildren().addAll(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10);
+
+        paramBox.getChildren().addAll(paramQ1, paramQ2, paramQ5);
+
+        b.setBottom(paramBox);
 
         b.setLeft(box);
 
