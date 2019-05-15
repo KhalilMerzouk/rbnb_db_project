@@ -145,33 +145,92 @@ where h.HOST_ID in
 ------------------------------------------------------------------------------------------------------
 QUERY NO2
 
-drop view review_scores_asc;
+select * from
 
-create view review_scores_asc as 
-  select * from REVIEWS_SCORES rs where rs.REVIEW_SCORES_RATING is not null order by rs.REVIEW_SCORES_RATING asc
+(select distinct(med_per_ng.NEIGHBORHOOD), REVIEW_SCORES_RATING from
+
+(select distinct(loc.NEIGHBORHOOD), floor((count(*) over(partition by loc.NEIGHBORHOOD)+1)/2) as median_elem_per_ng
+from REVIEWS_SCORES rs, LISTING l, LISTING_LOCATION loc
+where rs.LISTING_ID = l.LISTING_ID and loc.LISTING_ID = l.LISTING_ID and rs.REVIEW_SCORES_RATING is not null and l.CITY = 'Madrid') med_per_ng,
+
+(select loc.NEIGHBORHOOD, rs.REVIEW_SCORES_RATING, ROW_NUMBER() over(partition by loc.NEIGHBORHOOD order by rs.REVIEW_SCORES_RATING desc) as rnum
+from REVIEWS_SCORES rs, LISTING_LOCATION loc, LISTING l
+where rs.LISTING_ID = loc.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and l.CITY = 'Madrid' and rs.REVIEW_SCORES_RATING is not null) ranked_by_ng_and_rev
+
+where med_per_ng.NEIGHBORHOOD = ranked_by_ng_and_rev.NEIGHBORHOOD and median_elem_per_ng = rnum
+order by REVIEW_SCORES_RATING desc)
+
+where rownum <= 5
 ;
+------------------------------------------------------------------------------------------------------
+QUERY NO3
+
+select h.HOST_ID, h.HOST_NAME
+from
+(select HOST_ID, rank() over(order by nbr desc) as rnk
+from
+(select L.HOST_ID, count(*) as nbr
+from LISTING l
+group by l.HOST_ID)) ranked,
+HOST h 
+
+where h.HOST_ID = ranked.HOST_ID and ranked.rnk = 1;
+------------------------------------------------------------------------------------------------------
+QUERY NO4
 
 select * from
-(select loc.NEIGHBORHOOD
-from LISTING_LOCATION loc, LISTING l, REVIEWS_SCORES rs
-where loc.LISTING_ID = l.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and loc.NEIGHBORHOOD is not null and rs.REVIEW_SCORES_RATING is not null and l.CITY = 'Madrid' group by loc.NEIGHBORHOOD order by (
 
-  select rs2.REVIEW_SCORES_RATING
-  from LISTING_LOCATION loc2, LISTING l2, review_scores_asc rs2
-  where loc2.LISTING_ID = l2.LISTING_ID and l2.LISTING_ID = rs2.LISTING_ID and loc2.NEIGHBORHOOD = loc.NEIGHBORHOOD and l2.CITY = 'Madrid' and rs2.REVIEW_SCORES_RATING is not null 
-  
-  and rownum = FLOOR(
-    (select count(*) from  
-      (select rs3.REVIEW_SCORES_RATING
-      from LISTING_LOCATION loc3, LISTING l3, REVIEWS_SCORES rs3
-      where loc3.LISTING_ID = l3.LISTING_ID and l3.LISTING_ID = rs3.LISTING_ID and loc3.NEIGHBORHOOD = loc.NEIGHBORHOOD and l3.CITY = 'Madrid' and rs3.REVIEW_SCORES_RATING is not null 
-      )
-    )
-     / 2)
-  
-) desc)
+(select AVG(cal.PRICE) as average, cal.LISTING_ID from
+
+(select l.LISTING_ID from
+LISTING l, MATERIAL_DESCRIPTION md, REVIEWS_SCORES rs, LISTING_DETAILS ld
+where l.LISTING_ID = md.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and
+l.LISTING_ID = ld.LISTING_ID and l.CITY = 'Berlin' and md.PROPERTY_TYPE = 'Apartment'and
+md.BEDS >= 2 and rs.REVIEW_SCORES_LOCATION >= 8 and ld.CANCELLATION_POLICY = 'flexible' and
+l.HOST_ID IN (
+  select hv.HOST_ID
+  from HOST_VERIFICATIONS hv, VERIFICATIONS v
+  where hv.VERIFICATION_ID = v.VERIFICATION_ID and v.VERIFICATION_NAME LIKE '%government_id%')) filtered,
+
+CALENDAR cal
+where cal.LISTING_ID = filtered.LISTING_ID and cal.CALENDAR_DATE between date'2019-03-01' and date'2019-04-30'
+and cal.AVAILABLE = 't' group by cal.LISTING_ID order by average asc) averaged
+
 where rownum <= 5;
+------------------------------------------------------------------------------------------------------
+QUERY NO5
 
+select * from
+
+(select filtered.LISTING_ID, md.ACCOMODATES, ROW_NUMBER() over(partition by md.ACCOMODATES order by rs.REVIEW_SCORES_RATING desc) as ranked
+from
+(select facilities.LISTING_ID from
+(select la.LISTING_ID, count(*) as counted
+from AMENITIES am, LISTING_AMENITIES la
+where la.AMENITY_ID = am.AMENITY_ID and
+(am.AMENITY_NAME = 'Wifi' or am.AMENITY_NAME = 'Internet' or
+am.AMENITY_NAME = 'TV' or am.AMENITY_NAME = 'Free street parking')
+group by la.LISTING_ID) facilities
+
+where facilities.counted >= 2) filtered,
+
+MATERIAL_DESCRIPTION md, REVIEWS_SCORES rs
+
+where filtered.LISTING_ID = md.LISTING_ID and rs.LISTING_ID = filtered.LISTING_ID) rnk
+
+where ranked <= 5
+;
+------------------------------------------------------------------------------------------------------
+QUERY NO6
+select HOST_ID, LISTING_ID 
+from(
+select HOST_ID, LISTING_ID, ROW_NUMBER() over(partition by HOST_ID order by counted desc) as r
+from
+(select distinct(l.LISTING_ID), l.HOST_ID, count(*) over(partition by l.LISTING_ID) as counted
+from LISTING l, REVIEWS r
+where l.LISTING_ID = r.LISTING_ID))
+
+where r <= 3;
 ------------------------------------------------------------------------------------------------------
 QUERY NO7
 
@@ -179,7 +238,7 @@ select AMENITY_NAME, NEIGHBORHOOD
 
 from 
 
-(select AMENITY_NAME, AMEN_COUNT, NEIGHBORHOOD , rank() over(partition by ordered_data.NEIGHBORHOOD order by AMEN_COUNT desc) as rank --rank the data with respect to neighborhood
+(select AMENITY_NAME, AMEN_COUNT, NEIGHBORHOOD , row_number() over(partition by ordered_data.NEIGHBORHOOD order by AMEN_COUNT desc) as rank --rank the data with respect to neighborhood
 
 from 
 
