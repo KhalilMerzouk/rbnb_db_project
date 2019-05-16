@@ -352,7 +352,7 @@ where L2.LISTING_ID = LOC.LISTING_ID and L2.CITY = 'Madrid' and L2.LISTING_ID in
 
     select L.LISTING_ID   --listing in madrid whose host is member since '2017-06-01' 
     from LISTING L, HOST H
-    where L.CITY = 'Madrid' and L.HOST_ID = H.HOST_ID and H.HOST_SINCE >= date '2017-06-01' 
+    where L.CITY = 'Madrid' and L.HOST_ID = H.HOST_ID and H.HOST_SINCE <= date '2017-06-01' 
   )
 
 ) group by LOC.NEIGHBORHOOD) filtered_listing
