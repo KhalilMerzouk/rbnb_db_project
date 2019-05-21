@@ -643,32 +643,24 @@ public abstract class Layouts {
         HBox h1 = new HBox();
         HBox h2 = new HBox();
         HBox h3 = new HBox();
-        HBox h4 = new HBox();
-        HBox h5 = new HBox();
-        HBox h6 = new HBox();
+
 
 
         CheckBox t1 = new CheckBox(Utils.tableToString(Table.HOST));
         CheckBox t2 = new CheckBox(Utils.tableToString(Table.REVIEWS));
         CheckBox t3 = new CheckBox(Utils.tableToString(Table.LISTING));
-        CheckBox t4 = new CheckBox();                                   //TODO add other tables
-        CheckBox t5 = new CheckBox();
-        CheckBox t6 = new CheckBox();
+
 
 
         t1.setMinWidth(300);
         t2.setMinWidth(300);
         t3.setMinWidth(300);
-        t4.setMinWidth(300);
-        t5.setMinWidth(300);
-        t6.setMinWidth(300);
 
-        h1.getChildren().addAll(t1,t2,t3,t4,t5,t6);
+
+        h1.getChildren().addAll(t1,t2,t3);
         h2.getChildren().addAll(t2);
         h3.getChildren().addAll(t3);
-        h4.getChildren().addAll(t4);
-        h5.getChildren().addAll(t5);
-        h6.getChildren().addAll(t6);
+
 
         h1.setLayoutX(20);
         h1.setLayoutY(200);
@@ -676,14 +668,9 @@ public abstract class Layouts {
         h2.setLayoutY(220);
         h3.setLayoutX(20);
         h3.setLayoutY(240);
-        h4.setLayoutX(20);
-        h4.setLayoutY(260);
-        h5.setLayoutX(20);
-        h5.setLayoutY(280);
-        h6.setLayoutX(20);
-        h6.setLayoutY(300);
 
-        b.getChildren().addAll(h1,h2,h3,h4,h5,h6);
+
+        b.getChildren().addAll(h1,h2,h3);
 
     }
 
