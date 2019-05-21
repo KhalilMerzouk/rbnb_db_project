@@ -111,6 +111,253 @@ public abstract class Layouts {
                 "where rownum <=10";
 
 
+
+        String query11 = "select count(*)\n" +
+                "from HOST h, LISTING l1\n" +
+                "where h.HOST_ID in \n" +
+                "(select distinct(l2.HOST_ID) from LISTING l2, MATERIAL_DESCRIPTION md where l2.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null)\n" +
+                " and h.HOST_ID = l1.HOST_ID  group by l1.CITY order by l1.CITY asc";
+
+        String query12 = "select * from\n" +
+                "\n" +
+                "(select distinct(med_per_ng.NEIGHBORHOOD), REVIEW_SCORES_RATING from\n" +
+                "\n" +
+                "(select distinct(loc.NEIGHBORHOOD), floor((count(*) over(partition by loc.NEIGHBORHOOD)+1)/2) as median_elem_per_ng\n" +
+                "from REVIEWS_SCORES rs, LISTING l, LISTING_LOCATION loc\n" +
+                "where rs.LISTING_ID = l.LISTING_ID and loc.LISTING_ID = l.LISTING_ID and rs.REVIEW_SCORES_RATING is not null and l.CITY = 'Madrid') med_per_ng,\n" +
+                "\n" +
+                "(select loc.NEIGHBORHOOD, rs.REVIEW_SCORES_RATING, ROW_NUMBER() over(partition by loc.NEIGHBORHOOD order by rs.REVIEW_SCORES_RATING desc) as rnum\n" +
+                "from REVIEWS_SCORES rs, LISTING_LOCATION loc, LISTING l\n" +
+                "where rs.LISTING_ID = loc.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and l.CITY = 'Madrid' and rs.REVIEW_SCORES_RATING is not null) ranked_by_ng_and_rev\n" +
+                "\n" +
+                "where med_per_ng.NEIGHBORHOOD = ranked_by_ng_and_rev.NEIGHBORHOOD and median_elem_per_ng = rnum\n" +
+                "order by REVIEW_SCORES_RATING desc)\n" +
+                "\n" +
+                "where rownum <= 5\n";
+
+
+        String query13 = "select h.HOST_ID, h.HOST_NAME\n" +
+                "from\n" +
+                "(select HOST_ID, rank() over(order by nbr desc) as rnk\n" +
+                "from\n" +
+                "(select L.HOST_ID, count(*) as nbr\n" +
+                "from LISTING l\n" +
+                "group by l.HOST_ID)) ranked,\n" +
+                "HOST h \n" +
+                "\n" +
+                "where h.HOST_ID = ranked.HOST_ID and ranked.rnk = 1";
+
+
+        String query14 = "select * from\n" +
+                "\n" +
+                "(select AVG(cal.PRICE) as average, cal.LISTING_ID from\n" +
+                "\n" +
+                "(select l.LISTING_ID from\n" +
+                "LISTING l, MATERIAL_DESCRIPTION md, REVIEWS_SCORES rs, LISTING_DETAILS ld\n" +
+                "where l.LISTING_ID = md.LISTING_ID and l.LISTING_ID = rs.LISTING_ID and\n" +
+                "l.LISTING_ID = ld.LISTING_ID and l.CITY = 'Berlin' and md.PROPERTY_TYPE = 'Apartment'and\n" +
+                "md.BEDS >= 2 and rs.REVIEW_SCORES_LOCATION >= 8 and ld.CANCELLATION_POLICY = 'flexible' and\n" +
+                "l.HOST_ID IN (\n" +
+                "  select hv.HOST_ID\n" +
+                "  from HOST_VERIFICATIONS hv, VERIFICATIONS v\n" +
+                "  where hv.VERIFICATION_ID = v.VERIFICATION_ID and v.VERIFICATION_NAME LIKE '%government_id%')) filtered,\n" +
+                "\n" +
+                "CALENDAR cal\n" +
+                "where cal.LISTING_ID = filtered.LISTING_ID and cal.CALENDAR_DATE between date'2019-03-01' and date'2019-04-30'\n" +
+                "and cal.AVAILABLE = 't' group by cal.LISTING_ID order by average asc) averaged\n" +
+                "\n" +
+                "where rownum <= 5";
+
+
+        String query15 = "select * from\n" +
+                "\n" +
+                "(select filtered.LISTING_ID, md.ACCOMODATES, ROW_NUMBER() over(partition by md.ACCOMODATES order by rs.REVIEW_SCORES_RATING desc) as ranked\n" +
+                "from\n" +
+                "(select facilities.LISTING_ID from\n" +
+                "(select la.LISTING_ID, count(*) as counted\n" +
+                "from AMENITIES am, LISTING_AMENITIES la\n" +
+                "where la.AMENITY_ID = am.AMENITY_ID and\n" +
+                "(am.AMENITY_NAME = 'Wifi' or am.AMENITY_NAME = 'Internet' or\n" +
+                "am.AMENITY_NAME = 'TV' or am.AMENITY_NAME = 'Free street parking')\n" +
+                "group by la.LISTING_ID) facilities\n" +
+                "\n" +
+                "where facilities.counted >= 2) filtered,\n" +
+                "\n" +
+                "MATERIAL_DESCRIPTION md, REVIEWS_SCORES rs\n" +
+                "\n" +
+                "where filtered.LISTING_ID = md.LISTING_ID and rs.LISTING_ID = filtered.LISTING_ID) rnk\n" +
+                "\n" +
+                "where ranked <= 5\n";
+
+
+        String query16 = "select HOST_ID, LISTING_ID \n" +
+                "from(\n" +
+                "select HOST_ID, LISTING_ID, ROW_NUMBER() over(partition by HOST_ID order by counted desc) as r\n" +
+                "from\n" +
+                "(select distinct(l.LISTING_ID), l.HOST_ID, count(*) over(partition by l.LISTING_ID) as counted\n" +
+                "from LISTING l, REVIEWS r\n" +
+                "where l.LISTING_ID = r.LISTING_ID))\n" +
+                "\n" +
+                "where r <= 3";
+
+
+        String query17 = "select AMENITY_NAME, NEIGHBORHOOD \n" +
+                "\n" +
+                "from \n" +
+                "\n" +
+                "(select AMENITY_NAME, AMEN_COUNT, NEIGHBORHOOD , row_number() over(partition by ordered_data.NEIGHBORHOOD order by AMEN_COUNT desc) as rank --rank the data with respect to neighborhood\n" +
+                "\n" +
+                "from \n" +
+                "\n" +
+                "  (select distinct AMENITY_NAME, AMEN_COUNT, NEIGHBORHOOD \n" +
+                "  from \n" +
+                "\n" +
+                "    (select AM.AMENITY_NAME, count(AMENITY_NAME) over(partition by LOC.NEIGHBORHOOD, AM.AMENITY_NAME) as amen_count, LOC.NEIGHBORHOOD   --count the amenities with respect to their names\n" +
+                "    from LISTING_LOCATION LOC, AMENITIES AM, LISTING_AMENITIES LA\n" +
+                "    where LOC.LISTING_ID = LA.LISTING_ID and LA.AMENITY_ID = AM.AMENITY_ID and LOC.LISTING_ID in (\n" +
+                "\n" +
+                "      select L.LISTING_ID\n" +
+                "      from LISTING L, MATERIAL_DESCRIPTION MD\n" +
+                "      where L.LISTING_ID = MD.LISTING_ID and L.CITY = 'Berlin' and MD.ROOM_TYPE = 'Private room'    --listings with private room in berlin\n" +
+                "\n" +
+                "      )\n" +
+                "    ) data_amen\n" +
+                "\n" +
+                "  order by data_amen.NEIGHBORHOOD, data_amen.amen_count desc) ordered_data    --order the data with respect to the neighborhood\n" +
+                "  ) ranked_data\n" +
+                "\n" +
+                "where ranked_data.rank <= 3   --select data with rank smaller than 3 ==>  select first 3 for each neighborhood\n";
+
+
+        String query18 = "create view number_of_host_verif as\n" +
+                "  select count(*) as verifications, HV.HOST_ID\n" +
+                "  from HOST_VERIFICATIONS HV\n" +
+                "  group by HV.HOST_ID;\n" +
+                "\n" +
+                "select avg(average_most.avg_m - average_least.avg_l) as diff\n" +
+                "from \n" +
+                " \n" +
+                " (select coalesce(avg(RS1.REVIEW_SCORES_COMMUNICATION),0) as avg_m        --coalesce force result to be 0 if avg resturn NULL (e.g avg on empty set)\n" +
+                " from\n" +
+                " \n" +
+                "    (select h.HOST_ID\n" +
+                "    from      \n" +
+                "      (select n.HOST_ID\n" +
+                "      from number_of_host_verif n\n" +
+                "      order by n.verifications desc) h     --host with the most verification\n" +
+                "    where rownum = 1) host_most ,\n" +
+                "    \n" +
+                "    LISTING L1, REVIEWS_SCORES RS1\n" +
+                "    \n" +
+                "    where L1.LISTING_ID = RS1.LISTING_ID and L1.HOST_ID = host_most.HOST_ID and RS1.REVIEW_SCORES_COMMUNICATION is not null\n" +
+                "  ) average_most\n" +
+                "\n" +
+                "  ,\n" +
+                "\n" +
+                "   (select coalesce(avg(RS2.REVIEW_SCORES_COMMUNICATION),0) as avg_l\n" +
+                "    from\n" +
+                " \n" +
+                "    (select h2.HOST_ID\n" +
+                "    from      \n" +
+                "      (select n2.HOST_ID\n" +
+                "      from number_of_host_verif n2\n" +
+                "      order by n2.verifications asc) h2     --host with the least verification\n" +
+                "    where rownum = 1) host_least ,\n" +
+                "    \n" +
+                "    LISTING L2, REVIEWS_SCORES RS2\n" +
+                "    \n" +
+                "    where L2.LISTING_ID = RS2.LISTING_ID and L2.HOST_ID = host_least.HOST_ID and RS2.REVIEW_SCORES_COMMUNICATION is not null\n" +
+                "  ) average_least\n";
+
+
+        String query19 = "select ROOM_TYPE, CITY from\n" +
+                "(select ROOM_TYPE, CITY, rank() over(partition by ROOM_TYPE order by total desc) as rank\n" +
+                "from\n" +
+                "\n" +
+                "(select distinct(ROOM_TYPE), sum(rev_per_list) over(partition by CITY, ROOM_TYPE) as total, CITY from\n" +
+                "\n" +
+                "LISTING l,\n" +
+                "\n" +
+                "(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list\n" +
+                "from REVIEWS rev) rpl,\n" +
+                "\n" +
+                "(select md.LISTING_ID, md.ROOM_TYPE, AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type\n" +
+                "from MATERIAL_DESCRIPTION md) av\n" +
+                "\n" +
+                "where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and average_per_room_type > 3))\n" +
+                "\n" +
+                "where rank = 1\n";
+
+
+        String query20 = "select total_listing.NEIGHBORHOOD\n" +
+                "from \n" +
+                "\n" +
+                "(select count(*) as total, LOC2.NEIGHBORHOOD      --total number of listings per neighborhood\n" +
+                "from LISTING_LOCATION LOC2, LISTING L3\n" +
+                "where LOC2.LISTING_ID = L3.LISTING_ID and L3.CITY = 'Madrid' group by LOC2.NEIGHBORHOOD) total_listing \n" +
+                "\n" +
+                ",\n" +
+                "\n" +
+                "(select count(*) as occupied_listings, LOC.NEIGHBORHOOD\n" +
+                "from LISTING_LOCATION LOC, LISTING L2\n" +
+                "where L2.LISTING_ID = LOC.LISTING_ID and L2.CITY = 'Madrid' and L2.LISTING_ID in (\n" +
+                "\n" +
+                "  select distinct L1.LISTING_ID      --listing in madrid that were taken in 2019 \n" +
+                "  from LISTING L1, CALENDAR CAL\n" +
+                "  where CAL.CALENDAR_DATE >= date '2019-01-01' and CAL.AVAILABLE = 'f' and L1.LISTING_ID = CAL.LISTING_ID \n" +
+                "  and L1.LISTING_ID in (\n" +
+                "\n" +
+                "    select L.LISTING_ID   --listing in madrid whose host is member since '2017-06-01' \n" +
+                "    from LISTING L, HOST H\n" +
+                "    where L.CITY = 'Madrid' and L.HOST_ID = H.HOST_ID and H.HOST_SINCE <= date '2017-06-01' \n" +
+                "  )\n" +
+                "\n" +
+                ") group by LOC.NEIGHBORHOOD) filtered_listing\n" +
+                "\n" +
+                "where total_listing.NEIGHBORHOOD = filtered_listing.NEIGHBORHOOD and (filtered_listing.occupied_listings / total_listing.total) >= 0.5";
+
+
+
+        String query21 = "select filtered.COUNTRY\n" +
+                "from \n" +
+                "\n" +
+                "(select count(*) as available, L.COUNTRY\n" +
+                "from LISTING L\n" +
+                "where L.LISTING_ID in (\n" +
+                " select distinct L1.LISTING_ID     \n" +
+                "  from LISTING L1, CALENDAR CAL\n" +
+                "  where CAL.CALENDAR_DATE >= date '2018-01-01' and CAL.CALENDAR_DATE < date '2019-01-01' and CAL.AVAILABLE = 't' and L1.LISTING_ID = CAL.LISTING_ID\n" +
+                "  \n" +
+                ") group by L.COUNTRY) filtered\n" +
+                " \n" +
+                ",\n" +
+                "\n" +
+                "(select count(*) total_listing, L2.COUNTRY\n" +
+                "from LISTING L2\n" +
+                "group by L2.COUNTRY) total\n" +
+                "\n" +
+                "where filtered.COUNTRY = total.COUNTRY and (filtered.available/ total.total_listing) >= 0.2";
+
+
+        String query22 = "select total.NEIGHBORHOOD\n" +
+                "from \n" +
+                "\n" +
+                "(select count(*) total_list, LOC.NEIGHBORHOOD\n" +
+                "from LISTING_LOCATION LOC, LISTING L\n" +
+                "where LOC.LISTING_ID = L.LISTING_ID and L.CITY = 'Barcelona' group by LOC.NEIGHBORHOOD) total\n" +
+                "\n" +
+                ",\n" +
+                "\n" +
+                "(\n" +
+                "select count(*) strict_count, LOC.NEIGHBORHOOD\n" +
+                "from LISTING_LOCATION LOC, LISTING_DETAILS LD, LISTING L2\n" +
+                "where LOC.LISTING_ID = LD.LISTING_ID and L2.LISTING_ID = LD.LISTING_ID and L2.CITY = 'Barcelona' and LD.CANCELLATION_POLICY = 'strict_14_with_grace_period' group by LOC.NEIGHBORHOOD\n" +
+                "\n" +
+                ") filtered\n" +
+                "\n" +
+                "where total.NEIGHBORHOOD = filtered.NEIGHBORHOOD and (filtered.strict_count / total.total_list) >= 0.05";
+
+
         Button q1 = new Button("Q1");
         Button q2 = new Button("Q2");
         Button q3 = new Button("Q3");
@@ -121,6 +368,18 @@ public abstract class Layouts {
         Button q8 = new Button("Q8");
         Button q9 = new Button("Q9");
         Button q10 = new Button("Q10");
+        Button q11 = new Button("Q11");
+        Button q12 = new Button("Q12");
+        Button q13 = new Button("Q13");
+        Button q14 = new Button("Q14");
+        Button q15 = new Button("Q15");
+        Button q16 = new Button("Q16");
+        Button q17 = new Button("Q17");
+        Button q18 = new Button("Q18");
+        Button q19 = new Button("Q19");
+        Button q20 = new Button("Q20");
+        Button q21 = new Button("Q21");
+        Button q22 = new Button("Q22");
 
 
         TextField paramQ1 = new TextField("enter number of bedrooms for Q1");
@@ -169,7 +428,7 @@ public abstract class Layouts {
         q5.setLayoutY(180);
         ArrayList<String> columnNames5 = new ArrayList<>();
         columnNames5.add("calendar_date");
-        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b, columnNames5,paramQ5, "Q5"));
+        q5.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query5, b, columnNames5,null, null));
 
         q6.setLayoutX(40);
         q6.setLayoutY(200);
@@ -205,21 +464,109 @@ public abstract class Layouts {
         q10.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query10, b, columnNames10,null, null));
 
 
+
+        //For milestone 3 queries
+
+        q11.setLayoutX(400);
+        q11.setLayoutY(100);
+        ArrayList<String> columnNames11 = new ArrayList<>();
+        columnNames11.add("count");
+        q11.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query11, b, columnNames11, null,null));
+
+        q12.setLayoutX(400);
+        q12.setLayoutY(120);
+        ArrayList<String> columnNames12 = new ArrayList<>();
+        columnNames12.add("neighborhood");
+        columnNames12.add("review score rating");
+        q12.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query12, b, columnNames12, null, null));
+
+        q13.setLayoutX(400);
+        q13.setLayoutY(140);
+        ArrayList<String> columnNames13 = new ArrayList<>();
+        columnNames13.add("host_id");
+        columnNames13.add("host_name");
+        q13.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query13, b, columnNames13,null, null));
+
+        q14.setLayoutX(400);
+        q14.setLayoutY(160);
+        ArrayList<String> columnNames14 = new ArrayList<>();
+        columnNames14.add("average");
+        columnNames14.add("listing id");
+        q14.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query14, b, columnNames14,null, null));
+
+        q15.setLayoutX(400);
+        q15.setLayoutY(180);
+        ArrayList<String> columnNames15 = new ArrayList<>();
+        columnNames15.add("listing id");
+        columnNames15.add("number of people");
+        columnNames15.add("rank");
+        q15.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query15, b, columnNames15,null, null));
+
+        q16.setLayoutX(400);
+        q16.setLayoutY(200);
+        ArrayList<String> columnNames16 = new ArrayList<>();
+        columnNames16.add("host_id");
+        columnNames16.add("listing id");
+        q16.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query16, b, columnNames16,null, null));
+
+        q17.setLayoutX(400);
+        q17.setLayoutY(220);
+        ArrayList<String> columnNames17 = new ArrayList<>();
+        columnNames17.add("amenity name");
+        columnNames17.add("neighborhood");
+        q17.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query17, b, columnNames17,null, null));
+
+        q18.setLayoutX(400);
+        q18.setLayoutY(240);
+        ArrayList<String> columnNames18 = new ArrayList<>();
+        columnNames18.add("average_difference");
+        q18.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query18, b, columnNames18,null, null));
+
+        q19.setLayoutX(400);
+        q19.setLayoutY(260);
+        ArrayList<String> columnNames19 = new ArrayList<>();
+        columnNames19.add("room type");
+        columnNames19.add("city");
+        q19.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query19, b, columnNames19,null, null));
+
+        q20.setLayoutX(400);
+        q20.setLayoutY(280);
+        ArrayList<String> columnNames20 = new ArrayList<>();
+        columnNames20.add("neighborhood");
+        q20.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query20, b, columnNames20,null, null));
+
+        q21.setLayoutX(400);
+        q21.setLayoutY(300);
+        ArrayList<String> columnNames21 = new ArrayList<>();
+        columnNames21.add("country");
+        q21.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query21, b, columnNames21,null, null));
+
+        q22.setLayoutX(400);
+        q22.setLayoutY(320);
+        ArrayList<String> columnNames22 = new ArrayList<>();
+        columnNames22.add("neighborhood");
+        q22.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> Controllers.executePredefined(query22, b, columnNames22,null, null));
+
         //add the buttons to the layout
 
-        VBox box = new VBox();
-        box.setSpacing(10);
+        VBox vBoxLeft = new VBox();
+        vBoxLeft.setSpacing(10);
+
+        VBox vBoxRight = new VBox();
+        vBoxRight.setSpacing(10);
 
         VBox paramBox = new VBox();
-        box.setSpacing(10);
+        vBoxLeft.setSpacing(10);
 
-        box.getChildren().addAll(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10);
+        vBoxLeft.getChildren().addAll(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10);
+        vBoxRight.getChildren().addAll(q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,q21,q22);
 
         paramBox.getChildren().addAll(paramQ1, paramQ2, paramQ5);
 
         b.setBottom(paramBox);
 
-        b.setLeft(box);
+        b.setLeft(vBoxLeft);
+        b.setRight(vBoxRight);
 
         return b;
 
