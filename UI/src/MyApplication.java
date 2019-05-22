@@ -1,3 +1,5 @@
+import javafx.scene.Scene;
+
 import java.sql.Connection;
 
 /**
@@ -9,6 +11,7 @@ public abstract class MyApplication {
     //DB connection following Singleton design pattern
     private static Connection sqlConnection = null;
 
+    public static Scene mainScene;
 
     /**
      * Getter for Singleton Object Connection
