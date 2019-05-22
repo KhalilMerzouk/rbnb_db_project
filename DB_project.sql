@@ -136,11 +136,10 @@ where rownum <=10;
 
 QUERY NO1
 
-select count(*)
-from HOST h, LISTING l1
-where h.HOST_ID in 
-(select distinct(l2.HOST_ID) from LISTING l2, MATERIAL_DESCRIPTION md where l2.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null)
- and h.HOST_ID = l1.HOST_ID  group by l1.CITY order by l1.CITY asc;
+select count(distinct(h.HOST_ID)), l1.CITY
+from HOST h, LISTING l1,  MATERIAL_DESCRIPTION md
+where h.HOST_ID = l1.HOST_ID and l1.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null
+group by l1.CITY order by l1.CITY asc;
 
 ------------------------------------------------------------------------------------------------------
 QUERY NO2

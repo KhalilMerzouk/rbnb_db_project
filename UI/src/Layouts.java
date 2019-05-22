@@ -112,11 +112,10 @@ public abstract class Layouts {
 
 
 
-        String query11 = "select count(*)\n" +
-                "from HOST h, LISTING l1\n" +
-                "where h.HOST_ID in \n" +
-                "(select distinct(l2.HOST_ID) from LISTING l2, MATERIAL_DESCRIPTION md where l2.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null)\n" +
-                " and h.HOST_ID = l1.HOST_ID  group by l1.CITY order by l1.CITY asc";
+        String query11 = "select count(distinct(h.HOST_ID)), l1.CITY\n" +
+                "from HOST h, LISTING l1,  MATERIAL_DESCRIPTION md\n" +
+                "where h.HOST_ID = l1.HOST_ID and l1.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null\n" +
+                "group by l1.CITY order by l1.CITY asc";
 
         String query12 = "select * from\n" +
                 "\n" +
