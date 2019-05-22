@@ -68,6 +68,22 @@ public class Main extends Application{
         BorderPane insertDeleteLayout = Layouts.getInsertDeleteLayout();
         BorderPane predefinedQueriesLayout = Layouts.getPredefinedQueriesLayout();
 
+        //insert Back button
+
+        Button backFromSearch = new Button("Back");
+        backFromSearch.setOnAction(e -> window.setScene(MyApplication.mainScene));
+
+        Button backFromInsert = new Button("Back");
+        backFromInsert.setOnAction(e -> window.setScene(MyApplication.mainScene));
+
+        Button backFromPredefined = new Button("Back");
+        backFromPredefined.setOnAction(e -> window.setScene(MyApplication.mainScene));
+
+        searchLayout.setTop(backFromSearch);
+        insertDeleteLayout.setTop(backFromInsert);
+        predefinedQueriesLayout.setTop(backFromPredefined);
+
+
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(15);
@@ -80,7 +96,7 @@ public class Main extends Application{
 
         //setup scenes
 
-        Scene mainScene = new Scene(hbox, 1000, 700);      //set scene with window dimension (if not specified => fullscreen)
+        MyApplication.mainScene = new Scene(hbox, 1000, 700);      //set scene with window dimension (if not specified => fullscreen)
         insertDeleteScene = new Scene(insertDeleteLayout, 1000, 700);
         searchScene = new Scene(searchLayout, 1000, 700);
         predefinedQueriesScene = new Scene(predefinedQueriesLayout, 1000, 700);
@@ -88,7 +104,7 @@ public class Main extends Application{
 
 
         //add scene to the stage and displays it
-        primaryStage.setScene(mainScene);
+        primaryStage.setScene(MyApplication.mainScene);
         primaryStage.show();
 
     }

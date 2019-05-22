@@ -599,7 +599,7 @@ public abstract class Layouts {
 
         delete.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {Controllers.deleteFromTable(b);});
 
-        b.setTop(box);
+        b.setBottom(box);
 
         return b;
     }
@@ -617,7 +617,7 @@ public abstract class Layouts {
 
         Button searchButton = new Button("Search");
 
-        b.setTop(searchButton);
+        b.setBottom(searchButton);
         b.setLeft(txt);
 
         //put checkboxes in the layout
@@ -716,7 +716,7 @@ public abstract class Layouts {
 
     /**
      * Build a layout used for form submission (insert and delete)
-     * @param b teh layout
+     * @param b the layout
      * @param submitButton the button used for submission
      * @param textFields the list of textfields that will appear in the layout
      */
