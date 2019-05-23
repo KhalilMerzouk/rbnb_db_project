@@ -41,6 +41,7 @@ where H.HOST_ID IN (select L.HOST_ID
  
 /* 
 The join version costs more
+
 select distinct H.*
 from HOST H
   INNER JOIN LISTING L
@@ -58,7 +59,7 @@ where L.HOST_ID = H.HOST_ID and H.HOST_ID IN (Select H1.HOST_ID
                                              from HOST H1, Host H2
                                              where H1.HOST_NAME = H2.HOST_NAME and H1.HOST_ID != H2.HOST_ID
                                              );
-
+                 
 
 /*
 The join version costs more 
@@ -175,6 +176,7 @@ select L.LISTING_ID, L.LISTING_NAME
   order by RS.REVIEW_SCORES_RATING DESC)
 where rownum <=10;
 */
+
 
 --queries for milestone 3 (in order)
 
