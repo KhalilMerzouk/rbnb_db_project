@@ -269,23 +269,27 @@ public abstract class Layouts {
                 "  ) average_least\n";
 
 
-        String query19 = "select ROOM_TYPE, CITY from\n" +
-                "(select ROOM_TYPE, CITY, rank() over(partition by ROOM_TYPE order by total desc) as rank\n" +
-                "from\n" +
+        String query19 = "select * from (\n" +
                 "\n" +
-                "(select distinct(ROOM_TYPE), sum(rev_per_list) over(partition by CITY, ROOM_TYPE) as total, CITY from\n" +
+                "select city from \n" +
+                "(select  sum(rev_per_list) over(partition by CITY) as total, CITY from    --rank cities by the number of reviews for the listing types with avg(accomodate) > 3\n" +
                 "\n" +
                 "LISTING l,\n" +
                 "\n" +
-                "(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list\n" +
+                "(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list    --count reviews per listing\n" +
                 "from REVIEWS rev) rpl,\n" +
                 "\n" +
-                "(select md.LISTING_ID, md.ROOM_TYPE, AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type\n" +
+                "(select md.LISTING_ID,  AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type --compute average number of accomodate per room typee\n" +
                 "from MATERIAL_DESCRIPTION md) av\n" +
                 "\n" +
-                "where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and average_per_room_type > 3))\n" +
+                "where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and av.average_per_room_type > 3)\n" +
                 "\n" +
-                "where rank = 1\n";
+                "order by total desc\n" +
+                "\n" +
+                ")\n" +
+                "\n" +
+                "where rownum = 1\n" +
+                ";\n";
 
 
         String query20 = "select total_listing.NEIGHBORHOOD\n" +
