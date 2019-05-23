@@ -2,23 +2,33 @@
 --queries for milestone 2 (in order)
 
 select AVG(CD.PRICE)
-from COSTS_DETAILS CD , LISTING L
-where L.LISTING_ID = CD.LISTING_ID AND L.LISTING_ID IN (Select M.LISTING_ID
+from COSTS_DETAILS CD
+  INNER JOIN MATERIAL_DESCRIPTION M       --explicit
+  ON CD.LISTING_ID = M.LISTING_ID
+where M.BEDROOMS = 8;
 
-                                                        from MATERIAL_DESCRIPTION M
-                                                        where M.BEDROOMS = 8);
-                                                        
-   
-   
+/*
+select AVG(CD.PRICE)
+from COSTS_DETAILS CD, MATERIAL_DESCRIPTION M               --implicit
+where CD.LISTING_ID = M.LISTING_ID and M.BEDROOMS = 8;
+*/                
+
 -------------------------------------------------------------------------------------------------------
-                                   
+
 select AVG(RS.REVIEW_SCORES_CLEANLINESS)
-from REVIEWS_SCORES RS, LISTING L
-where RS.LISTING_ID = L.LISTING_ID AND L.LISTING_ID IN (select LA.LISTING_ID
-                                                        from AMENITIES AM, LISTING_AMENITIES LA
-                                                        where AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'TV'
-                                                        );
-                                                        
+from REVIEWS_SCORES RS
+  INNER JOIN LISTING_AMENITIES LA
+  ON RS.LISTING_ID = LA.LISTING_ID
+  INNER JOIN AMENITIES AM
+  ON AM.AMENITY_ID = LA.AMENITY_ID
+where AM.AMENITY_NAME = 'TV';
+
+/*
+select AVG(RS.REVIEW_SCORES_CLEANLINESS)
+from REVIEWS_SCORES RS, LISTING_AMENITIES LA, AMENITIES AM      --implicit
+where RS.LISTING_ID = LA.LISTING_ID and
+  AM.AMENITY_ID = LA.AMENITY_ID and AM.AMENITY_NAME = 'TV';
+*/                                                        
 
 
 -------------------------------------------------------------------------------------------------------
@@ -30,32 +40,59 @@ where H.HOST_ID IN (select L.HOST_ID
                     where L.LISTING_ID = CA.LISTING_ID and CA.AVAILABLE = 't' and CA.CALENDAR_DATE >= '01-MAR-19' and CA.CALENDAR_DATE <= '30-SEP-19'
                     );
  
- 
- 
+/* 
+The join version costs more
+
+select distinct H.*
+from HOST H
+  INNER JOIN LISTING L
+  ON H.HOST_ID = L.HOST_ID
+  INNER JOIN CALENDAR CA
+  ON L.LISTING_ID = CA.LISTING_ID
+where CA.AVAILABLE = 't' and CA.CALENDAR_DATE >= '01-MAR-19' and CA.CALENDAR_DATE <= '30-SEP-19';
+*/
 ------------------------------------------------------------------------------------------------------- 
                    
                     
 select COUNT(*)
 from LISTING L, HOST H
 where L.HOST_ID = H.HOST_ID and H.HOST_ID IN (Select H1.HOST_ID
-                      from HOST H1, Host H2
-                      where H1.HOST_NAME = H2.HOST_NAME and H1.HOST_ID != H2.HOST_ID
-                      );
-                                                        
+                                             from HOST H1, Host H2
+                                             where H1.HOST_NAME = H2.HOST_NAME and H1.HOST_ID != H2.HOST_ID
+                                             );
 
+
+/*
+The join version costs more 
+
+select COUNT(distinct L.LISTING_ID)
+from LISTING L
+  INNER JOIN HOST H1
+  ON L.HOST_ID = H1.HOST_ID
+  INNER JOIN HOST H2
+  ON H1.HOST_NAME =  H2.HOST_NAME
+where H1.HOST_ID != H2.HOST_ID
+                      ;
+*/                      
 
 
 -------------------------------------------------------------------------------------------------------
 
-  
 select CA.CALENDAR_DATE
-from CALENDAR CA, LISTING L
-where CA.LISTING_ID = L.LISTING_ID and CA.AVAILABLE = 't' and L.LISTING_ID IN (select L1.LISTING_ID
-                                                                              from LISTING L1, HOST H
-                                                                              where L1.HOST_ID = H.HOST_ID and H.HOST_NAME = 'Viajes Eco'
-                                                                              );
-                                                                              
-                                                                              
+from CALENDAR CA
+  INNER JOIN LISTING L
+  ON CA.LISTING_ID = L.LISTING_ID and CA.AVAILABLE = 't'
+  INNER JOIN HOST H
+  ON L.HOST_ID = H.HOST_ID
+where H.HOST_NAME = 'Viajes Eco';
+
+
+/*
+select CA.CALENDAR_DATE                             --implicit
+from CALENDAR CA, LISTING L, HOST H                               
+where CA.LISTING_ID = L.LISTING_ID and CA.AVAILABLE = 't' and L.HOST_ID = H.HOST_ID and H.HOST_NAME = 'Viajes Eco';
+*/
+
 -------------------------------------------------------------------------------------------------------
 
 
@@ -66,6 +103,8 @@ where H.HOST_ID IN (select L.HOST_ID
                     from LISTING L
                     group by L.HOST_ID having COUNT(*) = 1
                    );
+
+-- can't find a way to write this using join                   
                                                         
 -------------------------------------------------------------------------------------------------------
       
@@ -101,8 +140,9 @@ and CD2.LISTING_ID not in (select MD.LISTING_ID
 and CD2.LISTING_ID IN (select L.LISTING_ID
                       from LISTING L
                       where L.CITY = 'Madrid');     
-                      
-                      
+                         
+                                            
+-- can't find a way to use join                      
                       
 -------------------------------------------------------------------------------------------------------
 
@@ -120,15 +160,25 @@ select * from
 
 -------------------------------------------------------------------------------------------------------
 
-select * from 
-(select L.LISTING_ID, L.LISTING_NAME
-from LISTING L, REVIEWS_SCORES RS
-where L.LISTING_ID = RS.LISTING_ID 
-  and L.LISTING_ID IN (select L1.LISTING_ID
-                      from LISTING L1, MATERIAL_DESCRIPTION MD
-                      where L.CITY = 'Barcelona' and MD.LISTING_ID = L.LISTING_ID and MD.PROPERTY_TYPE = 'Apartment')
-order by RS.REVIEW_SCORES_RATING DESC)
+select * from (
+select L.LISTING_ID, L.LISTING_NAME
+  from LISTING L
+    INNER JOIN REVIEWS_SCORES RS
+    ON L.LISTING_ID = RS.LISTING_ID and L.CITY = 'Barcelona'
+    INNER JOIN MATERIAL_DESCRIPTION MD
+    ON MD.LISTING_ID = L.LISTING_ID and MD.PROPERTY_TYPE = 'Apartment'
+  order by RS.REVIEW_SCORES_RATING DESC)
 where rownum <=10;
+
+/*
+select * from (                         --implicit
+select L.LISTING_ID, L.LISTING_NAME
+  from LISTING L, REVIEWS_SCORES RS, MATERIAL_DESCRIPTION MD
+  where L.LISTING_ID = RS.LISTING_ID and MD.LISTING_ID = L.LISTING_ID and L.CITY = 'Barcelona' and MD.PROPERTY_TYPE = 'Apartment'
+  order by RS.REVIEW_SCORES_RATING DESC)
+where rownum <=10;
+*/
+
 
 
 
