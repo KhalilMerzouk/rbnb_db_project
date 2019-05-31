@@ -112,11 +112,10 @@ public abstract class Layouts {
 
 
 
-        String query11 = "select count(*)\n" +
-                "from HOST h, LISTING l1\n" +
-                "where h.HOST_ID in \n" +
-                "(select distinct(l2.HOST_ID) from LISTING l2, MATERIAL_DESCRIPTION md where l2.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null)\n" +
-                " and h.HOST_ID = l1.HOST_ID  group by l1.CITY order by l1.CITY asc";
+        String query11 = "select count(distinct(h.HOST_ID)), l1.CITY\n" +
+                "from HOST h, LISTING l1,  MATERIAL_DESCRIPTION md\n" +
+                "where h.HOST_ID = l1.HOST_ID and l1.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null\n" +
+                "group by l1.CITY order by l1.CITY asc";
 
         String query12 = "select * from\n" +
                 "\n" +
@@ -270,23 +269,27 @@ public abstract class Layouts {
                 "  ) average_least\n";
 
 
-        String query19 = "select ROOM_TYPE, CITY from\n" +
-                "(select ROOM_TYPE, CITY, rank() over(partition by ROOM_TYPE order by total desc) as rank\n" +
-                "from\n" +
+        String query19 = "select * from (\n" +
                 "\n" +
-                "(select distinct(ROOM_TYPE), sum(rev_per_list) over(partition by CITY, ROOM_TYPE) as total, CITY from\n" +
+                "select city from \n" +
+                "(select  sum(rev_per_list) over(partition by CITY) as total, CITY from    --rank cities by the number of reviews for the listing types with avg(accomodate) > 3\n" +
                 "\n" +
                 "LISTING l,\n" +
                 "\n" +
-                "(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list\n" +
+                "(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list    --count reviews per listing\n" +
                 "from REVIEWS rev) rpl,\n" +
                 "\n" +
-                "(select md.LISTING_ID, md.ROOM_TYPE, AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type\n" +
+                "(select md.LISTING_ID,  AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type --compute average number of accomodate per room typee\n" +
                 "from MATERIAL_DESCRIPTION md) av\n" +
                 "\n" +
-                "where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and average_per_room_type > 3))\n" +
+                "where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and av.average_per_room_type > 3)\n" +
                 "\n" +
-                "where rank = 1\n";
+                "order by total desc\n" +
+                "\n" +
+                ")\n" +
+                "\n" +
+                "where rownum = 1\n" +
+                ";\n";
 
 
         String query20 = "select total_listing.NEIGHBORHOOD\n" +

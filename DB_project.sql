@@ -1,4 +1,3 @@
-
 --queries for milestone 2 (in order)
 
 select AVG(CD.PRICE)
@@ -60,11 +59,10 @@ where L.HOST_ID = H.HOST_ID and H.HOST_ID IN (Select H1.HOST_ID
                                              from HOST H1, Host H2
                                              where H1.HOST_NAME = H2.HOST_NAME and H1.HOST_ID != H2.HOST_ID
                                              );
-
+                 
 
 /*
 The join version costs more 
-
 select COUNT(distinct L.LISTING_ID)
 from LISTING L
   INNER JOIN HOST H1
@@ -149,7 +147,7 @@ and CD2.LISTING_ID IN (select L.LISTING_ID
 
 select * from 
   (select H.HOST_ID , H.HOST_NAME
-    from LISTING L, HOST H                                          --not sure if working. need to test
+    from LISTING L, HOST H                                         
     where L.COUNTRY = 'Spain' and L.HOST_ID = H.HOST_ID
     group by L.HOST_ID, H.HOST_NAME, H.HOST_ID
     order by COUNT(*) DESC)
@@ -180,17 +178,14 @@ where rownum <=10;
 */
 
 
-
-
 --queries for milestone 3 (in order)
 
 QUERY NO1
 
-select count(*)
-from HOST h, LISTING l1
-where h.HOST_ID in 
-(select distinct(l2.HOST_ID) from LISTING l2, MATERIAL_DESCRIPTION md where l2.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null)
- and h.HOST_ID = l1.HOST_ID  group by l1.CITY order by l1.CITY asc;
+select count(distinct(h.HOST_ID)), l1.CITY
+from HOST h, LISTING l1,  MATERIAL_DESCRIPTION md
+where h.HOST_ID = l1.HOST_ID and l1.LISTING_ID = md.LISTING_ID and md.SQUARE_FEET is not null
+group by l1.CITY order by l1.CITY asc;
 
 ------------------------------------------------------------------------------------------------------
 QUERY NO2
@@ -360,24 +355,28 @@ from
 ------------------------------------------------------------------------------------------------------
 QUERY NO9
 
-select ROOM_TYPE, CITY from
-(select ROOM_TYPE, CITY, rank() over(partition by ROOM_TYPE order by total desc) as rank
-from
+select * from (
 
-(select distinct(ROOM_TYPE), sum(rev_per_list) over(partition by CITY, ROOM_TYPE) as total, CITY from
+select city from 
+(select  sum(rev_per_list) over(partition by CITY) as total, CITY from    --rank cities by the number of reviews for the listing types with avg(accomodate) > 3
 
 LISTING l,
 
-(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list
+(select distinct(rev.LISTING_ID), count(*) over(partition by rev.LISTING_ID) as rev_per_list    --count reviews per listing
 from REVIEWS rev) rpl,
 
-(select md.LISTING_ID, md.ROOM_TYPE, AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type
+(select md.LISTING_ID,  AVG(md.ACCOMODATES) over(partition by md.ROOM_TYPE) as average_per_room_type --compute average number of accomodate per room typee
 from MATERIAL_DESCRIPTION md) av
 
-where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and average_per_room_type > 3))
+where rpl.LISTING_ID = av.LISTING_ID and l.LISTING_ID = av.LISTING_ID and av.average_per_room_type > 3)
 
-where rank = 1
+order by total desc
+
+)
+
+where rownum = 1
 ;
+
 
 ------------------------------------------------------------------------------------------------------
 QUERY NO10
